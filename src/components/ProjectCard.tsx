@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface StrapiImage {
     id: number;
@@ -16,6 +17,7 @@ interface Program {
 interface ProjectCardProps {
     project: {
         id: number;
+        documentId: string;
         Name: string;
         Cover: StrapiImage;
         Programs: Program[];
@@ -24,7 +26,8 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
-        <div className=' group cursor-pointer relative rounded-lg bg-transparent'>
+        <Link href={`/project/${project.documentId}`} className='block'>
+            <div className=' group cursor-pointer relative rounded-lg bg-transparent'>
             {project.Cover && (
                 <div className='w-full aspect-[4/5] rounded-lg overflow-hidden relative'>
                     <Image
@@ -62,8 +65,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                                             program.Icon.alternativeText ||
                                             program.Name
                                         }
-                                         width={32}
-                                         height={32}
+                                         width={48}
+                                         height={48}
                                         className='object-contain'
                                     />
                                 )}
@@ -73,6 +76,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 )}
                  <span className='text-white text-5xl font-bold uppercase drop-shadow-lg relative z-10'>{project.Name}</span>
             </div>
-        </div>
+            </div>
+        </Link>
     );
 }

@@ -75,13 +75,6 @@ async function getProjectWithImages(projectId: string): Promise<Project | null> 
 
 async function getProjects(): Promise<Project[]> {
     try {
-        // TODO: Add API token authentication if required
-        // const API_TOKEN = process.env.STRAPI_API_TOKEN;
-        // headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Bearer ${API_TOKEN}`
-        // }
-        
         // First, fetch all projects with basic data
         const response = await fetch(
             'https://authentic-splendor-f67c9d75a4.strapiapp.com/api/projects?populate=*&pagination[pageSize]=100',
@@ -143,25 +136,13 @@ export default async function Portfolio() {
                         <div className='text-center py-12'>
                             <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-2xl mx-auto'>
                                 <h2 className='text-2xl font-bold text-yellow-800 mb-4'>Unable to Load Projects</h2>
-                                <p className='text-yellow-700 mb-4'>
-                                    The Strapi API is currently not accessible. This could be due to:
-                                </p>
-                                <ul className='text-left text-yellow-700 space-y-2 mb-4'>
-                                    <li>• The API requires authentication (API token needed)</li>
-                                    <li>• The collection is set to private</li>
-                                    <li>• CORS policy restrictions</li>
-                                    <li>• Network connectivity issues</li>
-                                </ul>
-                                <p className='text-sm text-yellow-600'>
-                                    Please check the browser console for detailed error information.
-                                </p>
                             </div>
                         </div>
                     ) : (
                         <div className='w-full space-y-12 sm:space-y-16 md:space-y-20'>
                             {/* 3D DESIGN Category */}
                             {(() => {
-                                const projects3D = [...projects.filter(project => project.Category === 'c_3D'), ...projects.filter(project => project.Category === 'c_3D'), ...projects.filter(project => project.Category === 'c_3D'), ...projects.filter(project => project.Category === 'c_3D')];
+                                const projects3D = projects.filter(project => project.Category === 'c_3D');
                                 return projects3D.length > 0 && (
                                     <div className='w-full'>
                                         <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8'>3D DESIGN</h2>
