@@ -1,105 +1,14 @@
-"use client";
-
 import Spline from "@splinetool/react-spline/next";
-import { useState } from "react";
+import Header from "@/components/Header";
 
 export default function Home() {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const scrollText =
         "MOTION DESIGNER / 3D DESIGNER / 2D DESIGNER / TRADITIONAL ARTIST / HANDIMAN / ";
 
     return (
         <div className='w-full h-full flex flex-col items-center bg-white'>
             <div className='w-screen h-full flex flex-col items-center bg-white'>
-                <header className='bg-black w-screen h-14 md:h-16 flex justify-center'>
-                    <div className='w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
-                        <span className='text-2xl md:text-4xl font-bold'>
-                            MB
-                        </span>
-
-                        {/* Desktop Navigation */}
-                        <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>
-                            <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all'>
-                                ABOUT&nbsp;ME
-                            </a>
-                            <a
-                                className='text-lg lg:text-xl hover:text-neutral-400 transition-all'
-                                href='/portfolio'
-                            >
-                                PORTFOLIO
-                            </a>
-                            <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all'>
-                                HIGHLIGHTS
-                            </a>
-                        </div>
-
-                        {/* Mobile Menu Button */}
-                        <button
-                            className='md:hidden flex flex-col gap-1 p-2'
-                            onClick={() =>
-                                setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
-                        >
-                            <div
-                                className={`w-6 h-0.5 bg-white transition-transform duration-300 ${
-                                    isMobileMenuOpen
-                                        ? "rotate-45 translate-y-2"
-                                        : ""
-                                }`}
-                            ></div>
-                            <div
-                                className={`w-6 h-0.5 bg-white transition-opacity duration-300 ${
-                                    isMobileMenuOpen ? "opacity-0" : ""
-                                }`}
-                            ></div>
-                            <div
-                                className={`w-6 h-0.5 bg-white transition-transform duration-300 ${
-                                    isMobileMenuOpen
-                                        ? "-rotate-45 -translate-y-2"
-                                        : ""
-                                }`}
-                            ></div>
-                        </button>
-
-                        {/* Desktop Contact Button */}
-                        <button className='hidden md:block bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'>
-                            Contact&nbsp;me
-                        </button>
-                    </div>
-                </header>
-
-                {/* Mobile Menu */}
-                {isMobileMenuOpen && (
-                    <div className='md:hidden bg-black w-full border-t border-gray-800'>
-                        <div className='flex flex-col py-4 px-4 space-y-4'>
-                            <a
-                                className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                ABOUT&nbsp;ME
-                            </a>
-                            <a
-                                className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
-                                href='/portfolio'
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                PORTFOLIO
-                            </a>
-                            <a
-                                className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                HIGHLIGHTS
-                            </a>
-                            <button
-                                className='bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Contact&nbsp;me
-                            </button>
-                        </div>
-                    </div>
-                )}
+                <Header />
                 <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>
                     <div className='flex animate-scroll-right'>
                         <span className='whitespace-nowrap text-black font-semibold'>
@@ -111,7 +20,11 @@ export default function Home() {
                     </div>
                 </div>
                 <div className='w-full flex justify-start px-4 sm:px-20 md:px-24 lg:px-48'>
-                    <Spline scene='https://prod.spline.design/1g59SSL9tQNhDuDw/scene.splinecode' />
+                    <Spline
+                        scene='https://prod.spline.design/1g59SSL9tQNhDuDw/scene.splinecode'
+                        className='h-[calc(100dvh-10rem)]'
+                        style={{ height: "calc(100dvh-10rem)" }}
+                    />
                 </div>
                 <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>
                     <div className='flex animate-scroll-left'>
