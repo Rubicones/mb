@@ -143,7 +143,7 @@ export default async function ProjectDetail({
                         <div className='w-full flex flex-col md:flex-row justify-between gap-10 mt-12'>
                             <div className=" w-full md:w-1/2 h-full flex justify-start items-center">
                                 {project.Content === "youtube" && (
-                                    <iframe className="w-full aspect-video" src={"https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    <iframe className="w-full aspect-video" src={"https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                                 )}
                                 {project.Content === "spline" && (
                                    <Spline scene={project.SplineLink || ""} />
