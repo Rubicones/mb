@@ -31,9 +31,6 @@ export default function Gallery({ media }: GalleryProps) {
     // Filter out items without images
     const validMedia = media.filter((item) => item.Image?.url);
 
-    // Use original media array - no duplication needed
-    const infiniteMedia = validMedia;
-
     const scroll = (
         direction: "left" | "right",
         isFullscreen: boolean = false
@@ -64,56 +61,29 @@ export default function Gallery({ media }: GalleryProps) {
                 behavior: "smooth",
             });
         } else {
-            // Simple wraparound logic
-            const containerWidth = container.offsetWidth;
-            const containerCenter = containerWidth / 2;
+            // For gallery, calculate scroll based on current container width
             const scrollLeft = container.scrollLeft;
+            const containerWidth = container.offsetWidth;
             
-            const children = Array.from(container.children) as HTMLElement[];
-            
-            // Find current centered image
-            let currentCenteredIndex = -1;
-            children.forEach((child, index) => {
-                const childLeft = child.offsetLeft;
-                const childWidth = child.offsetWidth;
-                const childCenter = childLeft + childWidth / 2;
-                const distanceFromCenter = Math.abs(
-                    childCenter - (scrollLeft + containerCenter)
-                );
-
-                if (distanceFromCenter < childWidth / 2) {
-                    currentCenteredIndex = index;
-                }
-            });
-
-            // Simple wraparound: if at first image and going left, go to last
-            // if at last image and going right, go to first
-            let targetIndex = currentCenteredIndex;
+            let newScrollLeft;
             if (direction === "left") {
-                if (currentCenteredIndex === 0) {
-                    targetIndex = children.length - 1; // Go to last image
-                } else {
-                    targetIndex = currentCenteredIndex - 1;
+                newScrollLeft = scrollLeft - containerWidth;
+                // Wrap to end if going past beginning
+                if (newScrollLeft < 0) {
+                    newScrollLeft = (validMedia.length - 1) * containerWidth;
                 }
-            } else if (direction === "right") {
-                if (currentCenteredIndex === children.length - 1) {
-                    targetIndex = 0; // Go to first image
-                } else {
-                    targetIndex = currentCenteredIndex + 1;
+            } else {
+                newScrollLeft = scrollLeft + containerWidth;
+                // Wrap to beginning if going past end
+                if (newScrollLeft >= validMedia.length * containerWidth) {
+                    newScrollLeft = 0;
                 }
             }
-
-            if (targetIndex !== currentCenteredIndex) {
-                const targetChild = children[targetIndex];
-                const targetLeft = targetChild.offsetLeft;
-                const targetWidth = targetChild.offsetWidth;
-                const targetCenter = targetLeft + targetWidth / 2;
-
-                container.scrollTo({
-                    left: targetCenter - containerCenter,
-                    behavior: "smooth",
-                });
-            }
+            
+            container.scrollTo({
+                left: newScrollLeft,
+                behavior: "smooth",
+            });
         }
     };
 
@@ -135,86 +105,18 @@ export default function Gallery({ media }: GalleryProps) {
         }, 50);
     };
 
-    // Initialize gallery position - center the first image
+    // Initialize gallery position - start with first image focused
     useEffect(() => {
         if (validMedia.length > 0 && scrollContainerRef.current) {
             const container = scrollContainerRef.current;
             const containerWidth = container.offsetWidth;
-            const containerCenter = containerWidth / 2;
-
-            // Wait for images to load and center the second image (if available)
-            const initPosition = () => {
-                const children = Array.from(container.children) as HTMLElement[];
-                if (children.length === 0) return;
-
-                // Use second image if available, otherwise first image
-                const targetChild = children.length > 1 ? children[1] : children[0];
-                const targetLeft = targetChild.offsetLeft;
-                const targetWidth = targetChild.offsetWidth;
-                const targetCenter = targetLeft + targetWidth / 2;
-
-                container.scrollTo({
-                    left: targetCenter - containerCenter,
-                    behavior: "auto",
-                });
-            };
-
-            // Try immediately, then retry after a short delay for image loading
-            initPosition();
-            setTimeout(initPosition, 100);
-        }
-    }, [validMedia.length]);
-
-    // Handle mobile centering on touch end
-    useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container || validMedia.length === 0) return;
-
-        const handleTouchEnd = () => {
-            const children = Array.from(container.children) as HTMLElement[];
-            if (children.length === 0) return;
             
-            const containerWidth = container.offsetWidth;
-            const containerCenter = containerWidth / 2;
-            const scrollLeft = container.scrollLeft;
-            
-            // Find the closest image to center
-            let closestIndex = 0;
-            let minDistance = Infinity;
-            
-            children.forEach((child, index) => {
-                const childLeft = child.offsetLeft;
-                const childWidth = child.offsetWidth;
-                const childCenter = childLeft + childWidth / 2;
-                const distanceFromCenter = Math.abs(
-                    childCenter - (scrollLeft + containerCenter)
-                );
-                
-                if (distanceFromCenter < minDistance) {
-                    minDistance = distanceFromCenter;
-                    closestIndex = index;
-                }
-            });
-            
-            // Center the closest image
-            const targetChild = children[closestIndex];
-            const targetLeft = targetChild.offsetLeft;
-            const targetWidth = targetChild.offsetWidth;
-            const targetCenter = targetLeft + targetWidth / 2;
-            
+            // Start with first image focused (scroll to 0)
             container.scrollTo({
-                left: targetCenter - containerCenter,
-                behavior: "smooth",
+                left: 0,
+                behavior: "auto",
             });
-        };
-
-        container.addEventListener("touchend", handleTouchEnd, {
-            passive: true,
-        });
-
-        return () => {
-            container.removeEventListener("touchend", handleTouchEnd);
-        };
+        }
     }, [validMedia.length]);
 
     const closeFullscreen = () => {
@@ -229,7 +131,7 @@ export default function Gallery({ media }: GalleryProps) {
     return (
         <>
             {/* Gallery Container */}
-            <div className='w-full mt-16'>
+            <div className='w-full mt-16 mb-16'>
                 <h2 className='text-neutral-700 text-3xl font-bold mb-4'>
                     Gallery
                 </h2>
@@ -247,25 +149,24 @@ export default function Gallery({ media }: GalleryProps) {
                     {/* Scroll Container */}
                     <div
                         ref={scrollContainerRef}
-                        className='flex overflow-x-auto scrollbar-hide gap-4 px-[50%]'
+                        className='flex overflow-x-auto scrollbar-hide gap-4'
                         style={{
                             scrollbarWidth: "none",
                             msOverflowStyle: "none",
                             scrollSnapType: "x mandatory",
                         }}
                     >
-                        {infiniteMedia.map((item, index) => (
+                        {validMedia.map((item, index) => (
                             <div
-                                key={`${item.id}-${index}`}
-                                className='flex-shrink-0 cursor-pointer'
+                                key={item.id}
+                                className='flex-shrink-0 cursor-pointer flex flex-col w-[calc(100vw-2rem)] sm:w-[480px]'
                                 style={{
-                                    width: "auto",
-                                    minWidth: "200px",
-                                    scrollSnapAlign: "center",
+                                    height: "350px", // Increased to accommodate caption
+                                    scrollSnapAlign: "start",
                                 }}
                                 onClick={() => openFullscreen(index)}
                             >
-                                <div className='relative w-auto h-[400px] md:h-[600px] overflow-hidden rounded-lg hover:opacity-90 transition-opacity'>
+                                <div className='relative w-full h-[300px] overflow-hidden rounded-lg hover:opacity-90 transition-opacity bg-gray-100 flex items-center justify-center'>
                                     <Image
                                         src={item.Image!.url}
                                         alt={
@@ -273,14 +174,14 @@ export default function Gallery({ media }: GalleryProps) {
                                             item.Comment ||
                                             "Gallery image"
                                         }
-                                        width={item.Image!.width || 400}
-                                        height={item.Image!.height || 300}
-                                        className='h-full w-auto object-cover'
-                                        sizes='(max-width: 768px) 200px, 400px'
+                                        width={480}
+                                        height={300}
+                                        className='max-w-full max-h-full object-contain'
+                                        sizes='480px'
                                     />
                                 </div>
                                 {item.Comment && (
-                                    <p className='text-lg text-neutral-600 mt-4 font-medium'>
+                                    <p className='text-lg  text-neutral-600 mt-2 font-medium flex-1 flex justify-center items-start'>
                                         {item.Comment}
                                     </p>
                                 )}
