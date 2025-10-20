@@ -126,8 +126,8 @@ export default async function Portfolio() {
     const projects = await getProjects();
 
     return (
-        <div className='w-full h-full flex flex-col items-center bg-black'>
-            <div className='w-screen h-screen max-w-[1920px] flex flex-col items-center bg-black '>
+        <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden'>
+            <div className='w-screen h-full max-w-[1920px] flex flex-col items-center bg-black '>
                 <Header />
                 <main className='w-full flex flex-col items-start px-4 mouse:px-6 py-8 mouse:py-12'>
                     <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>PORTFOLIO</span>

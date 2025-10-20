@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Gallery from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
@@ -64,6 +65,7 @@ async function getProject(id: string): Promise<Project | null> {
         }
 
         const data: StrapiResponse = await response.json();
+        console.log(data.data);
         return data.data;
     } catch (error) {
         console.error(`Error fetching project ${id}:`, error);
@@ -74,9 +76,10 @@ async function getProject(id: string): Promise<Project | null> {
 export default async function ProjectDetail({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
-    const project = await getProject(params.id);
+    const { id } = await params;
+    const project = await getProject(id);
 
     if (!project) {
         return (
@@ -100,7 +103,7 @@ export default async function ProjectDetail({
     }
 
     return (
-        <div className='min-h-screen bg-gray-100'>
+        <div className='min-h-screen bg-gray-100 overflow-x-hidden'>
             <Header />
 
             <main className='w-screen h-full flex justify-center'>
@@ -141,19 +144,26 @@ export default async function ProjectDetail({
                             </div>
                         </div>
                         <div className='w-full flex flex-col md:flex-row justify-between gap-10 mt-12'>
-                            <div className=" w-full md:w-1/2 h-full flex justify-start items-center">
+                        <div className=" w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col">
+                                <span className="text-neutral-700 text-3xl font-bold">Preview</span>
+                                <div className=" w-full h-full flex justify-start items-center">
                                 {project.Content === "youtube" && (
                                     <iframe className="w-full aspect-video" src={"https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                                 )}
                                 {project.Content === "spline" && (
-                                   <Spline scene={project.SplineLink || ""} />
+                                   <Spline scene={project.SplineLink || ""} style={{ width: "100%", height: "100%" }} />
                                 )}
                             </div>
+                            </div>
+                           
                             <div className=" w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col">
                                 <span className="text-neutral-700 text-3xl font-bold">Description</span>
                                 <span className="text-black text-2xl">{project.Description}</span>
                             </div>
                         </div>
+                        
+                        {/* Gallery Section */}
+                        <Gallery media={project.Media} />
                     </div>
                 </div>
             </main>
