@@ -43,7 +43,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 </div>
             )}
              {/* Hover Overlay - Always visible on mobile, hover on desktop */}
-             <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 sm:gap-4 p-4 sm:p-6 rounded-lg opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:backdrop-blur-md transition-all duration-300 z-40'>
+             <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 sm:gap-4 p-4 sm:p-6 rounded-lg opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:backdrop-blur-sm transition-all duration-300 z-40'>
                  {/* Mobile background overlay for text readability */}
                  <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:hidden'></div>
                 {/* Program Icons */}
