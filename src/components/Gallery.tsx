@@ -9,6 +9,8 @@ interface StrapiImage {
     url: string;
     alternativeText: string | null;
     name: string;
+    width?: number;
+    height?: number;
 }
 
 interface MediaItem {
