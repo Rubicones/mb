@@ -6,7 +6,7 @@ export default function Home() {
         "MOTION DESIGNER / 3D DESIGNER / 2D DESIGNER / TRADITIONAL ARTIST / HANDIMAN / ";
 
     return (
-        <div className='w-full h-full flex flex-col items-center bg-white'>
+        <div className='w-full h-full flex flex-col items-center bg-white z-20 '>
             <div className='w-screen h-full flex flex-col items-center bg-white'>
                 <Header />
                 <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>

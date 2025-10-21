@@ -82,39 +82,42 @@ export default function Gallery({ media }: GalleryProps) {
             let newIndex = currentElementIndex;
             
             if (direction === "left") {
+                const firstFullyVisibleIndex = children.findIndex(child => isFullyVisible(child));
                 // Search backwards from current element
-                for (let i = 0; i < children.length; i++) {
-                    const checkIndex = (currentElementIndex - i - 1 + children.length) % children.length;
-                    const child = children[checkIndex];
-                    
+                for (let i = firstFullyVisibleIndex; i >= 0; i--) {
+                    const child = children[i];
+                    console.log(isFullyVisible(child), i);
                     if (!isFullyVisible(child)) {
                         targetChild = child;
-                        newIndex = checkIndex;
+                        newIndex = i;
                         break;
                     }
                 }
+
                 
                 // If all elements are fully visible, go to previous element
                 if (!targetChild) {
-                    newIndex = currentElementIndex === 0 ? children.length - 1 : currentElementIndex - 1;
+                    newIndex = children.length - 1;
                     targetChild = children[newIndex];
                 }
             } else {
+                // find the last element that is fully visible 
+                const lastFullyVisibleIndex = children.findIndex(child => isFullyVisible(child));
                 // Search forwards from current element
-                for (let i = 0; i < children.length; i++) {
-                    const checkIndex = (currentElementIndex + i + 1) % children.length;
-                    const child = children[checkIndex];
-                    
+                for (let i = lastFullyVisibleIndex; i < children.length; i++) {
+                    const child = children[i];
+                    console.log(isFullyVisible(child), i);
                     if (!isFullyVisible(child)) {
                         targetChild = child;
-                        newIndex = checkIndex;
+                        newIndex = i;
                         break;
                     }
                 }
                 
                 // If all elements are fully visible, go to next element
                 if (!targetChild) {
-                    newIndex = currentElementIndex === children.length - 1 ? 0 : currentElementIndex + 1;
+                    console.log("all elements are fully visible");
+                    newIndex = 0;
                     targetChild = children[newIndex];
                 }
             }
@@ -154,7 +157,6 @@ export default function Gallery({ media }: GalleryProps) {
     useEffect(() => {
         if (validMedia.length > 0 && scrollContainerRef.current) {
             const container = scrollContainerRef.current;
-            const containerWidth = container.offsetWidth;
 
             // Start with first image focused (scroll to 0)
             container.scrollTo({
@@ -188,7 +190,7 @@ export default function Gallery({ media }: GalleryProps) {
                     {/* Scroll Container */}
                     <div
                         ref={scrollContainerRef}
-                        className='flex overflow-x-auto scrollbar-hide gap-4'
+                        className='flex overflow-x-auto scrollbar-hide gap-4 -pr-12'
                         style={{
                             scrollbarWidth: "none",
                             msOverflowStyle: "none",

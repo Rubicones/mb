@@ -9,29 +9,29 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-black w-screen h-14 md:h-16 flex justify-center'>
+            <header className='bg-black w-screen h-16 flex justify-center'>
                 <div className='relative w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
                     <SplineLogo />
                     
                     {/* Desktop Navigation */}
                     <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>
-                        <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all'>
+                        <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'>
                             ABOUT&nbsp;ME
                         </a>
                         <Link
-                            className='text-lg lg:text-xl hover:text-neutral-400 transition-all'
+                            className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'
                             href='/portfolio'
                         >
                             PORTFOLIO
                         </Link>
-                        <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all'>
+                        <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'>
                             HIGHLIGHTS
                         </a>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
-                        className='md:hidden flex flex-col gap-1 p-2'
+                        className='md:hidden flex flex-col gap-1 p-2 z-50'
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         <div
