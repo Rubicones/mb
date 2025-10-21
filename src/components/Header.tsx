@@ -65,28 +65,28 @@ export default function Header() {
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className='md:hidden bg-black w-full border-t border-gray-800 z-50'>
-                    <div className='flex flex-col py-4 px-4 space-y-4'>
+                    <div className='flex flex-col py-4 px-4 space-y-4 z-50'>
                         <a
-                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
+                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             ABOUT&nbsp;ME
                         </a>
                         <a
-                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
+                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
                             href='/portfolio'
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             PORTFOLIO
                         </a>
                         <a
-                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
+                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             HIGHLIGHTS
                         </a>
                         <button
-                            className='bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
+                            className='z-50 bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             Contact&nbsp;me
