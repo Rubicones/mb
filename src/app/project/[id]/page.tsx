@@ -107,9 +107,9 @@ export default async function ProjectDetail({
             <Header />
 
             <main className='w-screen h-full flex justify-center'>
-                <div className='w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
-                    <div className='w-full flex md:justify-between justify-start gap-10 flex-wrap mt-12'>
-                        <span className='text-8xl font-bold text-black w-full md:w-[65%]'>
+                <div className='w-full max-w-[1920px] flex items-center justify-between pl-8 pr-10 md:px-12'>
+                    <div className='w-full flex md:justify-between justify-start gap-4 md:gap-10 flex-wrap mt-12 no-scrollbar'>
+                        <span className='text-6xl md:text-7xl lg:text-8xl font-bold text-black w-full md:w-[65%]'>
                             {project.Name}
                         </span>
                         <div className='flex w-full gap-2 items-center md:w-[20%] md:justify-end justify-start'>
