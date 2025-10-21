@@ -25,6 +25,7 @@ interface GalleryProps {
 
 export default function Gallery({ media }: GalleryProps) {
     const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
+    const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
 
@@ -63,25 +64,70 @@ export default function Gallery({ media }: GalleryProps) {
                 behavior: "smooth",
             });
         } else {
-            // For gallery, scroll by one item width (variable width + gap)
+            // For gallery, find next/prev element that isn't fully visible, starting from current
             const scrollLeft = container.scrollLeft;
+            const containerWidth = container.offsetWidth;
             const children = Array.from(container.children) as HTMLElement[];
-            const currentIndex = Math.round(scrollLeft / (children[0]?.offsetWidth + 16) || 0);
             
-            let targetIndex;
+            // Helper function to check if element is fully visible
+            const isFullyVisible = (child: HTMLElement) => {
+                const childLeft = child.offsetLeft;
+                const childRight = childLeft + child.offsetWidth;
+                const containerRight = scrollLeft + containerWidth;
+                
+                return childLeft >= scrollLeft && childRight <= containerRight;
+            };
+            
+            let targetChild;
+            let newIndex = currentElementIndex;
+            
             if (direction === "left") {
-                targetIndex = currentIndex === 0 ? validMedia.length - 1 : currentIndex - 1;
+                // Search backwards from current element
+                for (let i = 0; i < children.length; i++) {
+                    const checkIndex = (currentElementIndex - i - 1 + children.length) % children.length;
+                    const child = children[checkIndex];
+                    
+                    if (!isFullyVisible(child)) {
+                        targetChild = child;
+                        newIndex = checkIndex;
+                        break;
+                    }
+                }
+                
+                // If all elements are fully visible, go to previous element
+                if (!targetChild) {
+                    newIndex = currentElementIndex === 0 ? children.length - 1 : currentElementIndex - 1;
+                    targetChild = children[newIndex];
+                }
             } else {
-                targetIndex = currentIndex === validMedia.length - 1 ? 0 : currentIndex + 1;
+                // Search forwards from current element
+                for (let i = 0; i < children.length; i++) {
+                    const checkIndex = (currentElementIndex + i + 1) % children.length;
+                    const child = children[checkIndex];
+                    
+                    if (!isFullyVisible(child)) {
+                        targetChild = child;
+                        newIndex = checkIndex;
+                        break;
+                    }
+                }
+                
+                // If all elements are fully visible, go to next element
+                if (!targetChild) {
+                    newIndex = currentElementIndex === children.length - 1 ? 0 : currentElementIndex + 1;
+                    targetChild = children[newIndex];
+                }
             }
             
-            const targetChild = children[targetIndex];
             if (targetChild) {
                 const targetLeft = targetChild.offsetLeft;
                 container.scrollTo({
                     left: targetLeft,
                     behavior: "smooth",
                 });
+                
+                // Update the current element index
+                setCurrentElementIndex(newIndex);
             }
         }
     };
@@ -115,6 +161,9 @@ export default function Gallery({ media }: GalleryProps) {
                 left: 0,
                 behavior: "auto",
             });
+            
+            // Set current element index to 0
+            setCurrentElementIndex(0);
         }
     }, [validMedia.length]);
 
@@ -156,7 +205,7 @@ export default function Gallery({ media }: GalleryProps) {
                                 }}
                                 onClick={() => openFullscreen(index)}
                             >
-                                <div className='relative h-full w-full max-w-[calc(100vw-2rem)] sm:max-w-none overflow-hidden rounded-lg hover:opacity-90 transition-opacity bg-gray-100 flex items-center justify-center'>
+                                <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity bg-gray-100 flex items-center justify-center'>
                                     <Image
                                         src={item.Image!.url}
                                         alt={
@@ -167,7 +216,6 @@ export default function Gallery({ media }: GalleryProps) {
                                         width={600}
                                         height={400}
                                         className='h-full w-auto max-w-full object-contain'
-                                        sizes='(max-width: 640px) calc(100vw - 2rem), 600px'
                                     />
                                 </div>
                             </div>
