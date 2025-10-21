@@ -26,13 +26,14 @@ interface GalleryProps {
 export default function Gallery({ media }: GalleryProps) {
     const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
     const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
-    const [disableScrollButtons, setDisableScrollButtons] = useState<boolean>(false);
+    const [disableScrollButtons, setDisableScrollButtons] =
+        useState<boolean>(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
     // Filter out items without images
     const validMedia = media.filter((item) => item.Image?.url);
 
-    const scroll = (
+    const scroll = async (
         direction: "left" | "right",
         isFullscreen: boolean = false
     ) => {
@@ -70,67 +71,104 @@ export default function Gallery({ media }: GalleryProps) {
             const scrollLeft = container.scrollLeft;
             const containerWidth = container.offsetWidth;
             const children = Array.from(container.children) as HTMLElement[];
-            
+
             // Helper function to check if element is fully visible
             const isFullyVisible = (child: HTMLElement) => {
-                const childLeft = child.offsetLeft;
-                const childRight = childLeft + child.offsetWidth;
-                const containerRight = scrollLeft + containerWidth;
+                // 1) Get the width of the container
+                const containerWidth = container.offsetWidth;
                 
-                return childLeft >= scrollLeft && childRight <= containerRight;
+                // 2) Get the width of the image
+                const imageWidth = child.offsetWidth;
+                
+                // 3) Find the left and right indents of the image
+                const leftIndent = child.offsetLeft - scrollLeft;
+                const rightIndent = containerWidth - (leftIndent + imageWidth);
+                
+                // 4) If indent + image's width is greater than the container width – it is not visible fully
+                // 5) If any of the indents are negative – it is not visible fully
+                const isVisible = leftIndent >= -10 && rightIndent >= -10;
+                
+                console.log(`Element ${Array.from(children).indexOf(child)}:`);
+                console.log(`  Container width: ${containerWidth}`);
+                console.log(`  Image width: ${imageWidth}`);
+                console.log(`  Left indent: ${leftIndent}`);
+                console.log(`  Right indent: ${rightIndent}`);
+                console.log(`  Fully visible: ${isVisible}`);
+                
+                return isVisible;
             };
-            
+
             let targetChild;
             let newIndex = currentElementIndex;
-            
+            // await new Promise(resolve => setTimeout(resolve, 400));
             if (direction === "left") {
-                const firstFullyVisibleIndex = children.findIndex(child => isFullyVisible(child));
-                // Search backwards from current element
-                for (let i = firstFullyVisibleIndex; i >= 0; i--) {
-                    const child = children[i];
-                    console.log(isFullyVisible(child), i);
-                    if (!isFullyVisible(child)) {
-                        targetChild = child;
-                        newIndex = i;
-                        break;
+                const firstFullyVisibleIndex = children.findIndex((child) =>
+                    isFullyVisible(child)
+                );
+                if (firstFullyVisibleIndex === -1) {
+                    newIndex = children.length - 1;
+                    targetChild = children[newIndex];
+                } else {
+                    // Search backwards from current element
+                    for (let i = firstFullyVisibleIndex; i >= 0; i--) {
+                        const child = children[i];
+                        if (!isFullyVisible(child)) {
+                            targetChild = child;
+                            newIndex = i;
+                            break;
+                        }
                     }
                 }
 
-                
                 // If all elements are fully visible, go to previous element
                 if (!targetChild) {
                     newIndex = children.length - 1;
                     targetChild = children[newIndex];
                 }
             } else {
-                // find the last element that is fully visible 
-                const lastFullyVisibleIndex = children.findIndex(child => isFullyVisible(child));
-                // Search forwards from current element
-                for (let i = lastFullyVisibleIndex; i < children.length; i++) {
-                    const child = children[i];
-                    console.log(isFullyVisible(child), i);
-                    if (!isFullyVisible(child)) {
-                        targetChild = child;
-                        newIndex = i;
+                // Find the last fully visible element
+                let lastFullyVisibleIndex = -1;
+                for (let i = children.length - 1; i >= 0; i--) {
+                    if (isFullyVisible(children[i])) {
+                        lastFullyVisibleIndex = i;
                         break;
                     }
                 }
+
+                console.log("lastFullyVisibleIndex – ", lastFullyVisibleIndex);
                 
-                // If all elements are fully visible, go to next element
+                // Search forwards from the last fully visible element
+                if (lastFullyVisibleIndex === -1) {
+                    // No elements are fully visible, go to first element
+                    newIndex = 0;
+                    targetChild = children[newIndex];
+                } else {
+                    // Look for the first not-fully-visible element after the last fully visible one
+                    for (let i = lastFullyVisibleIndex + 1; i < children.length; i++) {
+                        const child = children[i];
+                        if (!isFullyVisible(child)) {
+                            targetChild = child;
+                            newIndex = i;
+                            break;
+                        }
+                    }
+                }
+                
+                // If all elements are fully visible, go to first element
                 if (!targetChild) {
                     console.log("all elements are fully visible");
                     newIndex = 0;
                     targetChild = children[newIndex];
                 }
             }
-            
+
             if (targetChild) {
                 const targetLeft = targetChild.offsetLeft;
                 container.scrollTo({
                     left: targetLeft,
                     behavior: "smooth",
                 });
-                
+
                 // Update the current element index
                 setCurrentElementIndex(newIndex);
             }
@@ -168,7 +206,7 @@ export default function Gallery({ media }: GalleryProps) {
                 left: 0,
                 behavior: "auto",
             });
-            
+
             // Set current element index to 0
             setCurrentElementIndex(0);
         }
@@ -233,7 +271,7 @@ export default function Gallery({ media }: GalleryProps) {
                     <div className='flex justify-start items-center gap-4 mt-4'>
                         {/* Left Arrow */}
                         <button
-                        disabled={disableScrollButtons}
+                            disabled={disableScrollButtons}
                             onClick={() => scroll("left")}
                             className='bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-opacity duration-200'
                             aria-label='Previous image'
@@ -278,18 +316,17 @@ export default function Gallery({ media }: GalleryProps) {
                         <X className='w-6 h-6' />
                     </button>
                     <div className='h-full w-12 flex flex-col items-center justify-center py-16'>
-
-                    {/* Left Arrow - Fullscreen */}
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            scroll("left", true);
-                        }}
-                        className='absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
-                        aria-label='Previous image'
-                    >
-                        <ChevronLeft className='w-8 h-8' />
-                    </button>
+                        {/* Left Arrow - Fullscreen */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                scroll("left", true);
+                            }}
+                            className='absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
+                            aria-label='Previous image'
+                        >
+                            <ChevronLeft className='w-8 h-8' />
+                        </button>
                     </div>
 
                     {/* Fullscreen Scroll Container */}
