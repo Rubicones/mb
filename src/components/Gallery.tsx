@@ -26,9 +26,9 @@ interface GalleryProps {
 export default function Gallery({ media }: GalleryProps) {
     const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
     const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
+    const [disableScrollButtons, setDisableScrollButtons] = useState<boolean>(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
-
     // Filter out items without images
     const validMedia = media.filter((item) => item.Image?.url);
 
@@ -64,6 +64,8 @@ export default function Gallery({ media }: GalleryProps) {
                 behavior: "smooth",
             });
         } else {
+            setDisableScrollButtons(true);
+
             // For gallery, find next/prev element that isn't fully visible, starting from current
             const scrollLeft = container.scrollLeft;
             const containerWidth = container.offsetWidth;
@@ -132,6 +134,9 @@ export default function Gallery({ media }: GalleryProps) {
                 // Update the current element index
                 setCurrentElementIndex(newIndex);
             }
+            setTimeout(() => {
+                setDisableScrollButtons(false);
+            }, 500);
         }
     };
 
@@ -190,7 +195,7 @@ export default function Gallery({ media }: GalleryProps) {
                     {/* Scroll Container */}
                     <div
                         ref={scrollContainerRef}
-                        className='flex overflow-x-auto scrollbar-hide gap-4 -pr-12'
+                        className='flex overflow-x-auto scrollbar-hide gap-4 -pr-12 rounded-md'
                         style={{
                             scrollbarWidth: "none",
                             msOverflowStyle: "none",
@@ -207,7 +212,7 @@ export default function Gallery({ media }: GalleryProps) {
                                 }}
                                 onClick={() => openFullscreen(index)}
                             >
-                                <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity bg-gray-100 flex items-center justify-center'>
+                                <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'>
                                     <Image
                                         src={item.Image!.url}
                                         alt={
@@ -217,7 +222,7 @@ export default function Gallery({ media }: GalleryProps) {
                                         }
                                         width={600}
                                         height={400}
-                                        className='h-full w-auto max-w-full object-contain'
+                                        className='h-full w-auto max-w-full object-contain rounded-md'
                                     />
                                 </div>
                             </div>
@@ -228,6 +233,7 @@ export default function Gallery({ media }: GalleryProps) {
                     <div className='flex justify-start items-center gap-4 mt-4'>
                         {/* Left Arrow */}
                         <button
+                        disabled={disableScrollButtons}
                             onClick={() => scroll("left")}
                             className='bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-opacity duration-200'
                             aria-label='Previous image'
@@ -237,6 +243,7 @@ export default function Gallery({ media }: GalleryProps) {
 
                         {/* Right Arrow */}
                         <button
+                            disabled={disableScrollButtons}
                             onClick={() => scroll("right")}
                             className='bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-opacity duration-200'
                             aria-label='Next image'

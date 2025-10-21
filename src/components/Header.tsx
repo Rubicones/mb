@@ -64,7 +64,7 @@ export default function Header() {
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className='md:hidden bg-black w-full border-t border-gray-800'>
+                <div className='md:hidden bg-black w-full border-t border-gray-800 z-50'>
                     <div className='flex flex-col py-4 px-4 space-y-4'>
                         <a
                             className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2'
