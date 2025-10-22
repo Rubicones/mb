@@ -1,5 +1,6 @@
 import ProjectCard from "@/components/ProjectCard";
 import Header from "@/components/Header";
+import { ArrowLeft, ArrowLeftIcon } from "lucide-react";
 
 interface StrapiImage {
     id: number;
@@ -150,9 +151,9 @@ export default async function Portfolio() {
 
     return (
         <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden z-50'>
-            <div className='w-screen h-full max-w-[1920px] flex flex-col items-center bg-black '>
+            <div className='w-screen h-full max-w-[1920px] flex flex-col items-center bg-black px-4 '>
                 <Header />
-                <main className='w-full flex flex-col items-start px-4 mouse:px-6 pt-8 mouse:py-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll'>
+                <main className='w-full flex flex-col items-start px-7 mouse:px-6 pt-8 mouse:py-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll np-scrollbar'>
                     <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>
                         PORTFOLIO
                     </span>
@@ -183,7 +184,7 @@ export default async function Portfolio() {
                                     </div>
                                 </div>
                             )}
-                            <div className='sticky bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
+                            <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
                                 2D DESIGN
                             </div>
                             {/* 2D DESIGN Category */}

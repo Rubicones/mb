@@ -3,6 +3,7 @@ import Gallery from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
+import { ArrowLeft } from "lucide-react";
 
 interface StrapiImage {
     id: number;
@@ -104,11 +105,14 @@ export default async function ProjectDetail({
 
     return (
         <div className='min-h-screen bg-gray-100 overflow-x-hidden'>
-            <Header />
 
-            <main className='w-screen h-full flex justify-center z-50 bg-white'>
-                <div className='w-full max-w-[1920px] flex items-center justify-between pl-8 pr-10 md:px-12 bg-white'>
-                    <div className='w-full flex md:justify-between justify-start gap-4 md:gap-10 flex-wrap mt-12 no-scrollbar bg-white'>
+            <main className='w-screen h-full flex justify-center bg-white'>
+                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between pl-8 pr-10 md:px-12 bg-white'>
+                <Header />
+
+                    <div className='z-50 w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6 no-scrollbar bg-white'>
+                    <a href='/portfolio' className='w-full flex justify-start items-center text-neutral-700 gap-2'><ArrowLeft/> Back to portfolio</a>
+
                         <span className='text-6xl md:text-7xl lg:text-8xl font-bold text-black w-full md:w-[65%]'>
                             {project.Name}
                         </span>
@@ -129,41 +133,87 @@ export default async function ProjectDetail({
                         </div>
                         <div className='w-full flex md:justify-around justify-start gap-10 flex-wrap mt-4 text-black'>
                             <div className='flex-grow-1 flex flex-col gap-2'>
-                                <span className="text-xl text-neutral-700 ">Category</span>
-                                <span className="text-black text-xl font-bold">{project.Category.slice(2)}</span>
+                                <span className='text-xl text-neutral-700 '>
+                                    Category
+                                </span>
+                                <span className='text-black text-xl font-bold'>
+                                    {project.Category.slice(2)}
+                                </span>
                             </div>
                             <div className='flex justify-between gap-10'>
                                 <div className='flex flex-col gap-2'>
-                                    <span className="text-xl text-neutral-700 ">Date</span>
-                                    <span className="text-black text-xl font-bold">{project.Date}</span>
+                                    <span className='text-xl text-neutral-700 '>
+                                        Date
+                                    </span>
+                                    <span className='text-black text-xl font-bold'>
+                                        {project.Date}
+                                    </span>
                                 </div>
                                 <div className='flex flex-col gap-2'>
-                                    <span className="text-xl text-neutral-700 ">Smth</span>
-                                    <span className="text-black text-xl font-bold">Here</span>
+                                    <span className='text-xl text-neutral-700 '>
+                                        Smth
+                                    </span>
+                                    <span className='text-black text-xl font-bold'>
+                                        Here
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div className='w-full flex flex-col md:flex-row justify-between gap-10 mt-12'>
-                        <div className=" w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col">
-                                <span className="text-neutral-700 text-3xl font-bold">Preview</span>
-                                <div className=" w-full h-full flex justify-start items-center">
-                                {project.Content === "youtube" && (
-                                    <iframe className="w-full aspect-video" src={"https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-                                )}
-                                {project.Content === "spline" && (
-                                   <Spline scene={project.SplineLink || ""} style={{ width: "100%", height: "100%" }} />
-                                )}
+                        {(project.ytLink || project.SplineLink) && (
+                            <div className='w-full flex flex-col md:flex-row justify-between gap-10 mt-12'>
+                                <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
+                                    <span className='text-neutral-700 text-3xl font-bold'>
+                                        Preview
+                                    </span>
+                                    <div className=' w-full h-full flex justify-start items-center z-50'>
+                                        {project.Content === "youtube" && (
+                                            <iframe
+                                                className='w-full aspect-video'
+                                                src={
+                                                    "https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"
+                                                }
+                                                title='YouTube video player'
+                                                frameBorder='0'
+                                                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                                                referrerPolicy='strict-origin-when-cross-origin'
+                                                allowFullScreen
+                                            ></iframe>
+                                        )}
+                                        {project.Content === "spline" && (
+                                            <Spline
+                                                scene={project.SplineLink || ""}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
+                                    <span className='text-neutral-700 text-3xl font-bold'>
+                                        Description
+                                    </span>
+                                    <span className='text-black text-2xl'>
+                                        {project.Description}
+                                    </span>
+                                </div>
                             </div>
-                            </div>
-                           
-                            <div className=" w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col">
-                                <span className="text-neutral-700 text-3xl font-bold">Description</span>
-                                <span className="text-black text-2xl">{project.Description}</span>
-                            </div>
-                        </div>
-                        
+                        )}
+
                         {/* Gallery Section */}
                         <Gallery media={project.Media} />
+                       {(!project.SplineLink && !project.ytLink) && (
+                        <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
+                            <span className='text-neutral-700 text-3xl font-bold'>
+                                Description
+                            </span>
+                            <span className='text-black text-2xl'>
+                                {project.Description}
+                            </span>
+                        </div>
+                        )}
                     </div>
                 </div>
             </main>
