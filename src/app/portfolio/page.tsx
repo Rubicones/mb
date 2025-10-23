@@ -150,76 +150,78 @@ export default async function Portfolio() {
     );
 
     return (
-        <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden z-50'>
-            <div className='w-screen h-full max-w-[1920px] flex flex-col items-center bg-black px-4 '>
+        <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden'>
+            <div className='w-screen h-full  flex flex-col items-center bg-black '>
                 <Header />
-                <main className='w-full flex flex-col items-start px-7 mouse:px-6 pt-8 mouse:py-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll np-scrollbar'>
-                    <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>
-                        PORTFOLIO
-                    </span>
+                <div className='w-full flex flex-col justify-center items-center bg-black z-50 px-4 '>
+                    <main className='max-w-[1920px] w-full flex flex-col items-start mouse:px-6 pt-8 mouse:py-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
+                        <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>
+                            PORTFOLIO
+                        </span>
 
-                    {projects.length === 0 ? (
-                        <div className='text-center py-12'>
-                            <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-2xl mx-auto'>
-                                <h2 className='text-2xl font-bold text-yellow-800 mb-4'>
-                                    Unable to Load Projects
-                                </h2>
-                            </div>
-                        </div>
-                    ) : (
-                        <>
-                            {/* 3D DESIGN Category */}
-                            <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8'>
-                                3D DESIGN
-                            </h2>
-                            {projects3D.length > 0 && (
-                                <div className='w-full'>
-                                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                        {projects3D.map((project) => (
-                                            <ProjectCard
-                                                key={project.id}
-                                                project={project}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
-                                2D DESIGN
-                            </div>
-                            {/* 2D DESIGN Category */}
-                            {projects2D.length > 0 && (
-                                <div className='w-full'>
-                                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                        {projects2D.map((project) => (
-                                            <ProjectCard
-                                                key={project.id}
-                                                project={project}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        
-                            {/* MULTIDISCIPLINAR Category */}
-                            {projectsMulti.length > 0 && (
-                                <div className='w-full'>
-                                    <h2 className='sticky bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
-                                        HANDCRAFT
+                        {projects.length === 0 ? (
+                            <div className='text-center py-12'>
+                                <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-2xl mx-auto'>
+                                    <h2 className='text-2xl font-bold text-yellow-800 mb-4'>
+                                        Unable to Load Projects
                                     </h2>
-                                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                        {projectsMulti.map((project) => (
-                                            <ProjectCard
-                                                key={project.id}
-                                                project={project}
-                                            />
-                                        ))}
-                                    </div>
                                 </div>
-                            )}
-                        </>
-                    )}
-                </main>
+                            </div>
+                        ) : (
+                            <>
+                                {/* 3D DESIGN Category */}
+                                <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8'>
+                                    3D DESIGN
+                                </h2>
+                                {projects3D.length > 0 && (
+                                    <div className='w-full'>
+                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                                            {projects3D.map((project) => (
+                                                <ProjectCard
+                                                    key={project.id}
+                                                    project={project}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
+                                    2D DESIGN
+                                </div>
+                                {/* 2D DESIGN Category */}
+                                {projects2D.length > 0 && (
+                                    <div className='w-full'>
+                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                                            {projects2D.map((project) => (
+                                                <ProjectCard
+                                                    key={project.id}
+                                                    project={project}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* MULTIDISCIPLINAR Category */}
+                                {projectsMulti.length > 0 && (
+                                    <div className='w-full'>
+                                        <h2 className='sticky bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
+                                            HANDCRAFT
+                                        </h2>
+                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                                            {projectsMulti.map((project) => (
+                                                <ProjectCard
+                                                    key={project.id}
+                                                    project={project}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </main>
+                </div>
             </div>
         </div>
     );

@@ -38,17 +38,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                         }
                         alt={project.Cover.alternativeText || project.Name}
                         fill
-                        className='object-cover group-hover:scale-110 transition-transform duration-300'
+                        className='object-cover mouse:group-hover:scale-110 transition-transform duration-300'
                     />
                 </div>
             )}
-             {/* Hover Overlay - Always visible on mobile, hover on desktop */}
-             <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 sm:gap-4 p-4 sm:p-6 rounded-lg opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:backdrop-blur-sm transition-all duration-300 z-40'>
-                 {/* Mobile background overlay for text readability */}
-                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:hidden'></div>
+             {/* Hover Overlay - Always visible on touch devices, hover on mouse devices */}
+             <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 touch:gap-4 mouse:gap-4 p-4 touch:p-6 mouse:p-6 rounded-lg opacity-100 mouse:opacity-0 mouse:group-hover:opacity-100 mouse:group-hover:backdrop-blur-sm transition-all duration-300 z-40'>
+                 {/* Touch device background overlay for text readability */}
+                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent touch:block mouse:hidden'></div>
                 {/* Program Icons */}
                 {project.Programs && project.Programs.length > 0 && (
-                    <div className='flex flex-wrap gap-2 sm:gap-3 justify-center relative z-10'>
+                    <div className='flex flex-wrap gap-2 touch:gap-3 mouse:gap-3 justify-center relative z-10'>
                         {project.Programs.map((program) => (
                             <div
                                 key={program.id}

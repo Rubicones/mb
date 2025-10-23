@@ -105,13 +105,17 @@ export default async function ProjectDetail({
 
     return (
         <div className='min-h-screen bg-gray-100 overflow-x-hidden'>
-
             <main className='w-screen h-full flex justify-center bg-white'>
-                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between pl-8 pr-10 md:px-12 bg-white'>
-                <Header />
+                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-white '>
+                    <Header />
 
-                    <div className='z-50 w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6 no-scrollbar bg-white'>
-                    <a href='/portfolio' className='w-full flex justify-start items-center text-neutral-700 gap-2'><ArrowLeft/> Back to portfolio</a>
+                    <div className='z-50 w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6  bg-white px-4'>
+                        <a
+                            href='/portfolio'
+                            className='w-full flex justify-start items-center text-neutral-700 gap-2'
+                        >
+                            <ArrowLeft /> Back to portfolio
+                        </a>
 
                         <span className='text-6xl md:text-7xl lg:text-8xl font-bold text-black w-full md:w-[65%]'>
                             {project.Name}
@@ -204,15 +208,15 @@ export default async function ProjectDetail({
 
                         {/* Gallery Section */}
                         <Gallery media={project.Media} />
-                       {(!project.SplineLink && !project.ytLink) && (
-                        <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
-                            <span className='text-neutral-700 text-3xl font-bold'>
-                                Description
-                            </span>
-                            <span className='text-black text-2xl'>
-                                {project.Description}
-                            </span>
-                        </div>
+                        {!project.SplineLink && !project.ytLink && (
+                            <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
+                                <span className='text-neutral-700 text-3xl font-bold'>
+                                    Description
+                                </span>
+                                <span className='text-black text-2xl'>
+                                    {project.Description}
+                                </span>
+                            </div>
                         )}
                     </div>
                 </div>

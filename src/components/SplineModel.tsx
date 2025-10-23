@@ -1,6 +1,10 @@
-import Spline from "@splinetool/react-spline/next";
+'use client'
+
+import Spline from "@splinetool/react-spline";
+import { useRef } from "react";
 
 export default function SplineModel() {
+    
     return (
         <div className='relative w-screen flex justify-start z-40'>
             <Spline

@@ -9,7 +9,7 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-black w-screen h-16 flex justify-center'>
+            <header className='bg-black w-screen h-16 flex justify-center px-4'>
                 <div className='relative w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
                     <SplineLogo />
                     
