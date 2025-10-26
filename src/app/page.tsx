@@ -37,9 +37,9 @@ export default function Home() {
                     Skills
                 </span>
                 <div className='w-full flex flex-col gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
-                    <SkillCard color="red" />
-                    <SkillCard color="blue" />
-                    <SkillCard color="green" />
+                    <SkillCard title="3D" />
+                    <SkillCard title="2D" />
+                    <SkillCard title="handcraft" />
                 </div>
             </div>
         </div>

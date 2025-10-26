@@ -71,7 +71,6 @@ export default function SkillsScene({ hoverContainerRef, size }: SkillsSceneProp
                             actions.push(action);
                         });
                         
-                        console.log(`Loaded ${gltf.animations.length} animation(s)`);
                     }
                     
                     // Optional: adjust model position/scale
@@ -95,7 +94,6 @@ export default function SkillsScene({ hoverContainerRef, size }: SkillsSceneProp
             };
             
             const handleMouseLeave = () => {
-                console.log("mouse leave");
                 actions.forEach((action) => {
                     action.timeScale = -2; // Play backward at 2x speed
                     action.paused = false;
@@ -123,15 +121,17 @@ export default function SkillsScene({ hoverContainerRef, size }: SkillsSceneProp
                 
                 // Create triangular wave: 0 -> 1 (at 0.5) -> 0
                 let animationProgress;
-                if (scrollProgress <= 0.5) {
-                    // 0 to 0.5: animation goes 0% to 100%
-                    animationProgress = scrollProgress * 2;
+                // 0-35%: play forward, 35-65%: hold at 100%, 65-100%: play backward
+                if (scrollProgress <= 0.35) {
+                    // 0% to 35%: animation goes 0% to 100%
+                    animationProgress = scrollProgress / 0.35;
+                } else if (scrollProgress <= 0.65) {
+                    // 35% to 65%: hold at fully animated
+                    animationProgress = 1;
                 } else {
-                    // 0.5 to 1: animation goes 100% to 0%
-                    animationProgress = (1 - scrollProgress) * 2;
+                    // 65% to 100%: animation goes 100% to 0%
+                    animationProgress = (1 - scrollProgress) / 0.35;
                 }
-                
-                console.log("Scroll:", scrollProgress.toFixed(2), "Animation:", animationProgress.toFixed(2));
                 
                 // Set animation time based on animation progress
                 actions.forEach((action) => {
