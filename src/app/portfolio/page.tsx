@@ -1,7 +1,5 @@
 import ProjectCard from "@/components/ProjectCard";
 import Header from "@/components/Header";
-import { ArrowLeft, ArrowLeftIcon } from "lucide-react";
-
 interface StrapiImage {
     id: number;
     url: string;

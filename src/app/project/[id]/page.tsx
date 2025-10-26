@@ -106,7 +106,7 @@ export default async function ProjectDetail({
     return (
         <div className='min-h-screen bg-gray-100 overflow-x-hidden'>
             <main className='w-screen h-full flex justify-center bg-white'>
-                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-white '>
+                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-white px-6'>
                     <Header />
 
                     <div className='z-50 w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6  bg-white px-4'>

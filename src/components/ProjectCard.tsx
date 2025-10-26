@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <Link href={`/project/${project.documentId}`} className='block'>
             <div className=' group cursor-pointer relative rounded-lg bg-transparent'>
             {project.Cover && (
-                <div className='w-full aspect-[4/5] rounded-lg overflow-hidden relative'>
+                <div className='w-full aspect-4/5 rounded-lg overflow-hidden relative'>
                     <Image
                         src={
                             project.Cover.url.startsWith("http")
