@@ -183,7 +183,7 @@ export default async function Portfolio() {
                                         </div>
                                     </div>
                                 )}
-                                <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
+                                <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white bg-black'>
                                     2D DESIGN
                                 </div>
                                 {/* 2D DESIGN Category */}

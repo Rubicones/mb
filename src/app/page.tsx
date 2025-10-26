@@ -37,9 +37,10 @@ export default function Home() {
             </span>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4'>
                 <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
+                {/* <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
                 <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
-                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
-                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
+                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' /> */}
+                
             </div>
         </div>
     );
