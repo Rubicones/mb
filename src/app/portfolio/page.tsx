@@ -1,5 +1,5 @@
-import ProjectCard from "@/components/ProjectCard";
 import Header from "@/components/Header";
+import CategorySection from "@/components/CategorySection";
 interface StrapiImage {
     id: number;
     url: string;
@@ -152,7 +152,7 @@ export default async function Portfolio() {
             <div className='w-screen h-full  flex flex-col items-center bg-black '>
                 <Header />
                 <div className='w-full flex flex-col justify-center items-center bg-black z-50 px-4 '>
-                    <main className='max-w-[1920px] w-full flex flex-col items-start mouse:px-6 pt-8 mouse:py-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
+                    <main className='max-w-[1920px] w-full flex flex-col items-start mouse:px-6 pt-8 mouse:pt-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
                         <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>
                             PORTFOLIO
                         </span>
@@ -166,57 +166,11 @@ export default async function Portfolio() {
                                 </div>
                             </div>
                         ) : (
-                            <>
-                                {/* 3D DESIGN Category */}
-                                <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8'>
-                                    3D DESIGN
-                                </h2>
-                                {projects3D.length > 0 && (
-                                    <div className='w-full'>
-                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                            {projects3D.map((project) => (
-                                                <ProjectCard
-                                                    key={project.id}
-                                                    project={project}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                                <div className='sticky mt-6 bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white bg-black'>
-                                    2D DESIGN
-                                </div>
-                                {/* 2D DESIGN Category */}
-                                {projects2D.length > 0 && (
-                                    <div className='w-full'>
-                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                            {projects2D.map((project) => (
-                                                <ProjectCard
-                                                    key={project.id}
-                                                    project={project}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* MULTIDISCIPLINAR Category */}
-                                {projectsMulti.length > 0 && (
-                                    <div className='w-full'>
-                                        <h2 className='sticky bottom-0 w-full h-12 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 bg-black'>
-                                            HANDCRAFT
-                                        </h2>
-                                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
-                                            {projectsMulti.map((project) => (
-                                                <ProjectCard
-                                                    key={project.id}
-                                                    project={project}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </>
+                            <CategorySection 
+                                projects3D={projects3D}
+                                projects2D={projects2D}
+                                projectsMulti={projectsMulti}
+                            />
                         )}
                     </main>
                 </div>

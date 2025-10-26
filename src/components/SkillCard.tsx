@@ -1,20 +1,44 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import SkillsScene from "./SkillsScene";
 
-export default function SkillCard() {
+export default function SkillCard({ color }: { color: string }) {
     const skillsRef = useRef<HTMLDivElement>(null);
+    const [canvasSize, setCanvasSize] = useState(300);
+
+    useEffect(() => {
+        const updateSize = () => {
+            const width = window.innerWidth;
+            if (width >= 1024) {
+                // lg breakpoint
+                setCanvasSize(450);
+            } else if (width >= 768) {
+                // md breakpoint
+                setCanvasSize(350);
+            } else {
+                // mobile
+                setCanvasSize(300);
+            }
+        };
+
+        updateSize();
+        window.addEventListener('resize', updateSize);
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
 
     return (
-        <div className='grow h-full flex justify-center items-center flex-col gap-4 my-5 px-2'>
-            <div 
-                ref={skillsRef}
-                className='relative w-full mx-2 p-5 flex flex-col justify-between border border-neutral-400 rounded-4xl min-h-[600px] bg-neutral-200 transition-all duration-300 group hover:bg-white hover:border-neutral-300'
-            >
-                <div className='absolute -top-20 flex justify-center self-center'>
-                    <SkillsScene hoverContainerRef={skillsRef}/>
-                </div>
+        <div
+            ref={skillsRef}
+            className={`grow relative h-full md:min-h-[500px] gap-6 md:mx-2 p-8 flex flex-col md:flex-row justify-start items-center md:justify-between md:items-start rounded-4xl bg-${color}-200/20 transition-all duration-300 group hover:bg-${color}-200/50`}
+        >
+            <SkillsScene 
+                hoverContainerRef={skillsRef} 
+                size={canvasSize}
+            />
+            <div className="w-full h-full flex flex-col gap-4">
+                <h3 className={`text-6xl font-bold text-black`}>Skill Name</h3>
+                <p className="text-sm text-gray-500">Skill Description</p>
             </div>
         </div>
     );

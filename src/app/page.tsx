@@ -1,5 +1,3 @@
-import dynamic from "next/dynamic";
-
 import Header from "../components/Header";
 import SplineModel from "../components/SplineModel";
 import SkillCard from "@/components/SkillCard";
@@ -34,13 +32,15 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <span className='text-8xl text-left font-bold self-start ml-4 text-black mt-8'>
-                Skills
-            </span>
-            <div className='w-full flex justify-around flex-wrap mb-32'>
-               <SkillCard/>
-               <SkillCard/>
-               <SkillCard/>
+            <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6'>
+                <span className='text-8xl text-left font-bold self-start text-black mb-8 mt-20 '>
+                    Skills
+                </span>
+                <div className='w-full flex flex-col gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
+                    <SkillCard color="red" />
+                    <SkillCard color="blue" />
+                    <SkillCard color="green" />
+                </div>
             </div>
         </div>
     );
