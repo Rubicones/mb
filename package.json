@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.85",
     "lucide-react": "^0.546.0",
@@ -17,7 +19,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-image-gallery": "^1.4.0",
-    "react-multi-carousel": "^2.8.6"
+    "react-multi-carousel": "^2.8.6",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

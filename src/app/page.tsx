@@ -1,3 +1,5 @@
+import dynamic from "next/dynamic";
+
 import Header from "../components/Header";
 import SplineModel from "../components/SplineModel";
 import SkillCard from "@/components/SkillCard";
@@ -35,12 +37,10 @@ export default function Home() {
             <span className='text-8xl text-left font-bold self-start ml-4 text-black mt-8'>
                 Skills
             </span>
-            <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4'>
-                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
-                {/* <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
-                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' />
-                <SkillCard sceneLink='https://prod.spline.design/Qa3rZwKSwQDohW1E/scene.splinecode' /> */}
-                
+            <div className='w-full flex justify-around flex-wrap mb-32'>
+               <SkillCard/>
+               <SkillCard/>
+               <SkillCard/>
             </div>
         </div>
     );
