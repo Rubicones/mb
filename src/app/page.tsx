@@ -38,17 +38,17 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className='md:hidden relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6'>
+            <div className=' relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6'>
                 <span className='text-8xl text-left font-bold self-start text-black mb-8 mt-20 '>
                     Skills
                 </span>
                 <div className='w-full flex flex-col gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
-                    <SkillCard title='3D' />
-                    <SkillCard title='2D' />
-                    <SkillCard title='handcraft' />
+                    <SkillCard title='3D' path='/models/3D_skill_1.glb' />
+                    <SkillCard title='2D' path='/models/2D_MODEL_2.glb' />
+                    <SkillCard title='handcraft' path='/models/tools3.glb' />
                 </div>
             </div>
-            <div className='md:flex hidden relative w-screen h-[1100px] flex-col items-center justify-between px-6 bg-black'>
+            {/* <div className='md:flex hidden relative w-screen h-[1100px] flex-col items-center justify-between px-6 bg-black'>
                 <span className='text-8xl text-left font-extralight self-start text-white mb-8 mt-8 '>
                     WHO AM I?
                 </span>
@@ -133,7 +133,7 @@ export default function Home() {
                         )}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
