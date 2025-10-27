@@ -25,7 +25,7 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 @keyframes scroll-left {
@@ -43,6 +43,42 @@ body {
     }
     100% {
         transform: translateX(0);
+    }
+}
+
+@keyframes float-1 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(12deg);
+    }
+    33% {
+        transform: translate(60px, -80px) rotate(12deg);
+    }
+    66% {
+        transform: translate(-40px, 70px) rotate(12deg);
+    }
+}
+
+@keyframes float-2 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(-12deg);
+    }
+    25% {
+        transform: translate(-70px, 50px) rotate(-12deg);
+    }
+    75% {
+        transform: translate(80px, -60px) rotate(-12deg);
+    }
+}
+
+@keyframes float-3 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(-12deg);
+    }
+    40% {
+        transform: translate(50px, 90px) rotate(-12deg);
+    }
+    80% {
+        transform: translate(-90px, -40px) rotate(-12deg);
     }
 }
 
@@ -64,6 +100,18 @@ body {
 
 .animate-scroll-right {
     animation: scroll-right 60s linear infinite;
+}
+
+.animate-float-1 {
+    animation: float-1 20s ease-in-out infinite;
+}
+
+.animate-float-2 {
+    animation: float-2 25s ease-in-out infinite 4s;
+}
+
+.animate-float-3 {
+    animation: float-3 30s ease-in-out infinite 6s;
 }
 
 .canvas-container {

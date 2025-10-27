@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import SkillsScene from "./SkillsScene";
+import SkillsSceneMobile from "./SkillsSceneMobile";
 
 export default function SkillCard({ title }: { title: string }) {
     const skillsRef = useRef<HTMLDivElement>(null);
@@ -30,9 +30,9 @@ export default function SkillCard({ title }: { title: string }) {
     return (
         <div
             ref={skillsRef}
-            className={`${title === "3D" ? "bg-red-200/20 hover:bg-red-200/50" : title === "2D" ? "bg-blue-200/20 hover:bg-blue-200/50" : "bg-green-200/20 hover:bg-green-200/50"} grow relative h-full md:min-h-[500px] gap-6 md:mx-2 p-8 flex flex-col md:flex-row justify-start items-center md:justify-between md:items-start rounded-4xl transition-all duration-300 group`}
+            className={`${title === "3D" ? "bg-red-200/20 hover:bg-red-200/50" : title === "2D" ? "bg-blue-200/20 hover:bg-blue-200/50" : "bg-green-200/20 hover:bg-green-200/50"} grow relative h-full md:min-h-[300px] gap-6 md:mx-2 p-8 flex flex-col md:flex-row justify-start items-center md:justify-between md:items-start rounded-4xl transition-all duration-300 group`}
         >
-            <SkillsScene 
+            <SkillsSceneMobile
                 hoverContainerRef={skillsRef} 
                 size={canvasSize}
             />
