@@ -71,7 +71,7 @@ export default function Home() {
                                 hoverFunction={(value) =>
                                     setHoveredSkill(value)
                                 }
-                                path='/models/3D_SKILL_1.glb'
+                                path='/models/3D_skill_1.glb'
                             />
                         </div>
                         <div className='absolute bottom-10 left-[25%] -rotate-8'>
