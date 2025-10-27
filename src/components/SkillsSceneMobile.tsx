@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 interface SkillsSceneProps {
-    hoverContainerRef: React.RefObject<HTMLDivElement | null>;
+    hoverContainerRef: React.RefObject<HTMLAnchorElement | null>;
     size: number;
     path: string;
 }

@@ -78,7 +78,7 @@ export default function CategorySection({
                 3D DESIGN
             </h2>
             {projects3D.length > 0 && (
-                <div className='w-full category-3d'>
+                <div className='w-full category-3d' id='3D'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projects3D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
@@ -91,7 +91,7 @@ export default function CategorySection({
             </div>
             {/* 2D DESIGN Category */}
             {projects2D.length > 0 && (
-                <div className='w-full category-2d'>
+                <div className='w-full category-2d' id='2D'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projects2D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
@@ -104,7 +104,7 @@ export default function CategorySection({
             </div>
             {/* MULTIDISCIPLINAR Category */}
             {projectsMulti.length > 0 && (
-                <div className='w-full category-craft'>
+                <div className='w-full category-craft' id='handcraft'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projectsMulti.map((project) => (
                             <ProjectCard key={project.id} project={project} />
