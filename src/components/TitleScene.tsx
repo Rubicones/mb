@@ -22,6 +22,7 @@ export default function TitleScene() {
                 0.1,
                 2000
             );
+            camera.setFocalLength(200);
             
             // Enable antialiasing for smoother edges
             const renderer = new THREE.WebGLRenderer({
@@ -42,17 +43,19 @@ export default function TitleScene() {
             // Function to get camera Z position based on screen width
             const getCameraZ = () => {
                 const width = window.innerWidth;
-                if (width >= 1920) return 3.2;      // 3xl: >= 1920px (largest screens)
-                if (width >= 1680) return 4;    // Between 3xl and 2xl
-                if (width >= 1280) return 5;      // xl: >= 1280px
-                if (width >= 768) return 6;       // md: >= 768px
-                if (width >= 640) return 6.5;     // sm: >= 640px
-                if (width >= 480) return 7;       // xs: >= 480px
-                return 7.5;                       // xxs: < 480px (smallest screens)
+                if (width >= 1920) return 18;      // 3xl: >= 1920px (largest screens)
+                if (width >= 1680) return 20;    // Between 3xl and 2xl
+                if (width >= 1280) return 22;      // xl: >= 1280px
+                if (width >= 768) return 24;       // md: >= 768px
+                if (width >= 640) return 28;     // sm: >= 640px
+                if (width >= 480) return 30;       // xs: >= 480px
+                return 33;                       // xxs: < 480px (smallest screens)
             };
             
             camera.position.z = getCameraZ();
+            // camera.position.z = 20;
             camera.position.y = 3.3;
+            camera.position.x = -0.25
 
             // Animation setup
             let mixer: THREE.AnimationMixer | null = null;
@@ -79,6 +82,7 @@ export default function TitleScene() {
                     gltf.scene.position.set(0, 0, 0);
                     gltf.scene.scale.set(1, 1, 1);
 
+                    gltf.scene.rotation.y = -0.2
                     // Calculate bounding box to find the actual center of the model
                     const box = new THREE.Box3().setFromObject(gltf.scene);
                     const size = box.getSize(new THREE.Vector3()).length();
