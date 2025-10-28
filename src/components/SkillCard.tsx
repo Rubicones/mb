@@ -23,7 +23,7 @@ export default function SkillCard({
             tags: "3D modeling / texturing / animation / render",
             imgPaths: [
                 "/blender.png",
-                "/cinema4d.png",
+                "/cinema4D.png",
                 "/Substance3Dpainter.png",
             ],
         },
