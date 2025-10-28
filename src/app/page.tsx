@@ -1,14 +1,10 @@
-"use client";
-
 import Header from "../components/Header";
 import SplineModel from "../components/SplineModel";
 import SkillCard from "@/components/SkillCard";
 import SkillsSceneDesktop from "@/components/SkillsSceneDesktop";
-import { useState } from "react";
-import { div } from "three/tsl";
+import TitleScene from "@/components/TitleScene";
 
 export default function Home() {
-    const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
     const scrollText =
         "MOTION DESIGNER / 3D DESIGNER / 2D DESIGNER / TRADITIONAL ARTIST / HANDIMAN / ";
 
@@ -26,7 +22,7 @@ export default function Home() {
                         </span>
                     </div>
                 </div>
-                <SplineModel />
+                <TitleScene />
                 <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>
                     <div className='flex animate-scroll-left'>
                         <span className='whitespace-nowrap text-black font-semibold'>
