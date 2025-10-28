@@ -46,9 +46,9 @@ export default function TitleScene() {
                 if (width >= 1680) return 4;    // Between 3xl and 2xl
                 if (width >= 1280) return 5;      // xl: >= 1280px
                 if (width >= 768) return 6;       // md: >= 768px
-                if (width >= 640) return 7.5;     // sm: >= 640px
-                if (width >= 480) return 8;       // xs: >= 480px
-                return 8.5;                       // xxs: < 480px (smallest screens)
+                if (width >= 640) return 6.5;     // sm: >= 640px
+                if (width >= 480) return 7;       // xs: >= 480px
+                return 7.5;                       // xxs: < 480px (smallest screens)
             };
             
             camera.position.z = getCameraZ();
