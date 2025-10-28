@@ -87,7 +87,6 @@ export default function TitleScene() {
                     const size = box.getSize(new THREE.Vector3()).length();
                     const center = box.getCenter(new THREE.Vector3());
                     
-                    console.log('Model bounding box center:', center);
                     
                     // Create a pivot group at the visual center
                     const pivotGroup = new THREE.Group();
@@ -147,13 +146,11 @@ export default function TitleScene() {
                     scene.add(hemiLight);
 
                     // Setup animations
-                    console.log('Total animations found:', gltf.animations?.length);
                     if (gltf.animations && gltf.animations.length > 0) {
                         mixer = new THREE.AnimationMixer(gltf.scene);
 
                         // Create actions for all animations
                         gltf.animations.forEach((clip) => {
-                            console.log('Animation found:', clip.name);
                             const action = mixer!.clipAction(clip);
                             action.setLoop(THREE.LoopOnce, 1);
                             action.clampWhenFinished = true;
@@ -164,12 +161,7 @@ export default function TitleScene() {
                         });
                     }
                     
-                    // Log all object names in the scene
-                    console.log('All objects in scene:');
-                    gltf.scene.traverse((child) => {
-                        console.log('Object:', child.name, 'Type:', child.type);
-                    });
-
+                  
                     // Find each trigger mesh by name and store with its animation
                     interface TriggerMeshData {
                         mesh: THREE.Mesh;
@@ -181,10 +173,8 @@ export default function TitleScene() {
                     
                     // Find MATtrigger mesh
                     const matMesh = gltf.scene.getObjectByName('MATtrigger') as THREE.Mesh;
-                    console.log('MATtrigger:', matMesh);
                     if (matMesh) {
                         const anim = animationMap.get('M_Action.002');
-                        console.log('MAT animation:', anim);
                         triggers.push({
                             mesh: matMesh,
                             animation: anim,
@@ -194,10 +184,8 @@ export default function TitleScene() {
                     
                     // Find VEItrigger mesh
                     const veiMesh = gltf.scene.getObjectByName('VEItrigger') as THREE.Mesh;
-                    console.log('VEItrigger:', veiMesh);
                     if (veiMesh) {
                         const anim = animationMap.get('V_Action.002');
-                        console.log('VEI animation:', anim);
                         triggers.push({
                             mesh: veiMesh,
                             animation: anim,
@@ -207,10 +195,8 @@ export default function TitleScene() {
                     
                     // Find BRUMtrigger mesh
                     const brumMesh = gltf.scene.getObjectByName('BRUMtrigger') as THREE.Mesh;
-                    console.log('BRUMtrigger:', brumMesh);
                     if (brumMesh) {
                         const anim = animationMap.get('B_Action.002');
-                        console.log('BRUM animation:', anim);
                         triggers.push({
                             mesh: brumMesh,
                             animation: anim,
@@ -220,10 +206,8 @@ export default function TitleScene() {
                     
                     // Find BERGtrigger mesh
                     const bergMesh = gltf.scene.getObjectByName('BERGtrigger') as THREE.Mesh;
-                    console.log('BERGtrigger:', bergMesh);
                     if (bergMesh) {
                         const anim = animationMap.get('B_2_Action.002');
-                        console.log('BERG animation:', anim);
                         triggers.push({
                             mesh: bergMesh,
                             animation: anim,
@@ -231,11 +215,9 @@ export default function TitleScene() {
                         });
                     }
                     
-                    console.log('Total triggers found:', triggers.length);
 
                     // Check if device is touchscreen
                     const isTouchScreen = window.matchMedia('(pointer: coarse)').matches;
-                    console.log('Is touchscreen:', isTouchScreen);
 
                     // Auto-play animations sequentially on touchscreen devices
                     if (isTouchScreen && triggers.length > 0) {
@@ -246,7 +228,6 @@ export default function TitleScene() {
                             const trigger = triggers[currentTriggerIndex];
                             
                             if (trigger.animation) {
-                                console.log('Auto-playing animation:', currentTriggerIndex);
                                 
                                 // Play forward
                                 trigger.animation.timeScale = 2;
@@ -301,20 +282,16 @@ export default function TitleScene() {
                                 
                                 if (intersects.length > 0) {
                                     // Mouse is hovering this mesh
-                                    console.log(`Hovering trigger ${index}:`, trigger.mesh.name);
                                     foundHover = true;
                                     if (!trigger.isHovered) {
                                         // Just started hovering
-                                        console.log('Started hovering:', trigger.mesh.name);
                                         trigger.isHovered = true;
                                         
                                         if (trigger.animation) {
-                                            console.log('Playing animation forward', 'Current time:', trigger.animation.time);
                                             trigger.animation.timeScale = 2; // Play forward at 2x speed
                                             trigger.animation.paused = false;
                                             trigger.animation.play(); // Ensure it's playing
                                         } else {
-                                            console.log('No animation found for this trigger');
                                         }
                                         
                                         renderer.domElement.style.cursor = 'pointer';
@@ -323,11 +300,9 @@ export default function TitleScene() {
                                     // Mouse is not hovering this mesh
                                     if (trigger.isHovered) {
                                         // Just stopped hovering
-                                        console.log('Stopped hovering:', trigger.mesh.name);
                                         trigger.isHovered = false;
                                         
                                         if (trigger.animation) {
-                                            console.log('Playing animation backward', 'Current time:', trigger.animation.time);
                                             trigger.animation.timeScale = -2; // Play backward at 2x speed
                                             trigger.animation.paused = false;
                                             trigger.animation.play(); // Ensure it's playing
@@ -366,11 +341,7 @@ export default function TitleScene() {
                 if (mixer) {
                     mixer.update(delta);
                     
-                    // Debug mixer state every 60 frames
                     frameCount++;
-                    if (frameCount % 60 === 0) {
-                        console.log('Mixer updating, delta:', delta);
-                    }
                 }
                 
                 // Smoothly rotate model to follow mouse

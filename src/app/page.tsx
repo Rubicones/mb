@@ -5,6 +5,7 @@ import SkillCard from "@/components/SkillCard";
 import TitleScene from "@/components/TitleScene";
 import Image from "next/image";
 import { useState } from "react";
+import HighlightsSection from "@/components/HighlightsSection";
 
 export default function Home() {
     const scrollText =
@@ -45,7 +46,7 @@ export default function Home() {
                         WHO I AM
                     </span>
                     <div className='w-full flex justify-between md:flex-row flex-col flex-wrap gap-12'>
-                        <div className='uppercase text-4xl lg:text-5xl font-extralight text-justify w-full md:w-1/2 '>
+                        <div className='uppercase text-4xl lg:text-5xl xl:text-6xl font-extralight text-justify w-full md:w-1/2 '>
                             <span>
                                 I&apos;m a{" "}
                                 <span className='text-[#C8B936]'>3D</span> and
@@ -112,9 +113,29 @@ export default function Home() {
                             />
                         </div>
                     </div>
+                    <div className='w-full flex justify-start gap-4 mt-10 text-lg md:text-2xl flex-wrap'>
+                        <div className='grow flex gap-1 text-nowrap'>
+                            <span className='text-neutral-500 font-light'>
+                                Age:
+                            </span>
+                            <span className='text-white'>22</span>
+                        </div>
+                        <div className='flex gap-1 text-nowrap'>
+                            <span className='text-neutral-500 font-light'>
+                                Location:
+                            </span>
+                            <span className='text-white'>Tel-Aviv</span>
+                        </div>
+                        <div className='flex gap-1 text-nowrap'>
+                            <span className='text-neutral-500 font-light'>
+                                Smth:
+                            </span>
+                            <span className='text-white'>Here</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className=' relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-20'>
+            <div className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-20'>
                 <div className='relative w-full max-w-[1600px] flex flex-col items-center justify-between px-6 bg-neutral-900'>
                     <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
                         WHAT I CAN DO
@@ -129,6 +150,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+            <HighlightsSection/>
         </div>
     );
 }
