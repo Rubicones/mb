@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { memo } from "react";
 
 interface Project {
     Name: string;
@@ -11,7 +10,7 @@ interface Project {
     documentId: string;
 }
 
-const HighlightCard = memo(function HighlightCard({ project }: { project: Project }) {
+export default function HighlightCard({ project }: { project: Project }) {
     return (
         <>
             <a href={`/project/${project.documentId}`} className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200'>
@@ -78,6 +77,4 @@ const HighlightCard = memo(function HighlightCard({ project }: { project: Projec
             </a>
         </>
     );
-});
-
-export default HighlightCard;
+}
