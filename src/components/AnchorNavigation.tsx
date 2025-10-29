@@ -123,23 +123,21 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         scrollToSection(sectionId, scrollTo, true);
     };
 
-    const vibrate = () => {
-        try {
-            // Try Vibration API for haptic feedback
-            if (typeof window !== "undefined" && navigator.vibrate) {
-                navigator.vibrate(50); // Stronger 50ms vibration for better feedback
-            }
-        } catch {
-            // Silently fail if vibration not supported
-        }
-    };
-
     const handleTouchStart = (e: React.TouchEvent) => {
         // Prevent pull-to-refresh and other default browser behaviors
         e.preventDefault();
         setIsTouching(true);
         lastVibratedIndex.current = -1;
-        vibrate(); // Initial vibration on touch start
+        
+        // Vibrate on touch start - this is a user gesture so it should work
+        try {
+            if (typeof window !== "undefined" && navigator.vibrate) {
+                // Use shorter vibration for better UX
+                navigator.vibrate(30);
+            }
+        } catch {
+            // Silently fail if vibration not supported
+        }
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
@@ -160,8 +158,18 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
             setTouchHoverIndex(hoveredIndex);
             
             // Vibrate when crossing into a new section
+            // This is still within the user gesture context from touchstart
             if (hoveredIndex !== lastVibratedIndex.current) {
-                vibrate();
+                try {
+                    if (typeof window !== "undefined" && navigator.vibrate) {
+                        // Chrome for Android requires user gesture (touchstart counts)
+                        // Subsequent vibrations during the same touch interaction should work
+                        navigator.vibrate(30);
+                    }
+                } catch {
+                    // Silently fail
+                }
+                
                 lastVibratedIndex.current = hoveredIndex;
                 
                 // Scroll to the hovered section
