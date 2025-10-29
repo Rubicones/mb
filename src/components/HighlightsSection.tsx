@@ -52,7 +52,11 @@ export default function HighlightsSection() {
     const [progress, setProgress] = useState(0);
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
-    const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+    const [transitionState, setTransitionState] = useState<{
+        isTransitioning: boolean;
+        direction: "next" | "prev" | null;
+        animating: boolean;
+    }>({ isTransitioning: false, direction: null, animating: false });
 
     useEffect(() => {
         async function fetchHighlightedProjects() {
@@ -91,48 +95,94 @@ export default function HighlightsSection() {
     }, []);
 
     const getProjectAtIndex = (offset: number) => {
-        const index = (currentIndex + offset + projects.length) % projects.length;
+        const index =
+            (currentIndex + offset + projects.length) % projects.length;
         return projects[index];
     };
 
     const goToNext = useCallback(() => {
-        setSlideDirection('left');
-        setCurrentIndex((current) => (current + 1) % projects.length);
+        if (transitionState.isTransitioning) return;
+        
         setProgress(0);
-    }, [projects.length]);
+        // Set direction and update index (cards render at initial position)
+        setTransitionState({ isTransitioning: true, direction: "next", animating: false });
+        setCurrentIndex((current) => (current + 1) % projects.length);
+    }, [projects.length, transitionState.isTransitioning]);
 
     const goToPrevious = useCallback(() => {
-        setSlideDirection('right');
-        setCurrentIndex((current) => (current - 1 + projects.length) % projects.length);
+        if (transitionState.isTransitioning) return;
+        
         setProgress(0);
-    }, [projects.length]);
+        // Set direction and update index (cards render at initial position)
+        setTransitionState({ isTransitioning: true, direction: "prev", animating: false });
+        setCurrentIndex(
+            (current) => (current - 1 + projects.length) % projects.length
+        );
+    }, [projects.length, transitionState.isTransitioning]);
 
-    const goToIndex = useCallback((index: number) => {
-        if (index > currentIndex) {
-            setSlideDirection('left');
-        } else if (index < currentIndex) {
-            setSlideDirection('right');
+    const goToIndex = useCallback(
+        (index: number) => {
+            if (transitionState.isTransitioning || index === currentIndex) return;
+            
+            // Calculate the shortest path (forward or backward)
+            const forwardDistance = (index - currentIndex + projects.length) % projects.length;
+            const backwardDistance = (currentIndex - index + projects.length) % projects.length;
+            
+            // Choose direction based on shortest path
+            // If distances are equal, prefer forward
+            const direction = backwardDistance < forwardDistance ? "prev" : "next";
+            
+            setProgress(0);
+            setTransitionState({ isTransitioning: true, direction, animating: false });
+            setCurrentIndex(index);
+        },
+        [currentIndex, transitionState.isTransitioning, projects.length]
+    );
+    
+    // Trigger animation after index change
+    useEffect(() => {
+        if (transitionState.isTransitioning && !transitionState.animating) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setTransitionState(prev => ({ ...prev, animating: true }));
+                });
+            });
         }
-        setCurrentIndex(index);
-        setProgress(0);
-    }, [currentIndex]);
+    }, [transitionState.isTransitioning, transitionState.animating]);
+    
+    // Clear transition state after animation completes
+    useEffect(() => {
+        if (transitionState.animating) {
+            const timer = setTimeout(() => {
+                setTransitionState({ isTransitioning: false, direction: null, animating: false });
+            }, 750);
+            return () => clearTimeout(timer);
+        }
+    }, [transitionState.animating]);
 
     // Timer effect
     useEffect(() => {
-        if (projects.length === 0) return;
+        if (projects.length === 0 || transitionState.isTransitioning) return;
 
         const interval = setInterval(() => {
             setProgress((prev) => {
-                if (prev >= 100) {
-                    goToNext();
-                    return 0;
+                const newProgress = prev + 100 / (TIMER_DURATION / 50);
+                if (newProgress >= 100) {
+                    return 100;
                 }
-                return prev + (100 / (TIMER_DURATION / 50));
+                return newProgress;
             });
         }, 50);
 
         return () => clearInterval(interval);
-    }, [projects.length, goToNext]);
+    }, [projects.length, transitionState.isTransitioning]);
+    
+    // Trigger goToNext when progress reaches 100
+    useEffect(() => {
+        if (progress >= 100 && !transitionState.isTransitioning) {
+            goToNext();
+        }
+    }, [progress, transitionState.isTransitioning, goToNext]);
 
     // Minimum swipe distance (in px)
     const minSwipeDistance = 50;
@@ -148,7 +198,7 @@ export default function HighlightsSection() {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
@@ -185,46 +235,131 @@ export default function HighlightsSection() {
                 </span>
 
                 {/* Carousel Container */}
-                <div 
+                <div
                     className='relative w-full flex items-center justify-center overflow-x-visible md:overflow-hidden min-h-[600px] touch-pan-y'
                     onTouchStart={onTouchStart}
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    {/* Left Card (Faded) */}
-                    {projects.length > 1 && (
-                        <div 
-                            key={`left-${getProjectAtIndex(-1).id}`}
-                            onClick={goToPrevious}
-                            className='absolute left-[-120px] md:left-10 opacity-40 grayscale scale-[0.6] md:scale-75 -rotate-6 z-0 cursor-pointer hover:opacity-60 transition-all duration-700 ease-in-out'
-                        >
-                            <HighlightCard project={getProjectAtIndex(-1)} />
+                    {projects.length === 1 ? (
+                        <div className='relative z-10'>
+                            <HighlightCard project={projects[0]} />
                         </div>
-                    )}
+                    ) : (
+                        [-2, -1, 0, 1, 2].map((offset) => {
+                            const project = getProjectAtIndex(offset);
+                            const isLeft = offset === -1;
+                            const isCenter = offset === 0;
+                            const isRight = offset === 1;
+                            const isFarLeft = offset === -2;
+                            const isFarRight = offset === 2;
+                            
+                            // Determine visual position
+                            let visualPosition = offset; // default: -2, -1, 0, 1, 2
+                            
+                            // During transition, override positions for smooth sliding
+                            if (transitionState.isTransitioning && transitionState.direction === "next") {
+                                // Everything shifts left (all cards move one position to the left)
+                                if (isCenter) {
+                                    visualPosition = 1; // New center starts at right
+                                } else if (isLeft) {
+                                    visualPosition = 0; // New left starts at center
+                                } else if (isFarLeft) {
+                                    visualPosition = -1; // New far-left starts at left
+                                } else if (isRight) {
+                                    visualPosition = 2; // New right starts at far-right
+                                } else if (isFarRight) {
+                                    visualPosition = 3; // New far-right starts off-screen
+                                }
+                            } else if (transitionState.isTransitioning && transitionState.direction === "prev") {
+                                // Everything shifts right (all cards move one position to the right)
+                                if (isCenter) {
+                                    visualPosition = -1; // New center starts at left
+                                } else if (isRight) {
+                                    visualPosition = 0; // New right starts at center
+                                } else if (isFarRight) {
+                                    visualPosition = 1; // New far-right starts at right
+                                } else if (isLeft) {
+                                    visualPosition = -2; // New left starts at far-left
+                                } else if (isFarLeft) {
+                                    visualPosition = -3; // New far-left starts off-screen
+                                }
+                            }
+                            
+                            const getPositionStyles = (pos: number) => {
+                                const isVisualCenter = pos === 0;
+                                const isVisualLeft = pos === -1;
+                                const isVisualRight = pos === 1;
+                                const isVisualFarLeft = pos === -2;
+                                const isVisualFarRight = pos === 2;
+                                const isVisualOffLeft = pos <= -3;
+                                const isVisualOffRight = pos >= 3;
+                                
+                                // Calculate translateX - cards closer together
+                                let translateX = '0';
+                                if (isVisualOffLeft) translateX = 'calc(-150% - 8rem)';
+                                else if (isVisualFarLeft) translateX = 'calc(-100% - 5rem)';
+                                else if (isVisualLeft) translateX = 'calc(-60% - 2rem)';
+                                else if (isVisualRight) translateX = 'calc(60% + 2rem)';
+                                else if (isVisualFarRight) translateX = 'calc(100% + 5rem)';
+                                else if (isVisualOffRight) translateX = 'calc(150% + 8rem)';
+                                
+                                return {
+                                    transform: `
+                                        translateX(${translateX})
+                                        scale(${isVisualCenter ? 1 : 0.75})
+                                        rotate(${
+                                            isVisualOffLeft ? '-10deg' :
+                                            isVisualFarLeft ? '-8deg' :
+                                            isVisualLeft ? '-6deg' : 
+                                            isVisualOffRight ? '10deg' :
+                                            isVisualFarRight ? '8deg' :
+                                            isVisualRight ? '6deg' : 
+                                            '0deg'
+                                        })
+                                    `,
+                                    opacity: isVisualCenter ? 1 : 
+                                             (isVisualLeft || isVisualRight) ? 0.5 : 
+                                             0,
+                                    filter: isVisualCenter ? 'none' : 'grayscale(100%)',
+                                    zIndex: isVisualCenter ? 10 : 
+                                           (isVisualLeft || isVisualRight) ? 5 : 
+                                           0,
+                                    cursor: isCenter ? 'default' : 'pointer',
+                                    pointerEvents: (isFarLeft || isFarRight) ? 'none' : 'auto',
+                                };
+                            };
 
-                    {/* Center Card (Active) */}
-                    <div 
-                        key={`center-${getProjectAtIndex(0).id}`}
-                        className={`relative z-10 ${
-                            slideDirection === 'left' 
-                                ? 'animate-slideFromRight' 
-                                : slideDirection === 'right' 
-                                ? 'animate-slideFromLeft' 
-                                : 'animate-fadeIn'
-                        }`}
-                    >
-                        <HighlightCard project={getProjectAtIndex(0)} />
-                    </div>
-
-                    {/* Right Card (Faded) */}
-                    {projects.length > 1 && (
-                        <div 
-                            key={`right-${getProjectAtIndex(1).id}`}
-                            onClick={goToNext}
-                            className='absolute right-[-120px] md:right-10 opacity-40 grayscale scale-[0.6] md:scale-75 rotate-6 z-0 cursor-pointer hover:opacity-60 transition-all duration-700 ease-in-out'
-                        >
-                            <HighlightCard project={getProjectAtIndex(1)} />
-                        </div>
+                            const finalPosition = offset;
+                            const currentPosition = (transitionState.isTransitioning && !transitionState.animating) 
+                                ? visualPosition 
+                                : finalPosition;
+                            
+                            return (
+                                <div
+                                    key={`${project.id}-${offset}`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (isLeft) goToPrevious();
+                                        if (isRight) goToNext();
+                                    }}
+                                    className={`absolute ${transitionState.animating ? 'transition-all duration-700 ease-in-out' : ''}`}
+                                    style={getPositionStyles(currentPosition) as React.CSSProperties}
+                                    onMouseEnter={(e) => {
+                                        if (!isCenter) {
+                                            e.currentTarget.style.opacity = '0.6';
+                                        }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (!isCenter && !isFarLeft && !isFarRight) {
+                                            e.currentTarget.style.opacity = '0.5';
+                                        }
+                                    }}
+                                >
+                                    <HighlightCard project={project} />
+                                </div>
+                            );
+                        })
                     )}
                 </div>
 
@@ -233,7 +368,7 @@ export default function HighlightsSection() {
                     {projects.map((_, index) => (
                         <button
                             key={index}
-                            onClick={() => goToIndex(index)}
+                            onClick={() => {goToIndex(index)}}
                             className='relative transition-all duration-300 ease-in-out'
                         >
                             {index === currentIndex ? (

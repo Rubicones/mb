@@ -74,11 +74,11 @@ export default function CategorySection({
     return (
         <>
             {/* 3D DESIGN Category */}
-            <h2 className='py-3 px-4 flex items-center rounded-xl border-3 border-neutral-800 category category-name-3d text-3xl sm:text-4xl md:text-5xl lg:text-6xl w-full font-bold text-white mb-4 sm:mb-6 md:mb-8'>
+            <h2 className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 bottom-8 md:bottom-10 lg:bottom-15 h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
                 3D DESIGN
             </h2>
             {projects3D.length > 0 && (
-                <div className='w-full category-3d' id='3D'>
+                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-2d bg-neutral-800 rounded-b-xl p-6' id='3D'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projects3D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
@@ -86,12 +86,12 @@ export default function CategorySection({
                     </div>
                 </div>
             )}
-            <div className='py-3 px-4 flex items-center rounded-xl border-3 border-neutral-800 category category-name-2d sticky mt-6 bottom-16 md:bottom-17 lg:bottom-17 w-full h-18 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white bg-black'>
+            <div className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 bottom-12 md:bottom-15 lg:bottom-[62px] h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
                 2D DESIGN
             </div>
             {/* 2D DESIGN Category */}
             {projects2D.length > 0 && (
-                <div className='w-full category-2d mt-4' id='2D'>
+                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-2d bg-neutral-800 rounded-b-xl p-6' id='2D'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projects2D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
@@ -99,12 +99,12 @@ export default function CategorySection({
                     </div>
                 </div>
             )}
-            <div className='py-3 px-4 flex items-center rounded-xl border-3 border-neutral-800 category category-name-craft sticky mt-6 -bottom-[2px] w-full h-18 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white bg-black'>
-                HANDCRAFT
+            <div className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 -bottom-[2px] h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
+            HANDCRAFT
             </div>
             {/* MULTIDISCIPLINAR Category */}
             {projectsMulti.length > 0 && (
-                <div className='w-full category-craft mt-4' id='handcraft'>
+                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-craft bg-neutral-800 rounded-b-xl p-6' id='handcraft'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
                         {projectsMulti.map((project) => (
                             <ProjectCard key={project.id} project={project} />
