@@ -224,8 +224,8 @@ export default function Gallery({ media }: GalleryProps) {
     return (
         <>
             {/* Gallery Container */}
-            <div className='w-full mt-16 mb-4'>
-                <h2 className='text-neutral-700 text-3xl font-bold mb-4'>
+            <div className='w-full mt-10 mb-4'>
+                <h2 className='text-neutral-500 text-3xl font-extralight mb-4'>
                     Gallery
                 </h2>
 

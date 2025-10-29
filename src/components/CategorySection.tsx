@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import ProjectCard from "./ProjectCard";
 
 interface StrapiImage {
@@ -49,69 +48,64 @@ export default function CategorySection({
     projects2D,
     projectsMulti,
 }: CategorySectionProps) {
-    useEffect(() => {
-        const categories = document.querySelectorAll(".category");
-        categories.forEach((category) => {
-            console.log(category);
-            category.addEventListener("click", () => {
-                if (category.classList.contains("category-name-3d")) {
-                    document
-                        .querySelector(".category-3d")
-                        ?.scrollIntoView({ behavior: "smooth", block: "end" });
-                } else if (category.classList.contains("category-name-2d")) {
-                    document
-                        .querySelector(".category-2d")
-                        ?.scrollIntoView({ behavior: "smooth", block: "end" });
-                } else if (category.classList.contains("category-name-craft")) {
-                    document
-                        .querySelector(".category-craft")
-                        ?.scrollIntoView({ behavior: "smooth", block: "end" });
-                }
-            });
-        });
-    }, []);
-
     return (
-        <>
+        <div className='w-full flex flex-col gap-16 md:gap-20'>
             {/* 3D DESIGN Category */}
-            <h2 className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 bottom-8 md:bottom-10 lg:bottom-15 h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
-                3D DESIGN
-            </h2>
             {projects3D.length > 0 && (
-                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-2d bg-neutral-800 rounded-b-xl p-6' id='3D'>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                <div className='w-full'>
+                    <div className='mb-6 md:mb-8'>
+                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                            3D DESIGN
+                        </h2>
+                        <p className='text-neutral-400 text-sm md:text-base'>
+                            Modeling / Texturing / Animation / Render
+                        </p>
+                    </div>
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
                         {projects3D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
                 </div>
             )}
-            <div className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 bottom-12 md:bottom-15 lg:bottom-[62px] h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
-                2D DESIGN
-            </div>
+
             {/* 2D DESIGN Category */}
             {projects2D.length > 0 && (
-                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-2d bg-neutral-800 rounded-b-xl p-6' id='2D'>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                <div className='w-full'>
+                    <div className='mb-6 md:mb-8'>
+                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                            2D DESIGN
+                        </h2>
+                        <p className='text-neutral-400 text-sm md:text-base'>
+                            Design creation / Animation / Special effects
+                        </p>
+                    </div>
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
                         {projects2D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
                 </div>
             )}
-            <div className='p-2 px-6 rounded-t-xl w-full border-t-4 border-l-4 border-r-4 border-neutral-700 bg-neutral-800 pb-2 category category-name-2d sticky mt-6 -bottom-[2px] h-16 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white'>
-            HANDCRAFT
-            </div>
-            {/* MULTIDISCIPLINAR Category */}
+
+            {/* HANDCRAFT Category */}
             {projectsMulti.length > 0 && (
-                <div className='w-full border-b-4 border-l-4 border-r-4 border-neutral-700 category-craft bg-neutral-800 rounded-b-xl p-6' id='handcraft'>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
+                <div className='w-full'>
+                    <div className='mb-6 md:mb-8'>
+                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                            HANDCRAFT
+                        </h2>
+                        <p className='text-neutral-400 text-sm md:text-base'>
+                            Design creation / Animation / Special effects
+                        </p>
+                    </div>
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
                         {projectsMulti.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }

@@ -103,7 +103,6 @@ export default function HighlightsSection() {
             
             // Check if section is in viewport
             const visible = rect.top < windowHeight && rect.bottom > 0;
-            console.log('visible', visible);
             // Reset timer when becoming visible
             if (visible && !isVisible) {
                 setProgressKey(prev => prev + 1);
@@ -148,12 +147,12 @@ export default function HighlightsSection() {
 
     // Initialize: scroll to second card
     useEffect(() => {
-        if (projects.length > 1) {
+        if (projects.length > 1 && isVisible) {
             setTimeout(() => {
                 scrollToCard(1);
             }, 100);
         }
-    }, [projects, scrollToCard]);
+    }, [projects, scrollToCard, isVisible]);
 
     // Update card styles based on scroll position
     useEffect(() => {
@@ -226,6 +225,7 @@ export default function HighlightsSection() {
 
     // Auto-advance timer (only when visible)
     useEffect(() => {
+        console.log('isVisible', isVisible);
         if (projects.length === 0 || !isVisible) return;
 
         const timer = setTimeout(() => {
@@ -256,7 +256,7 @@ export default function HighlightsSection() {
     }
 
     return (
-        <div ref={sectionRef} className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
+        <div  className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
             <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
                 <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
                     MY TOPS
@@ -306,7 +306,7 @@ export default function HighlightsSection() {
                 </div>
 
                 {/* Navigation Dots with Progress */}
-                <div className='flex items-center gap-2 justify-center mt-4'>
+                <div className='flex items-center gap-2 justify-center mt-4' ref={sectionRef}>
                     {projects.map((project, index) => (
                         <button
                             key={project.id}

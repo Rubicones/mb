@@ -26,10 +26,9 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
-        <Link href={`/project/${project.documentId}`} className='block'>
-            <div className=' group cursor-pointer relative rounded-lg bg-transparent'>
-            {project.Cover && (
-                <div className='w-full aspect-4/5 rounded-lg overflow-hidden relative'>
+        <Link href={`/project/${project.documentId}`} className='block group'>
+            <div className='relative w-full aspect-[3/4] overflow-hidden rounded-2xl'>
+                {project.Cover && (
                     <Image
                         src={
                             project.Cover.url.startsWith("http")
@@ -38,44 +37,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                         }
                         alt={project.Cover.alternativeText || project.Name}
                         fill
-                        className='object-cover mouse:group-hover:scale-110 transition-transform duration-300'
+                        className='object-cover transition-transform duration-300 group-hover:scale-105'
                     />
-                </div>
-            )}
-             {/* Hover Overlay - Always visible on touch devices, hover on mouse devices */}
-             <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 touch:gap-4 mouse:gap-4 p-4 touch:p-6 mouse:p-6 rounded-lg opacity-100 mouse:opacity-0 mouse:group-hover:bg-linear-to-t from-black/90 via-transparent to-transparent mouse:group-hover:opacity-100 mouse:group-hover:backdrop-blur-sm transition-all duration-300 z-40'>
-                 {/* Touch device background overlay for text readability */}
-                 <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent touch:block mouse:hidden'></div>
-                {/* Program Icons */}
-                {project.Programs && project.Programs.length > 0 && (
-                    <div className='flex flex-wrap gap-2 touch:gap-3 mouse:gap-3 justify-center relative z-10'>
-                        {project.Programs.map((program) => (
-                            <div
-                                key={program.id}
-                                className='flex items-center gap-2'
-                            >
-                                {program.Icon && (
-                                    <Image
-                                        src={
-                                            program.Icon.url.startsWith("http")
-                                                ? program.Icon.url
-                                                : `https://authentic-splendor-f67c9d75a4.strapiapp.com${program.Icon.url}`
-                                        }
-                                        alt={
-                                            program.Icon.alternativeText ||
-                                            program.Name
-                                        }
-                                         width={48}
-                                         height={48}
-                                        className='object-contain'
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </div>
                 )}
-                 <span className='text-white text-5xl font-bold uppercase drop-shadow-lg relative z-10'>{project.Name}</span>
-            </div>
+                
+                {/* Hover Overlay - Always visible on touch devices, hover on mouse devices */}
+                <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end items-start gap-2 touch:gap-4 mouse:gap-4 p-4 touch:p-2 mouse:p-6 opacity-100 mouse:opacity-0 mouse:group-hover:opacity-100 transition-all duration-300 z-40'>
+                    {/* Touch device background overlay for text readability */}
+                    <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent touch:block mouse:hidden'></div>
+                    <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent opacity-0 mouse:group-hover:opacity-100 transition-opacity duration-300'></div>
+                    
+                    <span className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold uppercase drop-shadow-lg relative z-10'>{project.Name}</span>
+                </div>
             </div>
         </Link>
     );

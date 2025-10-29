@@ -149,13 +149,16 @@ export default async function Portfolio() {
 
     return (
         <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden'>
-            <div className='w-screen h-full  flex flex-col items-center bg-black '>
+            <div className='w-screen h-full flex flex-col items-center bg-black'>
                 <Header />
-                <div className='w-full flex flex-col justify-center items-center bg-black z-50 px-4 '>
-                    <main className='max-w-[1920px] w-full flex flex-col items-start mouse:px-6 pt-8 mouse:pt-12 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
-                        <span className='text-5xl mouse:text-6xl md:text-7xl lg:text-[7rem] font-bold text-white text-left mb-8 mouse:mb-12 md:mb-16'>
-                            PORTFOLIO
-                        </span>
+                <div className='w-full flex flex-col justify-center items-center bg-black z-50 px-4 md:px-8 lg:px-12'>
+                    <main className='max-w-[1920px] w-full flex flex-col items-start pt-8 md:pt-12 pb-16 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
+                        <div className='mb-12 md:mb-16'>
+                            <h1 className='text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white uppercase'>
+                                PORTFOLIO
+                            </h1>
+                            <div className='w-full h-[2px] bg-white mt-2'></div>
+                        </div>
 
                         {projects.length === 0 ? (
                             <div className='text-center py-12'>
