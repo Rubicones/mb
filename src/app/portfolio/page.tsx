@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import CategorySection from "@/components/CategorySection";
+import AnchorNavigation from "@/components/AnchorNavigation";
 interface StrapiImage {
     id: number;
     url: string;
@@ -147,10 +148,17 @@ export default async function Portfolio() {
         (project) => project.Category === "c_Craft"
     );
 
+    const anchorSections = [
+        { id: "section-3d", label: "3D", scrollTo: "header" as const },
+        { id: "section-2d", label: "2D", scrollTo: "section" as const },
+        { id: "section-hc", label: "HC", scrollTo: "section" as const },
+    ];
+
     return (
         <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-black'>
                 <Header />
+                <AnchorNavigation sections={anchorSections} />
                 <div className='w-full flex flex-col justify-center items-center bg-black z-50 px-4 md:px-8 lg:px-12'>
                     <main className='max-w-[1920px] w-full flex flex-col items-start pt-8 md:pt-12 pb-16 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
                         <div className='mb-12 md:mb-16'>

@@ -52,7 +52,7 @@ export default function CategorySection({
         <div className='w-full flex flex-col gap-16 md:gap-20'>
             {/* 3D DESIGN Category */}
             {projects3D.length > 0 && (
-                <div className='w-full'>
+                <div id="section-3d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
                             3D DESIGN
@@ -71,7 +71,7 @@ export default function CategorySection({
 
             {/* 2D DESIGN Category */}
             {projects2D.length > 0 && (
-                <div className='w-full'>
+                <div id="section-2d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
                             2D DESIGN
@@ -90,7 +90,7 @@ export default function CategorySection({
 
             {/* HANDCRAFT Category */}
             {projectsMulti.length > 0 && (
-                <div className='w-full'>
+                <div id="section-hc" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
                             HANDCRAFT
