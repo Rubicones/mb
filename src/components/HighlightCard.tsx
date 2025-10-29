@@ -7,6 +7,7 @@ interface Project {
     Cover: {
         url: string;
     };
+    documentId: string;
 }
 
 export default function HighlightCard({ project }: { project: Project }) {
