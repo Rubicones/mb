@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import HighlightCard from "./HighlightCard";
 
 interface StrapiImage {
@@ -45,11 +45,122 @@ interface StrapiResponse {
 
 const TIMER_DURATION = 5000; // 5 seconds per slide
 
+// Memoized carousel card component to prevent unnecessary re-renders
+const CarouselCard = memo(({ 
+    project, 
+    offset, 
+    isTransitioning, 
+    direction, 
+    animating,
+    onCardClick 
+}: { 
+    project: Project;
+    offset: number;
+    isTransitioning: boolean;
+    direction: "next" | "prev" | null;
+    animating: boolean;
+    onCardClick: () => void;
+}) => {
+    const isLeft = offset === -1;
+    const isCenter = offset === 0;
+    const isRight = offset === 1;
+    const isFarLeft = offset === -2;
+    const isFarRight = offset === 2;
+    
+    // Determine visual position
+    let visualPosition = offset;
+    
+    // During transition, override positions for smooth sliding
+    if (isTransitioning && direction === "next") {
+        if (isCenter) visualPosition = 1;
+        else if (isLeft) visualPosition = 0;
+        else if (isFarLeft) visualPosition = -1;
+        else if (isRight) visualPosition = 2;
+        else if (isFarRight) visualPosition = 3;
+    } else if (isTransitioning && direction === "prev") {
+        if (isCenter) visualPosition = -1;
+        else if (isRight) visualPosition = 0;
+        else if (isFarRight) visualPosition = 1;
+        else if (isLeft) visualPosition = -2;
+        else if (isFarLeft) visualPosition = -3;
+    }
+    
+    const currentPosition = (isTransitioning && !animating) ? visualPosition : offset;
+    
+    const isVisualCenter = currentPosition === 0;
+    const isVisualLeft = currentPosition === -1;
+    const isVisualRight = currentPosition === 1;
+    const isVisualFarLeft = currentPosition === -2;
+    const isVisualFarRight = currentPosition === 2;
+    const isVisualOffLeft = currentPosition <= -3;
+    const isVisualOffRight = currentPosition >= 3;
+    
+    // Calculate translateX - memoized
+    let translateX = '0';
+    if (isVisualOffLeft) translateX = 'calc(-150% - 8rem)';
+    else if (isVisualFarLeft) translateX = 'calc(-100% - 5rem)';
+    else if (isVisualLeft) translateX = 'calc(-60% - 2rem)';
+    else if (isVisualRight) translateX = 'calc(60% + 2rem)';
+    else if (isVisualFarRight) translateX = 'calc(100% + 5rem)';
+    else if (isVisualOffRight) translateX = 'calc(150% + 8rem)';
+    
+    const positionStyles = {
+        transform: `
+            translateX(${translateX})
+            scale(${isVisualCenter ? 1 : 0.75})
+            rotate(${
+                isVisualOffLeft ? '-10deg' :
+                isVisualFarLeft ? '-8deg' :
+                isVisualLeft ? '-6deg' : 
+                isVisualOffRight ? '10deg' :
+                isVisualFarRight ? '8deg' :
+                isVisualRight ? '6deg' : 
+                '0deg'
+            })
+        `,
+        opacity: isVisualCenter ? 1 : 
+                 (isVisualLeft || isVisualRight) ? 0.5 : 
+                 0,
+        filter: isVisualCenter ? 'none' : 'grayscale(100%)',
+        zIndex: isVisualCenter ? 10 : 
+               (isVisualLeft || isVisualRight) ? 5 : 
+               0,
+        cursor: isCenter ? 'default' : 'pointer',
+        pointerEvents: (isFarLeft || isFarRight) ? 'none' : 'auto',
+    } as React.CSSProperties;
+
+    const [localOpacity, setLocalOpacity] = useState<number | undefined>();
+
+    return (
+        <div
+            key={`${project.id}-${offset}`}
+            onClick={(e) => {
+                e.stopPropagation();
+                if (isLeft || isRight) onCardClick();
+            }}
+            className={`absolute ${animating ? 'transition-all duration-700 ease-in-out' : ''}`}
+            style={{ ...positionStyles, opacity: localOpacity ?? positionStyles.opacity }}
+            onMouseEnter={() => {
+                if (!isCenter) setLocalOpacity(0.6);
+            }}
+            onMouseLeave={() => {
+                if (!isCenter && !isFarLeft && !isFarRight) {
+                    setLocalOpacity(undefined);
+                }
+            }}
+        >
+            <HighlightCard project={project} />
+        </div>
+    );
+});
+
+CarouselCard.displayName = 'CarouselCard';
+
 export default function HighlightsSection() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [progress, setProgress] = useState(0);
+    const [progressKey, setProgressKey] = useState(0); // Key to trigger progress animation restart
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
     const [transitionState, setTransitionState] = useState<{
@@ -94,17 +205,16 @@ export default function HighlightsSection() {
         fetchHighlightedProjects();
     }, []);
 
-    const getProjectAtIndex = (offset: number) => {
+    const getProjectAtIndex = useCallback((offset: number) => {
         const index =
             (currentIndex + offset + projects.length) % projects.length;
         return projects[index];
-    };
+    }, [currentIndex, projects]);
 
     const goToNext = useCallback(() => {
         if (transitionState.isTransitioning) return;
         
-        setProgress(0);
-        // Set direction and update index (cards render at initial position)
+        setProgressKey(prev => prev + 1);
         setTransitionState({ isTransitioning: true, direction: "next", animating: false });
         setCurrentIndex((current) => (current + 1) % projects.length);
     }, [projects.length, transitionState.isTransitioning]);
@@ -112,8 +222,7 @@ export default function HighlightsSection() {
     const goToPrevious = useCallback(() => {
         if (transitionState.isTransitioning) return;
         
-        setProgress(0);
-        // Set direction and update index (cards render at initial position)
+        setProgressKey(prev => prev + 1);
         setTransitionState({ isTransitioning: true, direction: "prev", animating: false });
         setCurrentIndex(
             (current) => (current - 1 + projects.length) % projects.length
@@ -129,10 +238,9 @@ export default function HighlightsSection() {
             const backwardDistance = (currentIndex - index + projects.length) % projects.length;
             
             // Choose direction based on shortest path
-            // If distances are equal, prefer forward
             const direction = backwardDistance < forwardDistance ? "prev" : "next";
             
-            setProgress(0);
+            setProgressKey(prev => prev + 1);
             setTransitionState({ isTransitioning: true, direction, animating: false });
             setCurrentIndex(index);
         },
@@ -160,29 +268,16 @@ export default function HighlightsSection() {
         }
     }, [transitionState.animating]);
 
-    // Timer effect
+    // Auto-advance timer - triggers goToNext when timer completes
     useEffect(() => {
         if (projects.length === 0 || transitionState.isTransitioning) return;
 
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                const newProgress = prev + 100 / (TIMER_DURATION / 50);
-                if (newProgress >= 100) {
-                    return 100;
-                }
-                return newProgress;
-            });
-        }, 50);
-
-        return () => clearInterval(interval);
-    }, [projects.length, transitionState.isTransitioning]);
-    
-    // Trigger goToNext when progress reaches 100
-    useEffect(() => {
-        if (progress >= 100 && !transitionState.isTransitioning) {
+        const timer = setTimeout(() => {
             goToNext();
-        }
-    }, [progress, transitionState.isTransitioning, goToNext]);
+        }, TIMER_DURATION);
+
+        return () => clearTimeout(timer);
+    }, [projects.length, transitionState.isTransitioning, goToNext, progressKey]);
 
     // Minimum swipe distance (in px)
     const minSwipeDistance = 50;
@@ -248,116 +343,17 @@ export default function HighlightsSection() {
                     ) : (
                         [-2, -1, 0, 1, 2].map((offset) => {
                             const project = getProjectAtIndex(offset);
-                            const isLeft = offset === -1;
-                            const isCenter = offset === 0;
-                            const isRight = offset === 1;
-                            const isFarLeft = offset === -2;
-                            const isFarRight = offset === 2;
-                            
-                            // Determine visual position
-                            let visualPosition = offset; // default: -2, -1, 0, 1, 2
-                            
-                            // During transition, override positions for smooth sliding
-                            if (transitionState.isTransitioning && transitionState.direction === "next") {
-                                // Everything shifts left (all cards move one position to the left)
-                                if (isCenter) {
-                                    visualPosition = 1; // New center starts at right
-                                } else if (isLeft) {
-                                    visualPosition = 0; // New left starts at center
-                                } else if (isFarLeft) {
-                                    visualPosition = -1; // New far-left starts at left
-                                } else if (isRight) {
-                                    visualPosition = 2; // New right starts at far-right
-                                } else if (isFarRight) {
-                                    visualPosition = 3; // New far-right starts off-screen
-                                }
-                            } else if (transitionState.isTransitioning && transitionState.direction === "prev") {
-                                // Everything shifts right (all cards move one position to the right)
-                                if (isCenter) {
-                                    visualPosition = -1; // New center starts at left
-                                } else if (isRight) {
-                                    visualPosition = 0; // New right starts at center
-                                } else if (isFarRight) {
-                                    visualPosition = 1; // New far-right starts at right
-                                } else if (isLeft) {
-                                    visualPosition = -2; // New left starts at far-left
-                                } else if (isFarLeft) {
-                                    visualPosition = -3; // New far-left starts off-screen
-                                }
-                            }
-                            
-                            const getPositionStyles = (pos: number) => {
-                                const isVisualCenter = pos === 0;
-                                const isVisualLeft = pos === -1;
-                                const isVisualRight = pos === 1;
-                                const isVisualFarLeft = pos === -2;
-                                const isVisualFarRight = pos === 2;
-                                const isVisualOffLeft = pos <= -3;
-                                const isVisualOffRight = pos >= 3;
-                                
-                                // Calculate translateX - cards closer together
-                                let translateX = '0';
-                                if (isVisualOffLeft) translateX = 'calc(-150% - 8rem)';
-                                else if (isVisualFarLeft) translateX = 'calc(-100% - 5rem)';
-                                else if (isVisualLeft) translateX = 'calc(-60% - 2rem)';
-                                else if (isVisualRight) translateX = 'calc(60% + 2rem)';
-                                else if (isVisualFarRight) translateX = 'calc(100% + 5rem)';
-                                else if (isVisualOffRight) translateX = 'calc(150% + 8rem)';
-                                
-                                return {
-                                    transform: `
-                                        translateX(${translateX})
-                                        scale(${isVisualCenter ? 1 : 0.75})
-                                        rotate(${
-                                            isVisualOffLeft ? '-10deg' :
-                                            isVisualFarLeft ? '-8deg' :
-                                            isVisualLeft ? '-6deg' : 
-                                            isVisualOffRight ? '10deg' :
-                                            isVisualFarRight ? '8deg' :
-                                            isVisualRight ? '6deg' : 
-                                            '0deg'
-                                        })
-                                    `,
-                                    opacity: isVisualCenter ? 1 : 
-                                             (isVisualLeft || isVisualRight) ? 0.5 : 
-                                             0,
-                                    filter: isVisualCenter ? 'none' : 'grayscale(100%)',
-                                    zIndex: isVisualCenter ? 10 : 
-                                           (isVisualLeft || isVisualRight) ? 5 : 
-                                           0,
-                                    cursor: isCenter ? 'default' : 'pointer',
-                                    pointerEvents: (isFarLeft || isFarRight) ? 'none' : 'auto',
-                                };
-                            };
-
-                            const finalPosition = offset;
-                            const currentPosition = (transitionState.isTransitioning && !transitionState.animating) 
-                                ? visualPosition 
-                                : finalPosition;
                             
                             return (
-                                <div
+                                <CarouselCard
                                     key={`${project.id}-${offset}`}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (isLeft) goToPrevious();
-                                        if (isRight) goToNext();
-                                    }}
-                                    className={`absolute ${transitionState.animating ? 'transition-all duration-700 ease-in-out' : ''}`}
-                                    style={getPositionStyles(currentPosition) as React.CSSProperties}
-                                    onMouseEnter={(e) => {
-                                        if (!isCenter) {
-                                            e.currentTarget.style.opacity = '0.6';
-                                        }
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        if (!isCenter && !isFarLeft && !isFarRight) {
-                                            e.currentTarget.style.opacity = '0.5';
-                                        }
-                                    }}
-                                >
-                                    <HighlightCard project={project} />
-                                </div>
+                                    project={project}
+                                    offset={offset}
+                                    isTransitioning={transitionState.isTransitioning}
+                                    direction={transitionState.direction}
+                                    animating={transitionState.animating}
+                                    onCardClick={offset === -1 ? goToPrevious : goToNext}
+                                />
                             );
                         })
                     )}
@@ -374,8 +370,13 @@ export default function HighlightsSection() {
                             {index === currentIndex ? (
                                 <div className='relative w-12 h-3 bg-neutral-700 rounded-full overflow-hidden transition-all duration-300 ease-in-out'>
                                     <div
-                                        className='absolute top-0 left-0 h-full bg-[#C8B936] transition-all duration-100 ease-linear'
-                                        style={{ width: `${progress}%` }}
+                                        key={progressKey}
+                                        className='absolute top-0 left-0 h-full bg-[#C8B936] animate-progress-bar'
+                                        style={{
+                                            animation: transitionState.isTransitioning 
+                                                ? 'none' 
+                                                : `progressBar ${TIMER_DURATION}ms linear forwards`
+                                        }}
                                     />
                                 </div>
                             ) : (

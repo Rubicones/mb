@@ -11,13 +11,13 @@ export default function Header() {
         <>
             <header className='bg-black w-screen h-16 flex justify-center px-4'>
                 <div className='relative w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
-                    <SplineLogo />
+                    {/* <SplineLogo /> */}
                     
                     {/* Desktop Navigation */}
                     <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>
-                        <a className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'>
+                        <Link href='/' className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'>
                             ABOUT&nbsp;ME
-                        </a>
+                        </Link>
                         <Link
                             className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'
                             href='/portfolio'

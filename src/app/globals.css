@@ -94,6 +94,15 @@ body {
     }
 }
 
+@keyframes progressBar {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
 @keyframes slideFromRight {
     from {
         transform: translateX(100px);
