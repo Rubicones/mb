@@ -182,3 +182,14 @@ body {
 main > * {
     z-index: 50;
 }
+
+/* Performance optimizations for scrolling */
+.no-scrollbar {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

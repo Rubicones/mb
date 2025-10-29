@@ -154,12 +154,20 @@ export default function HighlightsSection() {
         }
     }, [projects, scrollToCard, isVisible]);
 
-    // Update card styles based on scroll position
+    // Update card styles based on scroll position (optimized for mobile)
     useEffect(() => {
         const container = scrollContainerRef.current;
         if (!container) return;
 
+        let rafId: number | null = null;
+        let lastScrollTime = 0;
+        const THROTTLE_MS = 16; // ~60fps
+
         const updateCardStyles = () => {
+            const now = Date.now();
+            if (now - lastScrollTime < THROTTLE_MS) return;
+            lastScrollTime = now;
+
             const containerRect = container.getBoundingClientRect();
             const centerX = containerRect.left + containerRect.width / 2;
             let closestIndex = 0;
@@ -169,10 +177,8 @@ export default function HighlightsSection() {
                 const cardRect = card.getBoundingClientRect();
                 const cardCenterX = cardRect.left + cardRect.width / 2;
                 
-                // Calculate distance from center (0 = at center, 1 = at edge or beyond)
+                // Calculate distance from center
                 const distanceFromCenter = Math.abs(cardCenterX - centerX);
-                const maxDistance = containerRect.width / 2;
-                const normalizedDistance = Math.min(distanceFromCenter / maxDistance, 1);
                 
                 // Track which card is closest to center
                 if (distanceFromCenter < closestDistance) {
@@ -181,14 +187,28 @@ export default function HighlightsSection() {
                     if (index !== -1) closestIndex = index;
                 }
                 
+                // Only apply transforms to cards within viewport + 1 card buffer
+                const isInRange = cardRect.right > -200 && cardRect.left < window.innerWidth + 200;
+                
+                if (!isInRange) {
+                    // Reset off-screen cards to default state
+                    card.style.transform = 'scale(0.75) translate3d(0, 80px, 0)';
+                    card.style.filter = 'grayscale(100%)';
+                    card.style.opacity = '0.5';
+                    return;
+                }
+                
+                const maxDistance = containerRect.width / 2;
+                const normalizedDistance = Math.min(distanceFromCenter / maxDistance, 1);
+                
                 // Scale: 1.0 at center, 0.75 at edges
                 const scale = 1 - (normalizedDistance * 0.25);
                 
                 // Grayscale: 0% at center, 100% at edges
                 const grayscale = normalizedDistance * 100;
                 
-                // Opacity: 1 at center, 0.5 at edges
-                const opacity = 1 - (normalizedDistance * 0.5);
+                // Opacity: 1 at center, 0.5 at edges (clamped to prevent white cards)
+                const opacity = Math.max(0.5, 1 - (normalizedDistance * 0.5));
                 
                 // Rotation: 0deg at center, ±8deg at edges (based on side)
                 const rotation = (cardCenterX < centerX ? -1 : 1) * normalizedDistance * 8;
@@ -196,7 +216,8 @@ export default function HighlightsSection() {
                 // Vertical displacement: 0px at center, 80px lower at edges
                 const translateY = normalizedDistance * 80;
 
-                card.style.transform = `scale(${scale}) rotate(${rotation}deg) translateY(${translateY}px)`;
+                // Use translate3d for better hardware acceleration
+                card.style.transform = `scale(${scale}) rotate(${rotation}deg) translate3d(0, ${translateY}px, 0)`;
                 card.style.filter = `grayscale(${grayscale}%)`;
                 card.style.opacity = `${opacity}`;
             });
@@ -208,18 +229,34 @@ export default function HighlightsSection() {
             }
         };
 
-        // Update on scroll
-        container.addEventListener('scroll', updateCardStyles);
+        const handleScroll = () => {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            rafId = requestAnimationFrame(updateCardStyles);
+        };
+
+        // Update on scroll with RAF
+        container.addEventListener('scroll', handleScroll, { passive: true });
         
         // Initial update
         updateCardStyles();
         
-        // Update on window resize
-        window.addEventListener('resize', updateCardStyles);
+        // Update on window resize (debounced)
+        let resizeTimeout: NodeJS.Timeout;
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateCardStyles, 100);
+        };
+        window.addEventListener('resize', handleResize);
 
         return () => {
-            container.removeEventListener('scroll', updateCardStyles);
-            window.removeEventListener('resize', updateCardStyles);
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            container.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+            clearTimeout(resizeTimeout);
         };
     }, [projects, currentIndex]);
 
@@ -265,10 +302,10 @@ export default function HighlightsSection() {
                 {/* Scroll Container with Edge Gradients */}
                 <div className='relative w-full'>
                     {/* Left gradient overlay */}
-                    <div className='absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-r from-neutral-900 to-transparent z-10 pointer-events-none' />
+                    <div className='absolute left-0 top-0 bottom-0 w-10 md:w-32 bg-linear-to-r from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
                     {/* Right gradient overlay */}
-                    <div className='absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-l from-neutral-900 to-transparent z-10 pointer-events-none' />
+                    <div className='absolute right-0 top-0 bottom-0 w-10 md:w-32 bg-linear-to-l from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
                     {/* Scrollable container */}
                     <div
@@ -294,7 +331,10 @@ export default function HighlightsSection() {
                                 className='shrink-0 transition-all duration-300 ease-out'
                                 style={{
                                     scrollSnapAlign: 'center',
-                                    }}
+                                    willChange: 'transform, opacity',
+                                    backfaceVisibility: 'hidden',
+                                    WebkitBackfaceVisibility: 'hidden',
+                                }}
                                 >
                                     <HighlightCard project={project} />
                                 </div>
