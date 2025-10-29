@@ -50,9 +50,11 @@ export default function HighlightsSection() {
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(1); // Start with second card
     const [progressKey, setProgressKey] = useState(0);
+    const [isVisible, setIsVisible] = useState(false); // Don't start timer until scrolled to
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<Map<number, HTMLDivElement>>(new Map());
     const isScrollingRef = useRef(false);
+    const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         async function fetchHighlightedProjects() {
@@ -89,6 +91,39 @@ export default function HighlightsSection() {
 
         fetchHighlightedProjects();
     }, []);
+
+    // Simple scroll-based visibility detection
+    useEffect(() => {
+        const checkVisibility = () => {
+            const section = sectionRef.current;
+            if (!section) return;
+
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Check if section is in viewport
+            const visible = rect.top < windowHeight && rect.bottom > 0;
+            console.log('visible', visible);
+            // Reset timer when becoming visible
+            if (visible && !isVisible) {
+                setProgressKey(prev => prev + 1);
+            }
+            
+            setIsVisible(visible);
+        };
+
+        // Check on mount
+        checkVisibility();
+
+        // Check on scroll
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('resize', checkVisibility);
+
+        return () => {
+            window.removeEventListener('scroll', checkVisibility);
+            window.removeEventListener('resize', checkVisibility);
+        };
+    }, [isVisible]);
 
     // Scroll to a specific card
     const scrollToCard = useCallback((index: number) => {
@@ -159,15 +194,15 @@ export default function HighlightsSection() {
                 // Rotation: 0deg at center, ±8deg at edges (based on side)
                 const rotation = (cardCenterX < centerX ? -1 : 1) * normalizedDistance * 8;
                 
-                // Vertical displacement: 0px at center, 40px lower at edges
-                const translateY = normalizedDistance * 40;
+                // Vertical displacement: 0px at center, 80px lower at edges
+                const translateY = normalizedDistance * 80;
 
                 card.style.transform = `scale(${scale}) rotate(${rotation}deg) translateY(${translateY}px)`;
                 card.style.filter = `grayscale(${grayscale}%)`;
                 card.style.opacity = `${opacity}`;
             });
 
-            // Update current index if not actively scrolling from timer
+            // Update current index if not actively scrolling
             if (!isScrollingRef.current && closestIndex !== currentIndex) {
                 setCurrentIndex(closestIndex);
                 setProgressKey(prev => prev + 1);
@@ -189,9 +224,9 @@ export default function HighlightsSection() {
         };
     }, [projects, currentIndex]);
 
-    // Auto-advance timer
+    // Auto-advance timer (only when visible)
     useEffect(() => {
-        if (projects.length === 0) return;
+        if (projects.length === 0 || !isVisible) return;
 
         const timer = setTimeout(() => {
             const nextIndex = (currentIndex + 1) % projects.length;
@@ -201,7 +236,7 @@ export default function HighlightsSection() {
         }, TIMER_DURATION);
 
         return () => clearTimeout(timer);
-    }, [projects.length, currentIndex, scrollToCard]);
+    }, [projects.length, currentIndex, isVisible, scrollToCard]);
 
     if (isLoading) {
         return (
@@ -221,8 +256,8 @@ export default function HighlightsSection() {
     }
 
     return (
-        <div className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
-            <div className='relative w-full max-w-[1600px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
+        <div ref={sectionRef} className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
+            <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
                 <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
                     MY TOPS
                 </span>
@@ -230,21 +265,21 @@ export default function HighlightsSection() {
                 {/* Scroll Container with Edge Gradients */}
                 <div className='relative w-full'>
                     {/* Left gradient overlay */}
-                    <div className='absolute left-0 top-0 bottom-0 w-32 md:w-64 bg-linear-to-r from-neutral-900 to-transparent z-10 pointer-events-none' />
+                    <div className='absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-r from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
                     {/* Right gradient overlay */}
-                    <div className='absolute right-0 top-0 bottom-0 w-32 md:w-64 bg-linear-to-l from-neutral-900 to-transparent z-10 pointer-events-none' />
+                    <div className='absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-l from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
                     {/* Scrollable container */}
                     <div
                         ref={scrollContainerRef}
-                        className='flex gap-4 md:gap-6 overflow-x-auto py-8 px-4 md:px-8 no-scrollbar scroll-smooth'
+                        className='flex gap-0.5 md:gap-1 overflow-x-auto py-8 px-4 md:px-8 no-scrollbar scroll-smooth'
                         style={{
                             scrollSnapType: 'x mandatory',
                         }}
                     >
                         {/* Spacer to center first card - responsive for mobile (300px) and desktop (700px) */}
-                        <div className='shrink-0 w-[calc(50vw-150px-0.5rem)] md:w-[calc(50%-350px-1.5rem)]' />
+                        <div className='shrink-0 w-[calc(50vw-150px-0.0625rem)] md:w-[calc(50%-350px-0.125rem)]' />
                         
                         {projects.map((project) => (
                             <div
@@ -266,7 +301,7 @@ export default function HighlightsSection() {
                         ))}
                         
                         {/* Spacer to center last card - responsive for mobile (300px) and desktop (700px) */}
-                        <div className='shrink-0 w-[calc(50vw-150px-0.5rem)] md:w-[calc(50%-350px-1.5rem)]' />
+                        <div className='shrink-0 w-[calc(50vw-150px-0.0625rem)] md:w-[calc(50%-350px-0.125rem)]' />
                     </div>
                 </div>
 
@@ -284,13 +319,15 @@ export default function HighlightsSection() {
                         >
                             {index === currentIndex ? (
                                 <div className='relative w-12 h-3 bg-neutral-700 rounded-full overflow-hidden transition-all duration-300 ease-in-out'>
-                                    <div
-                                        key={progressKey}
-                                        className='absolute top-0 left-0 h-full bg-[#C8B936]'
-                                        style={{
-                                            animation: `progressBar ${TIMER_DURATION}ms linear forwards`
-                                        }}
-                                    />
+                                    {isVisible && (
+                                        <div
+                                            key={progressKey}
+                                            className='absolute top-0 left-0 h-full bg-[#C8B936]'
+                                            style={{
+                                                animation: `progressBar ${TIMER_DURATION}ms linear forwards`
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             ) : (
                                 <div className='w-3 h-3 rounded-full bg-white transition-all duration-300 ease-in-out' />
