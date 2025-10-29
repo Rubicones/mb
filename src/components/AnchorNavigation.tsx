@@ -124,18 +124,29 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     };
 
     const vibrate = () => {
-        if (typeof window !== "undefined" && "vibrate" in navigator) {
-            navigator.vibrate(10); // Short 10ms vibration
+        try {
+            // Try Vibration API for haptic feedback
+            if (typeof window !== "undefined" && navigator.vibrate) {
+                navigator.vibrate(50); // Stronger 50ms vibration for better feedback
+            }
+        } catch {
+            // Silently fail if vibration not supported
         }
     };
 
-    const handleTouchStart = () => {
+    const handleTouchStart = (e: React.TouchEvent) => {
+        // Prevent pull-to-refresh and other default browser behaviors
+        e.preventDefault();
         setIsTouching(true);
         lastVibratedIndex.current = -1;
+        vibrate(); // Initial vibration on touch start
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
         if (!navRef.current || !isTouching) return;
+        
+        // Prevent pull-to-refresh and scrolling
+        e.preventDefault();
 
         const touch = e.touches[0];
         const navRect = navRef.current.getBoundingClientRect();
@@ -160,56 +171,68 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         }
     };
 
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        e.preventDefault();
         setIsTouching(false);
         setTouchHoverIndex(-1);
         lastVibratedIndex.current = -1;
     };
 
     return (
-        <div className="fixed right-4 top-1/2 -translate-y-1/2 z-[100] pointer-events-auto">
+        <div className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 z-[100] pointer-events-auto">
             <nav 
                 ref={navRef}
                 className={`
-                    bg-neutral-800/40 backdrop-blur-md rounded-full py-4 px-3 flex flex-col items-center gap-0
+                    bg-neutral-800/40 backdrop-blur-md rounded-full 
+                    py-3 pl-3 pr-2 md:py-4 md:pl-4 md:pr-2.5 
+                    flex flex-col items-end gap-0
                     ${isTouching ? 'scale-110 bg-neutral-800/60' : ''}
                     transition-all duration-150
+                    touch-none select-none
                 `}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 onTouchCancel={handleTouchEnd}
             >
-                {sections.map((section, index) => (
-                    <div key={`${section.id}-${index}`} className="flex flex-col items-center w-full">
+                {sections.map((section, index) => {
+                    const isActive = activeSection === section.id || (isTouching && touchHoverIndex === index);
+                    return (
+                        <div 
+                            key={`${section.id}-${index}`} 
+                            className={`
+                                flex flex-col w-full transition-all duration-300
+                                ${isActive ? 'items-center' : 'items-end'}
+                            `}
+                        >
                         <button
                             onClick={() => handleClick(section.id, section.scrollTo)}
                             className={`
-                                px-3 py-2 text-sm font-medium transition-all duration-200 w-full text-center
-                                ${
-                                    activeSection === section.id || (isTouching && touchHoverIndex === index)
-                                        ? "text-yellow-400"
-                                        : "text-neutral-400 md:hover:text-neutral-200"
-                                }
+                                py-1.5 md:py-2 
+                                text-xs md:text-sm font-medium 
+                                transition-all duration-300 w-full
+                                ${isActive ? 'text-center text-yellow-400 px-1.5 md:px-2.5' : 'text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5'}
                                 ${isTouching && touchHoverIndex === index ? 'scale-110' : ''}
                             `}
                         >
                             {section.label}
                         </button>
-                        {index < sections.length - 1 && (
-                            <div 
-                                className={`
-                                    w-8 h-px my-2 transition-colors duration-200
-                                    ${
-                                        activeDividerIndex === index || (isTouching && touchHoverIndex === index)
-                                            ? "bg-yellow-400"
-                                            : "bg-neutral-600"
-                                    }
-                                `}
-                            ></div>
-                        )}
-                    </div>
-                ))}
+                            {index < sections.length - 1 && (
+                                <div 
+                                    className={`
+                                        w-6 md:w-7 h-px my-1.5 md:my-2 transition-all duration-300
+                                        ${isActive ? 'mr-0' : 'mr-1 md:mr-1.5'}
+                                        ${
+                                            activeDividerIndex === index || (isTouching && touchHoverIndex === index)
+                                                ? "bg-yellow-400"
+                                                : "bg-neutral-600"
+                                        }
+                                    `}
+                                ></div>
+                            )}
+                        </div>
+                    );
+                })}
             </nav>
         </div>
     );
