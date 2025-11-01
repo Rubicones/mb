@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SplineLogo from "./SplineLogo";
+import LogoScene from "./LogoScene";
 import Link from "next/link";
 
 export default function Header() {
@@ -9,9 +10,9 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-black w-screen h-16 flex justify-center px-4'>
+            <header className='bg-black w-screen h-16 flex justify-center'>
                 <div className='relative w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
-                    {/* <SplineLogo /> */}
+                    <LogoScene />
                     
                     {/* Desktop Navigation */}
                     <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>

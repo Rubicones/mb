@@ -124,26 +124,37 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     };
 
     const handleTouchStart = (e: React.TouchEvent) => {
-        // Prevent pull-to-refresh and other default browser behaviors
-        e.preventDefault();
-        setIsTouching(true);
-        lastVibratedIndex.current = -1;
-        
-        // Vibrate on touch start - this is a user gesture so it should work
-        try {
-            if (typeof window !== "undefined" && navigator.vibrate) {
-                // Use shorter vibration for better UX
-                navigator.vibrate(30);
+        // Only prevent default for touch drags, not taps
+        // Set a timeout to determine if this is a drag gesture
+        const dragTimeout = setTimeout(() => {
+            setIsTouching(true);
+            lastVibratedIndex.current = -1;
+            
+            // Vibrate on touch start - this is a user gesture so it should work
+            try {
+                if (typeof window !== "undefined" && navigator.vibrate) {
+                    // Use shorter vibration for better UX
+                    navigator.vibrate(30);
+                }
+            } catch {
+                // Silently fail if vibration not supported
             }
-        } catch {
-            // Silently fail if vibration not supported
-        }
+        }, 100); // Short delay to differentiate tap from drag
+        
+        // Store cleanup function on the target element
+        const target = e.target as HTMLElement & { _dragTimeout?: NodeJS.Timeout };
+        target._dragTimeout = dragTimeout;
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        if (!navRef.current || !isTouching) return;
+        if (!navRef.current) return;
         
-        // Prevent pull-to-refresh and scrolling
+        // If we detect movement, activate touch mode and prevent scrolling
+        if (!isTouching) {
+            setIsTouching(true);
+        }
+        
+        // Prevent pull-to-refresh and scrolling during drag
         e.preventDefault();
 
         const touch = e.touches[0];
@@ -180,14 +191,19 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     };
 
     const handleTouchEnd = (e: React.TouchEvent) => {
-        e.preventDefault();
+        // Clear any pending drag timeout
+        const target = e.target as HTMLElement & { _dragTimeout?: NodeJS.Timeout };
+        if (target._dragTimeout) {
+            clearTimeout(target._dragTimeout);
+        }
+        
         setIsTouching(false);
         setTouchHoverIndex(-1);
         lastVibratedIndex.current = -1;
     };
 
     return (
-        <div className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 z-[100] pointer-events-auto">
+        <div className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 md:top-1/3 md:-translate-y-1/3 z-100 pointer-events-auto">
             <nav 
                 ref={navRef}
                 className={`
@@ -196,7 +212,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                     flex flex-col items-end gap-0
                     ${isTouching ? 'scale-110 bg-neutral-800/60' : ''}
                     transition-all duration-150
-                    touch-none select-none
+                    select-none
                 `}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}

@@ -47,7 +47,7 @@ export default function Home() {
                     </span>
                     <div className='w-full flex justify-between md:flex-row flex-col flex-wrap gap-12'>
                         <div className='uppercase text-4xl lg:text-5xl xl:text-6xl font-extralight text-justify w-full md:w-1/2 '>
-                            <span>
+                            <span className='text-neutral-300'>
                                 I&apos;m a{" "}
                                 <span className='text-[#C8B936]'>3D</span> and
                                 <span className='text-[#C8B936]'>
@@ -145,7 +145,7 @@ export default function Home() {
                         <SkillCard title='2D' path='/models/2D_MODEL_2.glb' />
                         <SkillCard
                             title='handcraft'
-                            path='/models/tools3.glb'
+                            path='/models/Tool_new.glb'
                         />
                     </div>
                 </div>

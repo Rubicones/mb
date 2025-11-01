@@ -99,13 +99,14 @@ export default function SkillCard({
                         {skillsData[
                             title as keyof typeof skillsData
                         ].imgPaths.map((imgPath: string, i: number) => (
-                            <Image
-                                width={55}
-                                height={55}
+                            <div className='border-2 border-[#C8B936]/50 rounded-xl p-1' key={i}><Image
+                                width={50}
+                                height={50}
                                 src={imgPath}
                                 alt={imgPath}
-                                key={i}
-                            />
+                                className="grayscale-100"
+                            /></div>
+                            
                         ))}
                     </div>
                     <div className='flex items-center justify-end gap-2 text-white text-sm md:text-lg lg:text-2xl text-right'>

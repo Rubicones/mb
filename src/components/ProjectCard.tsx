@@ -27,7 +27,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
         <Link href={`/project/${project.documentId}`} className='block group'>
-            <div className='relative w-full aspect-[3/4] overflow-hidden rounded-2xl'>
+            <div className='relative w-full aspect-3/4 overflow-hidden rounded-2xl'>
                 {project.Cover && (
                     <Image
                         src={

@@ -13,7 +13,7 @@ interface Project {
 export default function HighlightCard({ project }: { project: Project }) {
     return (
         <>
-            <a href={`/project/${project.documentId}`} className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200'>
+            <div className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200 cursor-pointer'>
                 <div className='relative w-2/3 h-full'>
                     <Image
                         src={project.Cover.url}
@@ -43,8 +43,8 @@ export default function HighlightCard({ project }: { project: Project }) {
                         <span className='text-white'>Personal</span>
                     </div>
                 </div>
-            </a>
-            <a href={`/project/${project.documentId}`} className='flex relative md:hidden w-[300px] aspect-[calc(9.5/16)] flex-col bg-black rounded-2xl justify-start overflow-hidden'>
+            </div>
+            <div className='flex relative md:hidden w-[300px] aspect-[calc(9.5/16)] flex-col bg-black rounded-2xl justify-start overflow-hidden cursor-pointer'>
                 <div className='absolute top-0 left-0 h-full w-full z-10'>
                     <Image
                         src={project.Cover.url}
@@ -74,7 +74,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                         <span className='text-white'>Personal</span>
                     </div>
                 </div>
-            </a>
+            </div>
         </>
     );
 }

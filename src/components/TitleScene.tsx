@@ -54,7 +54,7 @@ export default function TitleScene() {
             camera.position.z = getCameraZ();
             // camera.position.z = 20;
             camera.position.y = 3.3;
-            camera.position.x = -0.25
+            camera.position.x = 0.03
 
             // Animation setup
             let mixer: THREE.AnimationMixer | null = null;

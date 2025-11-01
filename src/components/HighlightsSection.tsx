@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import HighlightCard from "./HighlightCard";
 
 const TIMER_DURATION = 5000; // 5 seconds per slide
@@ -46,6 +47,7 @@ interface StrapiResponse {
 }
 
 export default function HighlightsSection() {
+    const router = useRouter();
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(1); // Start with second card
@@ -318,7 +320,7 @@ export default function HighlightsSection() {
                         {/* Spacer to center first card - responsive for mobile (300px) and desktop (700px) */}
                         <div className='shrink-0 w-[calc(50vw-150px-0.0625rem)] md:w-[calc(50%-350px-0.125rem)]' />
                         
-                        {projects.map((project) => (
+                        {projects.map((project, index) => (
                             <div
                                 key={project.id}
                                 ref={(el) => {
@@ -326,6 +328,17 @@ export default function HighlightsSection() {
                                         cardsRef.current.set(project.id, el);
                                     } else {
                                         cardsRef.current.delete(project.id);
+                                    }
+                                }}
+                                onClick={() => {
+                                    if (index === currentIndex) {
+                                        // If card is centered, navigate to project page
+                                        router.push(`/project/${project.documentId}`);
+                                    } else {
+                                        // If card is greyscaled (not centered), scroll to center
+                                        setCurrentIndex(index);
+                                        setProgressKey(prev => prev + 1);
+                                        scrollToCard(index);
                                     }
                                 }}
                                 className='shrink-0 transition-all duration-300 ease-out'
