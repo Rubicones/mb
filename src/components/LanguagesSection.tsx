@@ -45,11 +45,11 @@ export default function LanguagesSection() {
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                         selectedLanguage === 'ru' ? 'border-2 border-[#C8B936]' : ''
                     }`}>
-                        <p className='text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl text-left'>{languageNames.ru.native}</p>
-                        <p className='text-white text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
+                        <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.ru.native}</p>
+                        <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
                             {languageNames.ru.english}
                         </p>
-                        <p className='text-gray-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl text-right'>{languageNames.ru.level}</p>
+                        <p className='text-gray-400 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-right'>{languageNames.ru.level}</p>
                     </div>
                 </button>
 
@@ -61,11 +61,11 @@ export default function LanguagesSection() {
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                         selectedLanguage === 'en' ? 'border-2 border-[#C8B936]' : ''
                     }`}>
-                        <p className='text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl text-left'>{languageNames.en.native}</p>
-                        <p className='text-white text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
+                        <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.en.native}</p>
+                        <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
                             {languageNames.en.english}
                         </p>
-                        <p className='text-gray-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl text-right'>{languageNames.en.level}</p>
+                        <p className='text-gray-400 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-right'>{languageNames.en.level}</p>
                     </div>
                 </button>
 
@@ -77,11 +77,11 @@ export default function LanguagesSection() {
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                         selectedLanguage === 'he' ? 'border-2 border-[#C8B936]' : ''
                     }`}>
-                        <p className='text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl text-left'>{languageNames.he.native}</p>
-                        <p className='text-white text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
+                        <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.he.native}</p>
+                        <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
                             {languageNames.he.english}
                         </p>
-                        <p className='text-gray-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl text-right'>{languageNames.he.level}</p>
+                        <p className='text-gray-400 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-right'>{languageNames.he.level}</p>
                     </div>
                 </button>
             </div>

@@ -18,7 +18,7 @@ export default function Home() {
         <div className='w-full h-full flex flex-col items-center bg-neutral-900 z-20 overflow-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-white'>
                 <Header />
-                <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>
+                <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden mt-16'>
                     <div className='flex animate-scroll-right'>
                         <span className='whitespace-nowrap text-black font-semibold'>
                             {scrollText.repeat(10)}
