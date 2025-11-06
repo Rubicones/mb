@@ -104,7 +104,7 @@ export default function SkillCard({
         <a
             href={"/portfolio#" + title}
             ref={skillsRef}
-            className={`skill-card bg-neutral-800 outline-0  hover:outline-2 outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-8 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
+            className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-8 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
             style={{
                 // @ts-expect-error - CSS custom property
                 '--card-scroll-progress': scrollProgress

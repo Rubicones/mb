@@ -276,9 +276,9 @@ main > * {
     
     /* Card outline appears based on scroll progress */
     .skill-card {
-        outline-width: calc(var(--card-scroll-progress) * 2px);
+        outline-width: 2px;
         outline-style: solid;
-        outline-color: #C8B936;
+        outline-color: #262626;
     }
     
     .skill-icon-wrapper {
@@ -293,6 +293,10 @@ main > * {
     /* Grayscale reduces based on scroll progress (100% - progress%) */
     .skill-icon-wrapper .skill-icon-inner img {
         filter: grayscale(calc(100% - (var(--scroll-progress) * 100%)));
+    }
+
+    .skill-card {
+        outline-color: color-mix(in srgb, #262626 calc(100% - (var(--card-scroll-progress) * 100%)), #C8B936 calc(var(--card-scroll-progress) * 100%));
     }
     
     /* Tooltip hidden during scroll, only shows on tap */
