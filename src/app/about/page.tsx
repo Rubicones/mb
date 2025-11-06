@@ -49,7 +49,7 @@ export default async function AboutMe() {
                         <div className='w-full grid grid-cols-3 grid-rows-2'>
                             {/* Stieglitz Academy */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Stieglitz Academy
                                     </h3>
@@ -64,7 +64,7 @@ export default async function AboutMe() {
 
                             {/* International House */}
                             <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         International House
                                     </h3>
@@ -82,7 +82,7 @@ export default async function AboutMe() {
 
                             {/* Masa Program */}
                             <div className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Masa Program
                                     </h3>
@@ -209,7 +209,7 @@ export default async function AboutMe() {
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-xl sm:text-2xl  md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
                                         MOTION DESIGNER
                                     </h3>
@@ -241,7 +241,7 @@ export default async function AboutMe() {
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
                             <div className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                 <h3 className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
                                         3D DESIGNER
                                     </h3>
