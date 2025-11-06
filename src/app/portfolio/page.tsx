@@ -53,7 +53,7 @@ async function getProjectWithImages(
 ): Promise<Project | null> {
     try {
         const response = await fetch(
-            `https://authentic-splendor-f67c9d75a4.strapiapp.com/api/projects/${projectId}?populate[Media][populate]=*&populate[Programs][populate]=*&populate=Cover`,
+            `https://mb-portfolio.fly.dev/api/projects/${projectId}?populate[Media][populate]=*&populate[Programs][populate]=*&populate=Cover`,
             {
                 next: { revalidate: 60 },
                 headers: {
@@ -83,7 +83,7 @@ async function getProjects(): Promise<Project[]> {
     try {
         // First, fetch all projects with basic data
         const response = await fetch(
-            "https://authentic-splendor-f67c9d75a4.strapiapp.com/api/projects?populate=*&pagination[pageSize]=100",
+            "https://mb-portfolio.fly.dev/api/projects?populate=*&pagination[pageSize]=100",
             {
                 next: { revalidate: 60 }, // Revalidate every 60 seconds
                 headers: {

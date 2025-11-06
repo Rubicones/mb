@@ -16,10 +16,11 @@ export default function HighlightCard({ project }: { project: Project }) {
             <div className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200 cursor-pointer'>
                 <div className='relative w-2/3 h-full'>
                     <Image
-                        src={project.Cover.url}
+                        src={"https://mb-portfolio.fly.dev" + project.Cover.url}
                         alt={project.Name}
                         fill
                         className='object-cover rounded-2xl'
+                        unoptimized
                     />
                     <div className='absolute inset-0 flex flex-col justify-start p-6 rounded-l-2xl bg-linear-to-b from-black/80 via-transparent to-transparent z-40'>
                         <span className='text-white text-6xl font-bold uppercase'>
@@ -31,7 +32,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {project.Category.slice(2)}
+                            {/* {project.Category.slice(2)} */}
                         </span>
                     </div>
                     <div className='flex flex-col'>
@@ -47,10 +48,11 @@ export default function HighlightCard({ project }: { project: Project }) {
             <div className='flex relative md:hidden w-[300px] aspect-[calc(9.5/16)] flex-col bg-black rounded-2xl justify-start overflow-hidden cursor-pointer'>
                 <div className='absolute top-0 left-0 h-full w-full z-10'>
                     <Image
-                        src={project.Cover.url}
+                        src={"https://mb-portfolio.fly.dev" + project.Cover.url}
                         alt={project.Name}
                         fill
                         className='object-cover rounded-2xl'
+                        unoptimized
                     />
                     <div className='absolute inset-0 flex flex-col justify-start p-6 rounded-l-2xl bg-linear-to-b from-black/80 via-transparent to-transparent z-40'>
                         <span className='text-white text-5xl font-bold uppercase'>
@@ -62,7 +64,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {project.Category.slice(2)}
+                            {/* {project.Category.slice(2)} */}
                         </span>
                     </div>
                     <div className='flex flex-col'>

@@ -33,8 +33,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                         src={
                             project.Cover.url.startsWith("http")
                                 ? project.Cover.url
-                                : `https://authentic-splendor-f67c9d75a4.strapiapp.com${project.Cover.url}`
-                        }
+                                : `https://mb-portfolio.fly.dev${project.Cover.url}`
+                        }   
                         alt={project.Cover.alternativeText || project.Name}
                         fill
                         className='object-cover transition-transform duration-300 group-hover:scale-105'

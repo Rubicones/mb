@@ -140,7 +140,7 @@ export default function Home() {
                     <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
                         WHAT I CAN DO
                     </span>
-                    <div className='w-full h-full flex flex-col gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
+                    <div className='w-full h-full flex flex-row  gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
                         <SkillCard title='3D' path='/models/3D_skill_1.glb' />
                         <SkillCard title='2D' path='/models/2D_MODEL_2.glb' />
                         <SkillCard

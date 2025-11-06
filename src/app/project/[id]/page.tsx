@@ -57,7 +57,7 @@ interface StrapiResponse {
 async function getProject(id: string): Promise<Project | null> {
     try {
         const response = await fetch(
-            `https://authentic-splendor-f67c9d75a4.strapiapp.com/api/projects/${id}?populate[Media][populate]=*&populate[Programs][populate]=*&populate=Cover&populate[nextProject][populate]=*&populate[prevProject][populate]=*`,
+            `https://mb-portfolio.fly.dev/api/projects/${id}?populate[Media][populate]=*&populate[Programs][populate]=*&populate=Cover&populate[nextProject][populate]=*&populate[prevProject][populate]=*`,
             {
                 next: { revalidate: 60 },
                 headers: {
@@ -151,7 +151,7 @@ export default async function ProjectDetail({
                                             >
                                                 <Image
                                                     src={
-                                                        program.Icon?.url || ""
+                                                        "https://mb-portfolio.fly.dev" + program.Icon?.url || ""
                                                     }
                                                     alt={program.Name}
                                                     width={52}
@@ -264,7 +264,7 @@ export default async function ProjectDetail({
                                                 src={
                                                     project.prevProject.Cover.url.startsWith("http")
                                                         ? project.prevProject.Cover.url
-                                                        : `https://authentic-splendor-f67c9d75a4.strapiapp.com${project.prevProject.Cover.url}`
+                                                        : `https://mb-portfolio.fly.dev${project.prevProject.Cover.url}`
                                                 }
                                                 alt={project.prevProject.Name}
                                                 fill
@@ -295,7 +295,7 @@ export default async function ProjectDetail({
                                                 src={
                                                     project.nextProject.Cover.url.startsWith("http")
                                                         ? project.nextProject.Cover.url
-                                                        : `https://authentic-splendor-f67c9d75a4.strapiapp.com${project.nextProject.Cover.url}`
+                                                        : `https://mb-portfolio.fly.dev${project.nextProject.Cover.url}`
                                                 }
                                                 alt={project.nextProject.Name}
                                                 fill

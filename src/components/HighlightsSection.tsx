@@ -62,14 +62,13 @@ export default function HighlightsSection() {
         async function fetchHighlightedProjects() {
             try {
                 const response = await fetch(
-                    "https://authentic-splendor-f67c9d75a4.strapiapp.com/api/projects?filters[isHighlighted][$eq]=true&populate=*&pagination[pageSize]=10",
+                    "https://mb-portfolio.fly.dev/api/projects?filters[isHighlighted][$eq]=true&populate=*&pagination[pageSize]=10",
                     {
                         headers: {
                             "Content-Type": "application/json",
                         },
                     }
                 );
-
                 if (!response.ok) {
                     console.error(
                         "Failed to fetch highlighted projects:",
@@ -81,6 +80,7 @@ export default function HighlightsSection() {
                 }
 
                 const data: StrapiResponse = await response.json();
+                console.log(data);
                 if (data.data && data.data.length > 0) {
                     setProjects(data.data);
                 }

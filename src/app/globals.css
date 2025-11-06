@@ -193,3 +193,81 @@ main > * {
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+/* Skill icon wrapper and border transition */
+.skill-icon-inner {
+    transition: border-color 0.2s ease-in-out;
+}
+
+.skill-icon-inner img {
+    filter: grayscale(100%);
+    transition: filter 0.2s ease-in-out;
+}
+
+/* Skill icon tooltip */
+.skill-icon-wrapper::before {
+    content: attr(data-program-name);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #C8B936;
+    color: #000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Tooltip arrow */
+.skill-icon-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #C8B936;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Show tooltip and border on hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+    .skill-icon-wrapper:hover::before,
+    .skill-icon-wrapper:hover::after {
+        opacity: 1;
+    }
+    
+    .skill-icon-wrapper:hover .skill-icon-inner {
+        border-color: #C8B936;
+    }
+    
+    .skill-icon-wrapper:hover .skill-icon-inner img {
+        filter: grayscale(0%);
+    }
+}
+
+/* Show tooltip and border on active/touch (mobile) */
+@media (hover: none) or (pointer: coarse) {
+    .skill-icon-wrapper:active::before,
+    .skill-icon-wrapper:active::after {
+        opacity: 1;
+    }
+    
+    .skill-icon-wrapper:active .skill-icon-inner {
+        border-color: #C8B936;
+    }
+    
+    .skill-icon-wrapper:active .skill-icon-inner img {
+        filter: grayscale(0%);
+    }
+}

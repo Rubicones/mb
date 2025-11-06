@@ -5,13 +5,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'authentic-splendor-f67c9d75a4.strapiapp.com',
+        hostname: 'mb-portfolio.fly.dev',
         port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'authentic-splendor-f67c9d75a4.media.strapiapp.com',
+        hostname: 'mb-portfolio.fly.dev',
         port: '',
         pathname: '/**',
       },
