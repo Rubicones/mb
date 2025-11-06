@@ -1,24 +1,27 @@
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Image from "next/image";
+import LanguagesSection from "@/components/LanguagesSection";
 
 export default async function AboutMe() {
     return (
-        <div className='w-full h-full flex flex-col items-center bg-black overflow-x-hidden'>
-            <div className='w-screen h-full flex flex-col items-center bg-black'>
+        <div className='w-full h-full flex flex-col items-center bg-neutral-900 overflow-x-hidden'>
+            <div className='w-screen h-full flex flex-col items-center bg-neutral-900 overflow-y-scroll no-scrollbar'>
                 <Header />
-                <div className='w-full flex flex-col justify-center items-center bg-black z-50'>
-                    <main className='max-w-[1100px] w-full flex flex-col items-start px-4 md:px-6 pt-8 md:pt-12 pb-16 z-50 h-[calc(100dvh-64px)] bg-black overflow-y-scroll no-scrollbar'>
+                <div className='w-full h-full flex flex-col justify-center items-center bg-neutral-900 z-50 '>
+                    <main className='max-w-[1200px] w-full h-full flex flex-col items-start px-4 md:px-6 pt-8 md:pt-12 pb-16 z-50 bg-neutral-900'>
                         {/* Hello There Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2 '>
                             {/* Greeting - Takes 4 columns */}
                             <div className='col-span-2  flex flex-col justify-between p-6 aspect-2/1'>
-                                <h1 className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none'>
+                                <h1 className='text-5xl md:text-7xl lg:text-9xl font-extralight text-white leading-none'>
                                     HELLO
                                     <br />
                                     THERE!
                                 </h1>
                             </div>
                             {/* Profile Image - Takes 2 columns */}
-                            <div className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-2'>
+                            <div className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2'>
                                 <img
                                     src='/whoami4.jpg'
                                     alt='Profile'
@@ -27,8 +30,8 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6'>
-                                    <p className='text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6'>
+                                    <p className='text-white text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
                                         I&apos;m 23 years old Artist, Designer,
                                         Craftsman and many more. I&apos;m
                                         passionate about my works and constantly
@@ -45,8 +48,8 @@ export default async function AboutMe() {
                         {/* Education Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2'>
                             {/* Stieglitz Academy */}
-                            <div className='col-span-2 aspect-2/1 p-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Stieglitz Academy
                                     </h3>
@@ -60,8 +63,8 @@ export default async function AboutMe() {
                             </div>
 
                             {/* International House */}
-                            <div className='row-span-2 col-start-3 aspect-1/2 p-2 h-full'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 flex flex-col justify-start'>
+                            <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         International House
                                     </h3>
@@ -78,8 +81,8 @@ export default async function AboutMe() {
                             <div className='col-span-1'></div>
 
                             {/* Masa Program */}
-                            <div className='col-span-2 row-start-2 aspect-2/1 p-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Masa Program
                                     </h3>
@@ -92,6 +95,7 @@ export default async function AboutMe() {
                                 </div>
                             </div>
                         </div>
+                        <LanguagesSection />
 
                         <span className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20'>
                             HOBBY
@@ -99,8 +103,8 @@ export default async function AboutMe() {
                         {/* Hobby Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-3'>
                             {/* Row 1: Abstract Image + Music Card */}
-                            <div className='col-span-1 aspect-square p-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-1 aspect-square p-1 sm:p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
                                     <img
                                         src='/abstract-pattern.jpg'
                                         alt='Abstract pattern'
@@ -109,43 +113,52 @@ export default async function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 '>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start relative'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         MUSIC
                                     </h3>
                                     <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-3'>
                                         Don&apos;t play but listen a lot.
                                     </p>
-                                    <p className='text-white text-sm md:text-base lg:text-xl mb-4'>
-                                        Alt-J, Radiohead, Michael Kiwanuka, Herbie Hancock
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-4'>
+                                        Alt-J, Radiohead, Michael Kiwanuka,
+                                        Herbie Hancock
                                     </p>
-                                    <div className='mt-auto flex items-center gap-2 bg-neutral-800 rounded-full px-4 py-2 w-fit'>
-                                        <div className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold'>
-                                            ♪
-                                        </div>
-                                        <span className='text-white text-xs md:text-sm lg:text-base'>matit&apos;yaho</span>
+                                    <div className='mt-auto flex items-center gap-2 sm:bg-neutral-700 rounded-full px-4 py-2 w-fit absolute right-2 top-2 sm:static'>
+                                        <Image
+                                            width={20}
+                                            height={20}
+                                            src='/spotifyIcon.png'
+                                            alt='Music icon'
+                                            className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold'
+                                        />
+                                        <span className='sm:inline hidden text-white text-xs md:text-sm lg:text-base'>
+                                            matit&apos;yaho
+                                        </span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 p-2 row-start-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         VIDEOGAMES
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-3'>
-                                        One day i hope not only play but create them.
+                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-3'>
+                                        One day i hope not only play but create
+                                        them.
                                     </p>
-                                    <p className='text-white text-sm md:text-base lg:text-xl mt-auto'>
-                                        Dishonored, Outer Wilds, KCD, Claire Obscure. Exp 33
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mt-auto'>
+                                        Dishonored, Outer Wilds, KCD, Claire
+                                        Obscure. Exp 33
                                     </p>
                                 </div>
                             </div>
 
-                            <div className='col-span-1 aspect-square p-2 row-start-2'>
-                                <div className='bg-neutral-900 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-1 aspect-square p-1 sm:p-2 row-start-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
                                     <img
                                         src='/game-cover.jpg'
                                         alt='Super Seducer game cover'
@@ -156,7 +169,7 @@ export default async function AboutMe() {
 
                             {/* Row 3: Abstract Image + Skateboarding Card */}
                             <div className='col-span-1 aspect-square p-2 row-start-3'>
-                                <div className='bg-neutral-900 rounded-3xl h-full overflow-hidden'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
                                     <img
                                         src='/abstract-pattern.jpg'
                                         alt='Abstract pattern'
@@ -165,22 +178,92 @@ export default async function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-2 row-start-3'>
-                                <div className='bg-neutral-900 rounded-3xl h-full p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         SKATEBOARDING
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-3'>
-                                        Unfortunately don&apos;t have a possibility to do it now
+                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-3'>
+                                        Unfortunately don&apos;t have a
+                                        possibility to do it now
                                     </p>
-                                    <p className='text-white text-sm md:text-base lg:text-xl mt-auto'>
-                                        Kickflip, Shuvit, Ollie, Rock-to-fakie, 50-50
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mt-auto'>
+                                        Kickflip, Shuvit, Ollie, Rock-to-fakie,
+                                        50-50
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                        <span className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20'>
+                            WORK EXPERIENCE
+                        </span>
+                        <div className='w-full grid grid-cols-3 grid-rows-4'>
+                            <div className='row-span-2 aspect-1/2 p-2 '>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                                    <img
+                                        src='/abstract-pattern.jpg'
+                                        alt='Abstract pattern'
+                                        className='w-full h-full object-cover'
+                                    />
+                                </div>
+                            </div>
+                            {/* Row 2: Videogames Card + Game Cover Image */}
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                                    <h3 className='text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
+                                        MOTION DESIGNER
+                                    </h3>
+                                    <p className='text-gray-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
+                                        ERRA Investments | Israel
+                                    </p>
+                                    <h3 className='text-white text-lg md:text-2xl lg:text-4xl xl:text-5xl font-semibold mb-1 mt-auto'>
+                                    &lt;
+                                    </h3>
+                                </div>
+                            </div>
+                            <div className='col-span-2 row-span-2 col-start-2 row-start-2 aspect-square p-2 '>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                                    <img
+                                        src='/abstract-pattern.jpg'
+                                        alt='Abstract pattern'
+                                        className='w-full h-full object-cover'
+                                    />
+                                </div>
+                            </div>
+                            <div className='row-start-3 aspect-square p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                                    <img
+                                        src='/abstract-pattern.jpg'
+                                        alt='Abstract pattern'
+                                        className='w-full h-full object-cover'
+                                    />
+                                </div>
+                            </div>
+                            {/* Row 2: Videogames Card + Game Cover Image */}
+                            <div className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                                <h3 className='text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
+                                        3D DESIGNER
+                                    </h3>
+                                    <p className='text-gray-400 text-sm md:text-base lg:text-lg mb-3'>
+                                        Freelance | Georgia
+                                    </p>
+                                   
+                                </div>
+                            </div>
+                            <div className='col-start-3 row-start-4 aspect-square p-2'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                                    <img
+                                        src='/abstract-pattern.jpg'
+                                        alt='Abstract pattern'
+                                        className='w-full h-full object-cover'
+                                    />
                                 </div>
                             </div>
                         </div>
                     </main>
                 </div>
+                <Footer />
             </div>
         </div>
     );

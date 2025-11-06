@@ -29,6 +29,18 @@ body {
     /* font-family: Arial, Helvetica, sans-serif; */
 }
 
+
+/* Custom text selection color */
+::selection {
+    background-color: #C8B936;
+    color: #000;
+}
+
+::-moz-selection {
+    background-color: #C8B936;
+    color: #000;
+}
+
 @keyframes scroll-left {
     0% {
         transform: translateX(0);
@@ -256,18 +268,59 @@ main > * {
     }
 }
 
-/* Show tooltip and border on active/touch (mobile) */
+/* Scroll-based animation for mobile */
 @media (hover: none) or (pointer: coarse) {
+    .skill-card {
+        --card-scroll-progress: 0;
+    }
+    
+    /* Card outline appears based on scroll progress */
+    .skill-card {
+        outline-width: calc(var(--card-scroll-progress) * 2px);
+        outline-style: solid;
+        outline-color: #C8B936;
+    }
+    
+    .skill-icon-wrapper {
+        --scroll-progress: 0;
+    }
+    
+    /* No border during scroll on mobile */
+    .skill-icon-wrapper .skill-icon-inner {
+        border-color: transparent;
+    }
+    
+    /* Grayscale reduces based on scroll progress (100% - progress%) */
+    .skill-icon-wrapper .skill-icon-inner img {
+        filter: grayscale(calc(100% - (var(--scroll-progress) * 100%)));
+    }
+    
+    /* Tooltip hidden during scroll, only shows on tap */
+    .skill-icon-wrapper::before,
+    .skill-icon-wrapper::after {
+        opacity: 0;
+    }
+    
+    /* Active state for tap - shows tooltip and border */
     .skill-icon-wrapper:active::before,
     .skill-icon-wrapper:active::after {
-        opacity: 1;
+        opacity: 1 !important;
     }
     
     .skill-icon-wrapper:active .skill-icon-inner {
-        border-color: #C8B936;
+        border-color: #C8B936 !important;
     }
     
     .skill-icon-wrapper:active .skill-icon-inner img {
-        filter: grayscale(0%);
+        filter: grayscale(0%) !important;
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
     }
 }

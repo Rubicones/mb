@@ -297,9 +297,9 @@ export default function HighlightsSection() {
     return (
         <div  className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
             <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
-                <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
+                <div className='max-w-[1600px] w-full text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
                     MY TOPS
-                </span>
+                </div>
 
                 {/* Scroll Container with Edge Gradients */}
                 <div className='relative w-full'>

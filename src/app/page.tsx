@@ -15,7 +15,7 @@ export default function Home() {
     const [activeImage, setActiveImage] = useState<number | null>(null);
 
     return (
-        <div className='w-full h-full flex flex-col items-center bg-white z-20 overflow-hidden'>
+        <div className='w-full h-full flex flex-col items-center bg-neutral-900 z-20 overflow-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-white'>
                 <Header />
                 <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>

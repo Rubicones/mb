@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
-
+import Footer from "@/components/Footer";
 interface StrapiImage {
     id: number;
     url: string;
@@ -151,7 +151,9 @@ export default async function ProjectDetail({
                                             >
                                                 <Image
                                                     src={
-                                                        "https://mb-portfolio.fly.dev" + program.Icon?.url || ""
+                                                        "https://mb-portfolio.fly.dev" +
+                                                            program.Icon?.url ||
+                                                        ""
                                                     }
                                                     alt={program.Name}
                                                     width={52}
@@ -246,7 +248,10 @@ export default async function ProjectDetail({
                                     href='/portfolio'
                                     className='hidden md:flex group relative h-96 bg-neutral-800 hover:bg-neutral-700 rounded-xl overflow-hidden flex-col items-center justify-center gap-2 transition-all duration-300'
                                 >
-                                    <ChevronLeft className='w-8 h-8 text-white' strokeWidth={2} />
+                                    <ChevronLeft
+                                        className='w-8 h-8 text-white'
+                                        strokeWidth={2}
+                                    />
                                     <div className='text-white text-xl font-medium text-center'>
                                         <div>Back to</div>
                                         <div>Portfolio</div>
@@ -262,8 +267,11 @@ export default async function ProjectDetail({
                                         <div className='absolute inset-0'>
                                             <Image
                                                 src={
-                                                    project.prevProject.Cover.url.startsWith("http")
-                                                        ? project.prevProject.Cover.url
+                                                    project.prevProject.Cover.url.startsWith(
+                                                        "http"
+                                                    )
+                                                        ? project.prevProject
+                                                              .Cover.url
                                                         : `https://mb-portfolio.fly.dev${project.prevProject.Cover.url}`
                                                 }
                                                 alt={project.prevProject.Name}
@@ -277,8 +285,13 @@ export default async function ProjectDetail({
                                                 {project.prevProject.Name}
                                             </span>
                                             <div className='flex items-center gap-2'>
-                                                <ChevronLeft className='w-5 h-5 text-white' strokeWidth={2.5} />
-                                                <span className='text-white text-base md:text-lg font-medium'>Previous</span>
+                                                <ChevronLeft
+                                                    className='w-5 h-5 text-white'
+                                                    strokeWidth={2.5}
+                                                />
+                                                <span className='text-white text-base md:text-lg font-medium'>
+                                                    Previous
+                                                </span>
                                             </div>
                                         </div>
                                     </Link>
@@ -293,8 +306,11 @@ export default async function ProjectDetail({
                                         <div className='absolute inset-0'>
                                             <Image
                                                 src={
-                                                    project.nextProject.Cover.url.startsWith("http")
-                                                        ? project.nextProject.Cover.url
+                                                    project.nextProject.Cover.url.startsWith(
+                                                        "http"
+                                                    )
+                                                        ? project.nextProject
+                                                              .Cover.url
                                                         : `https://mb-portfolio.fly.dev${project.nextProject.Cover.url}`
                                                 }
                                                 alt={project.nextProject.Name}
@@ -308,8 +324,13 @@ export default async function ProjectDetail({
                                                 {project.nextProject.Name}
                                             </span>
                                             <div className='flex items-center gap-2'>
-                                                <span className='text-white text-base md:text-lg font-medium'>Next</span>
-                                                <ChevronRight className='w-5 h-5 text-white' strokeWidth={2.5} />
+                                                <span className='text-white text-base md:text-lg font-medium'>
+                                                    Next
+                                                </span>
+                                                <ChevronRight
+                                                    className='w-5 h-5 text-white'
+                                                    strokeWidth={2.5}
+                                                />
                                             </div>
                                         </div>
                                     </Link>
@@ -317,6 +338,7 @@ export default async function ProjectDetail({
                             </div>
                         </div>
                     </div>
+                    <Footer />
                 </div>
             </main>
         </div>

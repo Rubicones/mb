@@ -10,7 +10,7 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-black w-screen h-16 flex justify-center'>
+            <header className='bg-neutral-900 w-screen h-16 flex justify-center fixed top-0 left-0 z-100'>
                 <div className='relative w-full max-w-[1920px] flex items-center justify-between px-4 md:px-6'>
                     <LogoScene />
                     
@@ -57,9 +57,13 @@ export default function Header() {
                     </button>
 
                     {/* Desktop Contact Button */}
-                    <button className='hidden md:block bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'>
+                    <a onClick={() => {
+                        document.querySelector('#footer')?.scrollIntoView({
+                            behavior: 'smooth',
+                        });
+                    }} className='hidden md:block bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'>
                         Contact&nbsp;me
-                    </button>
+                    </a>
                 </div>
             </header>
 
@@ -86,12 +90,16 @@ export default function Header() {
                         >
                             HIGHLIGHTS
                         </a>
-                        <button
+                        <a
                             className='z-50 bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={() => {
+                                document.querySelector('#footer')?.scrollIntoView({
+                                    behavior: 'smooth',
+                                });
+                            }}
                         >
                             Contact&nbsp;me
-                        </button>
+                        </a>
                     </div>
                 </div>
             )}

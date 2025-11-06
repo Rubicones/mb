@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <>
-            <footer className='bg-neutral-900 w-screen flex justify-center'>
+            <footer className='bg-neutral-900 w-screen flex justify-center mt-20' id='footer'>
                 <div className='relative w-full max-w-[1920px] rounded-t-3xl bg-white p-8 flex-col'>
-                    <span className='text-6xl font-light text-black w-[70%]'>
+                    <span className='text-4xl lg:text-5xl xl:text-6xl font-light text-black w-[70%]'>
                         DO YOU HAVE A PROJECT OR VACANCY FOR ME?
                     </span>
                     <div className='w-full flex justify-start  gap-4 md:gap-8 lg:gap-20 md:flex-row flex-col'>
