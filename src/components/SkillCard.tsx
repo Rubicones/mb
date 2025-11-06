@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect } from "react";
 import SkillsSceneMobile from "./SkillsSceneMobile";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function SkillCard({
@@ -47,12 +46,8 @@ export default function SkillCard({
             imgPaths: [],
         },
     };
-    //blender, cinema4d, substance
-
-    // Helper function to extract program name from image path
     const getProgramName = (imgPath: string) => {
         const name = imgPath.replace("/", "").replace(".png", "");
-        // Add spaces before capital letters and numbers for better readability
         return name
             .replace(/([A-Z])/g, " $1")
             .replace(/([0-9])/g, " $1")
@@ -61,21 +56,12 @@ export default function SkillCard({
     useEffect(() => {
         const updateSize = () => {
             const width = window.innerWidth;
-            if (width >= 1600) {
-                setCanvasSize(450);
-            } else if (width >= 1280) {
-                setCanvasSize(380);
-            } else if (width >= 1024) {
-                setCanvasSize(350);
-            } else if (width >= 768) {
-                // lg breakpoint
-                setCanvasSize(360);
-            } else if (width >= 768) {
-                // md breakpoint
-                setCanvasSize(330);
+            if (width > 1600) {
+                setCanvasSize(1600 / 4);
+            } else if (width > 1024) {
+                setCanvasSize(width / 4);
             } else {
-                // mobile
-                setCanvasSize(300);
+                setCanvasSize(width / 2);
             }
         };
 
@@ -98,20 +84,11 @@ export default function SkillCard({
             <div className=' md:w-[250px] lg:w-auto w-auto  flex justify-center items-center'>
                 <SkillsSceneMobile
                     hoverContainerRef={skillsRef}
-                    size={
-                        window.innerWidth > 1024
-                            ? window.innerWidth > 1600
-                                ? 1600 / 4
-                                : window.innerWidth / 4
-                            : window.innerWidth / 2
-                    }
+                    size={canvasSize}
                     path={path}
                 />
             </div>
             <div className={`w-full flex flex-col justify-between gap-4`}>
-                {/* <p className='text-xl lg:text-2xl xl:text-3xl text-white mt-0 sm:mt-4'>
-                    {skillsData[title as keyof typeof skillsData].description}
-                </p> */}
                 <div className='text-md md:text-lg lg:text-xl xl:text-2xl text-neutral-500 font-light md:w-fit w-full text-left mx-2 mt-auto'>
                     {skillsData[title as keyof typeof skillsData].tags}
                 </div>
@@ -136,10 +113,6 @@ export default function SkillCard({
                             </div>
                         ))}
                     </div>
-                    {/* <div className='flex items-center justify-end gap-2 text-white text-sm md:text-lg lg:text-2xl text-right'>
-                        <span>Jump to portfolio</span>
-                        <ArrowRight className='w-6 h-6' />
-                    </div> */}
                 </div>
             </div>
         </a>

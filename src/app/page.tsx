@@ -6,6 +6,7 @@ import TitleScene from "@/components/TitleScene";
 import Image from "next/image";
 import { useState } from "react";
 import HighlightsSection from "@/components/HighlightsSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
     const scrollText =
@@ -151,6 +152,7 @@ export default function Home() {
                 </div>
             </div>
             <HighlightsSection/>
+            <Footer />
         </div>
     );
 }
