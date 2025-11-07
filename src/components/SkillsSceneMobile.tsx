@@ -158,7 +158,7 @@ export default function SkillsScene({
                     else if (path === "/models/2D_MODEL_2.glb")
                         gltf.scene.position.set(-0.2, -0.45, 0);
                     else if (path === "/models/Tool_new.glb")
-                        gltf.scene.position.set(0, -0.4, 0);
+                        gltf.scene.position.set(0, -0.3, 0);
 
                     gltf.scene.scale.set(0.55, 0.55, 0.55);
                     // gltf.scene.rotation.x = Math.PI / 2;

@@ -111,7 +111,7 @@ export default function SkillCard({
             }}
         >
             <h3
-                className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extralight text-white capitalize break-normal`}
+                className={`text-4xl text-nowrap md:text-5xl lg:text-6xl xl:text-7xl font-extralight text-white capitalize break-normal`}
             >
                 {skillsData[title as keyof typeof skillsData].title}
             </h3>

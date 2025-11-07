@@ -139,7 +139,7 @@ export default function Home() {
             <div className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-20'>
                 <div className='relative w-full max-w-[1600px] flex flex-col items-center justify-between px-6 bg-neutral-900'>
                     <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
-                        WHAT I CAN DO
+                        WHAT I AM
                     </span>
                     <div className='w-full h-full flex flex-row  gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
                         <SkillCard title='3D' path='/models/3D_skill_1.glb' />

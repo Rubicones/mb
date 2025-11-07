@@ -86,6 +86,7 @@ export default function Header() {
                 <div className='md:hidden bg-neutral-900 w-full border-t border-gray-800 fixed top-16 left-0 z-60'>
                     <div className='flex flex-col py-4 px-4 space-y-4 z-50'>
                         <a
+                            href='/about'
                             className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
@@ -98,17 +99,12 @@ export default function Header() {
                         >
                             PORTFOLIO
                         </a>
-                        <a
+                        <Link
                             className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
-                            onClick={() => {
-                                document.querySelector("#highlights")?.scrollIntoView({
-                                    behavior: "smooth",
-                                });
-                                setIsMobileMenuOpen(false);
-                            }}
+                            href='/'
                         >
                             HIGHLIGHTS
-                        </a>
+                        </Link>
                         <a
                             className='z-50 bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
                             onClick={() => {

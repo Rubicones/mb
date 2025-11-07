@@ -30,7 +30,7 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6'>
                                     <p className='text-white text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
                                         I&apos;m 23 years old Artist, Designer,
                                         Craftsman and many more. I&apos;m
@@ -114,7 +114,7 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 '>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start relative'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start relative'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         MUSIC
                                     </h3>
@@ -142,7 +142,7 @@ export default async function AboutMe() {
 
                             {/* Row 2: Videogames Card + Game Cover Image */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         VIDEOGAMES
                                     </h3>
@@ -179,7 +179,7 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-2 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         SKATEBOARDING
                                     </h3>
@@ -245,7 +245,7 @@ export default async function AboutMe() {
                                 <h3 className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
                                         3D DESIGNER
                                     </h3>
-                                    <p className='text-gray-400 text-md sm:text-sm md:text-base lg:text-lg mb-3'>
+                                    <p className='text-gray-400 text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
                                         Freelance | Georgia
                                     </p>
                                    

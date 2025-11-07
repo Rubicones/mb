@@ -97,19 +97,23 @@ export default function HighlightsSection() {
     // Simple scroll-based visibility detection
     useEffect(() => {
         const checkVisibility = () => {
-            const section = sectionRef.current;
-            if (!section) return;
+            const carousel = scrollContainerRef.current;
+            const target = carousel ?? sectionRef.current;
+            if (!target) return;
 
-            const rect = section.getBoundingClientRect();
+            const rect = target.getBoundingClientRect();
             const windowHeight = window.innerHeight;
-            
-            // Check if section is in viewport
-            const visible = rect.top < windowHeight && rect.bottom > 0;
+
+            // Check if section's center is near the viewport center (±200px)
+            const sectionCenter = rect.top + rect.height / 2;
+            const windowCenter = windowHeight / 2;
+            const visible = Math.abs(sectionCenter - windowCenter) <= 200;
+
             // Reset timer when becoming visible
             if (visible && !isVisible) {
                 setProgressKey(prev => prev + 1);
             }
-            
+
             setIsVisible(visible);
         };
 

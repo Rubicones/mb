@@ -35,9 +35,9 @@ export default function Footer() {
                     </span>
                     <a
                         href='https://t.me/mativich'
-                        className='mt-6 w-min  text-nowrap text-4xl px-10 py-1 rounded-full text-white bg-black font-light flex items-center justify-between gap-2 cursor-pointer'
+                        className='mt-6 w-min  text-nowrap hover text-4xl px-10 py-1 rounded-full  text-white bg-black hover:bg-neutral-700 transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
-                        <span className='-translate-y-1'>
+                        <span className='-translate-y-[2px]'>
                             Get&nbsp;in&nbsp;touch
                         </span>
                         <SendIcon className='w-7 h-7 ml-2' />{" "}
@@ -66,7 +66,7 @@ export default function Footer() {
                                 WhatsApp
                             </a>
                         </div>
-                        <div className='flex flex-col mt-12'>
+                        <div className='flex flex-col mt-8'>
                             <span className='text-4xl lg:text-5xl font-light text-neutral-400'>
                                 SOCIALS
                             </span>
@@ -95,7 +95,7 @@ export default function Footer() {
                                 Facebook
                             </a>
                         </div>
-                        <div className='flex flex-col mt-12 md:ml-auto'>
+                        <div className='flex flex-col mt-8 md:ml-auto'>
                             <span className='text-4xl lg:text-5xl font-light text-neutral-400'>
                                 NAVIGATION
                             </span>
@@ -128,7 +128,7 @@ export default function Footer() {
                         </span>
                         <a
                             href='https://t.me/Rubicon1543'
-                            className='text-2xl text-nowrap px-10 py-1 rounded-full text-black bg-[#C8B936] font-light flex items-center justify-center cursor-pointer'
+                            className='text-2xl text-nowrap px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-center cursor-pointer'
                         >
                             <span className='-translate-y-0.5'>
                                 Developed by:{" "}
