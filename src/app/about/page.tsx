@@ -50,13 +50,13 @@ export default async function AboutMe() {
                             {/* Stieglitz Academy */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Stieglitz Academy
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-1'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mb-1'>
                                         Bachelor / 2019-2022
                                     </p>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
                                         Fine arts / Metal Work / Design
                                     </p>
                                 </div>
@@ -65,13 +65,13 @@ export default async function AboutMe() {
                             {/* International House */}
                             <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         International House
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-1'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mb-1'>
                                         Courses / 2023-2024
                                     </p>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
                                         English B2
                                     </p>
                                 </div>
@@ -83,13 +83,13 @@ export default async function AboutMe() {
                             {/* Masa Program */}
                             <div className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Masa Program
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-1'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mb-1'>
                                         Courses / 2024-2025
                                     </p>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
                                         Motion Design / Design
                                     </p>
                                 </div>
@@ -134,7 +134,7 @@ export default async function AboutMe() {
                                             className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold'
                                         />
                                         <span className='sm:inline hidden text-white text-xs md:text-sm lg:text-base'>
-                                            matit&apos;yaho
+                                            matat&apos;yaho
                                         </span>
                                     </div>
                                 </div>
