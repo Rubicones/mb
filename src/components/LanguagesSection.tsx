@@ -31,7 +31,7 @@ export default function LanguagesSection() {
 
     return (
         <>
-            <span className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20'>
+            <span className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20 mb-8'>
                 LANGUAGES
             </span>
             
@@ -43,7 +43,7 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
-                        selectedLanguage === 'ru' ? 'border-2 border-[#C8B936]' : ''
+                        selectedLanguage === 'ru' ? 'outline-2 outline-[#C8B936]' : ''
                     }`}>
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.ru.native}</p>
                         <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
@@ -59,7 +59,7 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
-                        selectedLanguage === 'en' ? 'border-2 border-[#C8B936]' : ''
+                        selectedLanguage === 'en' ? 'outline-2 outline-[#C8B936]' : ''
                     }`}>
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.en.native}</p>
                         <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>
@@ -75,7 +75,7 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div className={`bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
-                        selectedLanguage === 'he' ? 'border-2 border-[#C8B936]' : ''
+                        selectedLanguage === 'he' ? 'outline-2 outline-[#C8B936]' : ''
                     }`}>
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>{languageNames.he.native}</p>
                         <p className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-center'>

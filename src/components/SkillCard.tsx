@@ -17,26 +17,29 @@ export default function SkillCard({
 
     const skillsData = {
         "3D": {
-            title: "3D DESIGNER",
+            title: "3D DESIGN",
             description:
                 "I taught myself 3D design out of pure curiosity and eventually made it my profession.",
             tags: "3D modeling / texturing / animation / render",
             images: [
-                {"path":"/blender.png", title: "Blender"},
-                {"path":"/cinema4D.png", title: "Cinema 4D"},
-                {"path":"/Substance3Dpainter.png", title: "Substance 3D Painter"},
+                { path: "/blender.png", title: "Blender" },
+                { path: "/cinema4D.png", title: "Cinema 4D" },
+                {
+                    path: "/Substance3Dpainter.png",
+                    title: "Substance 3D Painter",
+                },
             ],
         },
         "2D": {
-            title: "2D DESIGNER",
+            title: "2D DESIGN",
             description:
                 "My education was closely related to 2D design, but later I significantly advanced and expanded my skills in this field.",
             tags: "design creation / animation / special effects",
             images: [
-                {"path":"/photoshop.png", title: "Photoshop"},
-                {"path":"/PremierePro.png", title: "Premiere Pro"},
-                {"path":"/After.png", title: "After Effects"},
-                {"path":"/Illustrator.png", title: "Illustrator"},
+                { path: "/photoshop.png", title: "Photoshop" },
+                { path: "/PremierePro.png", title: "Premiere Pro" },
+                { path: "/After.png", title: "After Effects" },
+                { path: "/Illustrator.png", title: "Illustrator" },
             ],
         },
         handcraft: {
@@ -44,16 +47,20 @@ export default function SkillCard({
             description:
                 "Despite my current focus on digital media, I've always been drawn to tangible, three-dimensional forms of self-expression. I believe that my experience with different materials and techniques has made me a more multifaceted artist and broadened my creative perspective.",
             tags: "blacksmith / woodwork / construction",
-            images: [],
+            images: [
+                { path: "/blacksmith.png", title: "Blacksmith" },
+                { path: "/Carpentry.png", title: "Carpentery" },
+            ],
         },
     };
-    
+
     useEffect(() => {
         const updateSize = () => {
             const width = window.innerWidth;
             if (width > 1600) {
                 setCanvasSize(1600 / 4);
-            } else if (width > 1024) {  // Tablet
+            } else if (width > 1024) {
+                // Tablet
                 setCanvasSize(width / 4);
             } else {
                 setCanvasSize(width / 2);
@@ -72,14 +79,15 @@ export default function SkillCard({
 
             const rect = skillsRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
-            
+
             // Calculate distance from center of viewport
             const elementCenter = rect.top + rect.height / 2;
             const viewportCenter = windowHeight / 2;
             const distanceFromCenter = viewportCenter - elementCenter;
 
             // Calculate scroll progress (0 to 1)
-            let progress = (distanceFromCenter + windowHeight / 2) / windowHeight;
+            let progress =
+                (distanceFromCenter + windowHeight / 2) / windowHeight;
             progress = Math.max(0, Math.min(1, progress));
 
             // Create triangular wave: 0 -> 1 (at center) -> 0
@@ -104,14 +112,14 @@ export default function SkillCard({
         <a
             href={"/portfolio#" + title}
             ref={skillsRef}
-            className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-8 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
+            className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
             style={{
                 // @ts-expect-error - CSS custom property
-                '--card-scroll-progress': scrollProgress
+                "--card-scroll-progress": scrollProgress,
             }}
         >
             <h3
-                className={`text-4xl text-nowrap md:text-5xl lg:text-6xl xl:text-7xl font-extralight text-white capitalize break-normal`}
+                className={`text-4xl text-nowrap md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-white capitalize break-normal`}
             >
                 {skillsData[title as keyof typeof skillsData].title}
             </h3>
@@ -130,27 +138,32 @@ export default function SkillCard({
                     <div className='flex gap-4 items-center mt-4 flex-wrap'>
                         {skillsData[
                             title as keyof typeof skillsData
-                        ].images.map((image: { path: string, title: string }, i: number) => (
-                            <div
-                                className='skill-icon-wrapper relative'
-                                key={i}
-                                data-program-name={image.title}
-                                style={{
-                                    // @ts-expect-error - CSS custom property
-                                    '--scroll-progress': scrollProgress
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <div className='skill-icon-inner rounded-xl p-1 border-2 border-transparent'>
-                                    <Image
-                                        width={50}
-                                        height={50}
-                                        src={image.path}
-                                        alt={image.title}
-                                    />
+                        ].images.map(
+                            (
+                                image: { path: string; title: string },
+                                i: number
+                            ) => (
+                                <div
+                                    className='skill-icon-wrapper relative'
+                                    key={i}
+                                    data-program-name={image.title}
+                                    style={{
+                                        // @ts-expect-error - CSS custom property
+                                        "--scroll-progress": scrollProgress,
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <div className='skill-icon-inner rounded-xl p-1 border-2 border-transparent'>
+                                        <Image
+                                            width={50}
+                                            height={50}
+                                            src={image.path}
+                                            alt={image.title}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        )}
                     </div>
                 </div>
             </div>
