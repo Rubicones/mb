@@ -32,11 +32,21 @@ export default async function AboutMe() {
                             <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6'>
                                     <p className='text-white text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
-                                        I&apos;m 23 years old Artist, Designer,
-                                        Craftsman and many more. I&apos;m
-                                        passionate about my works and constantly
-                                        looking for new ways to express my self
-                                        in different fields and conditions.
+                                        <span className='hidden sm:inline'>
+                                            I&apos;m 23 years old Artist,
+                                            Designer, Craftsman and many more.
+                                            I&apos;m passionate about my works
+                                            and constantly looking for new ways
+                                            to express my self in different
+                                            fields and conditions.{" "}
+                                        </span>
+
+                                        <span className='inline sm:hidden'>
+                                            I&apos;m a 23-year-old artist,
+                                            designer, and craftsman, passionate
+                                            about my work and always exploring
+                                            new forms of expression.
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -50,7 +60,7 @@ export default async function AboutMe() {
                             {/* Stieglitz Academy */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
-                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Stieglitz Academy
                                     </h3>
                                     <p className='text-gray-400 text-sm lg:text-lg mb-1'>
@@ -65,7 +75,7 @@ export default async function AboutMe() {
                             {/* International House */}
                             <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         International House
                                     </h3>
                                     <p className='text-gray-400 text-sm lg:text-lg mb-1'>
@@ -83,7 +93,7 @@ export default async function AboutMe() {
                             {/* Masa Program */}
                             <div className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Masa Program
                                     </h3>
                                     <p className='text-gray-400 text-sm lg:text-lg mb-1'>
@@ -114,14 +124,14 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 '>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start relative'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start relative'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         MUSIC
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-3'>
+                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-1 sm:mb-3'>
                                         Don&apos;t play but listen a lot.
                                     </p>
-                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-4'>
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-1 sm:mb-4'>
                                         Alt-J, Radiohead, Michael Kiwanuka,
                                         Herbie Hancock
                                     </p>
@@ -142,15 +152,15 @@ export default async function AboutMe() {
 
                             {/* Row 2: Videogames Card + Game Cover Image */}
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         VIDEOGAMES
                                     </h3>
-                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-3'>
+                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
                                         One day i hope not only play but create
                                         them.
                                     </p>
-                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mt-auto'>
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-1 sm:mb-4 mt-auto'>
                                         Dishonored, Outer Wilds, KCD, Claire
                                         Obscure. Exp 33
                                     </p>
@@ -179,15 +189,15 @@ export default async function AboutMe() {
                             </div>
 
                             <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
+                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                                    <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         SKATEBOARDING
                                     </h3>
-                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-3'>
+                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
                                         Unfortunately don&apos;t have a
                                         possibility to do it now
                                     </p>
-                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mt-auto'>
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-1 sm:mb-4 mt-auto'>
                                         Kickflip, Shuvit, Ollie, Rock-to-fakie,
                                         50-50
                                     </p>
