@@ -211,7 +211,7 @@ export default async function AboutMe() {
                             <div className='row-span-2 aspect-1/2 p-2 '>
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
                                     <img
-                                        src='/erra.jpg'
+                                        src='/erra.JPG'
                                         alt='Abstract pattern'
                                         className='w-full h-full object-cover'
                                     />
