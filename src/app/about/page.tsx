@@ -1,9 +1,81 @@
+'use client';
+
+import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import LanguagesSection from "@/components/LanguagesSection";
 
-export default async function AboutMe() {
+export default function AboutMe() {
+    useEffect(() => {
+        if (typeof window === "undefined") {
+            return;
+        }
+
+        const elements = Array.from(
+            document.querySelectorAll<HTMLElement>("[data-slide-direction]")
+        );
+
+        const updateElements = () => {
+            const viewportHeight = window.innerHeight;
+            const thresholdStart = viewportHeight;
+            const thresholdEnd = viewportHeight * 0.7; // 25% from bottom
+            const span = Math.max(thresholdStart - thresholdEnd, 1);
+            const baseOffset = window.innerWidth * 0.15; // ~20vw
+
+            elements.forEach((element) => {
+                const rect = element.getBoundingClientRect();
+                const direction =
+                    element.getAttribute("data-slide-direction")?.toLowerCase() ??
+                    "left";
+                const offset = direction === "right" ? baseOffset : -baseOffset;
+
+                const distance = thresholdStart - rect.top;
+                const rawProgress = distance / span;
+                const progress = Math.min(Math.max(rawProgress, 0), 1);
+                const translate = offset * (1 - progress);
+
+                element.style.transform = `translateX(${translate}px)`;
+                element.style.opacity = progress.toString();
+                element.style.willChange = "transform, opacity";
+                element.style.transformOrigin = "center";
+            });
+        };
+
+        let frame = 0;
+        const requestUpdate = () => {
+            if (frame) {
+                return;
+            }
+
+            frame = window.requestAnimationFrame(() => {
+                frame = 0;
+                updateElements();
+            });
+        };
+
+        updateElements();
+
+        window.addEventListener("scroll", requestUpdate, { passive: true });
+        window.addEventListener("resize", requestUpdate);
+
+        return () => {
+            window.removeEventListener("scroll", requestUpdate);
+            window.removeEventListener("resize", requestUpdate);
+
+            if (frame) {
+                window.cancelAnimationFrame(frame);
+            }
+
+            elements.forEach((element) => {
+                element.style.removeProperty("opacity");
+                element.style.removeProperty("transform");
+                element.style.removeProperty("will-change");
+                element.style.removeProperty("transform-origin");
+            });
+        };
+    }, []);
+
     return (
         <div className='w-full h-full flex flex-col items-center bg-neutral-900 overflow-x-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-neutral-900 overflow-y-scroll no-scrollbar'>
@@ -13,7 +85,7 @@ export default async function AboutMe() {
                         {/* Hello There Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2 '>
                             {/* Greeting - Takes 4 columns */}
-                            <div className='col-span-2  flex flex-col justify-between p-3 sm:p-6 aspect-2/1'>
+                            <div className='col-span-2  flex flex-col justify-between p-3 sm:p-6 aspect-2/1' data-slide-direction='left'>
                                 <h1 className='text-5xl md:text-7xl lg:text-9xl font-extralight text-white leading-none'>
                                     HELLO
                                     <br />
@@ -21,15 +93,17 @@ export default async function AboutMe() {
                                 </h1>
                             </div>
                             {/* Profile Image - Takes 2 columns */}
-                            <div className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2'>
-                                <img
-                                    src='/whoami4.jpg'
-                                    alt='Profile'
-                                    className='w-full h-full object-cover rounded-2xl'
-                                />
+                            <div className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2' data-slide-direction='right'>
+                                <div className='relative h-full w-full overflow-hidden rounded-2xl group'>
+                                    <img
+                                        src='/whoami4.jpg'
+                                        alt='Profile'
+                                        className='absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                                    />
+                                </div>
                             </div>
 
-                            <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2'>
+                            <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2' data-slide-direction='left'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6'>
                                     <p className='text-white text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
                                         <span className='hidden sm:inline'>
@@ -58,23 +132,23 @@ export default async function AboutMe() {
                         {/* Education Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2'>
                             {/* Stieglitz Academy */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
-                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2' data-slide-direction='left'>
+                                <div className='bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300  rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
+                                    <h3 className='text-neutral-900 text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Stieglitz Academy
                                     </h3>
-                                    <p className='text-gray-400 text-sm lg:text-lg mb-1'>
+                                    <p className='text-gray-800 text-sm lg:text-lg mb-1'>
                                         Bachelor / 2019-2022
                                     </p>
-                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-800 text-sm lg:text-lg mt-auto'>
                                         Fine arts / Metal Work / Design
                                     </p>
                                 </div>
                             </div>
 
                             {/* International House */}
-                            <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                            <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full' data-slide-direction='right'>
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         International House
                                     </h3>
@@ -87,12 +161,9 @@ export default async function AboutMe() {
                                 </div>
                             </div>
 
-                            {/* Empty space top right */}
-                            <div className='col-span-1'></div>
-
                             {/* Masa Program */}
-                            <div className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                            <div data-slide-direction='left' className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
                                         Masa Program
                                     </h3>
@@ -113,18 +184,18 @@ export default async function AboutMe() {
                         {/* Hobby Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-3'>
                             {/* Row 1: Abstract Image + Music Card */}
-                            <div className='col-span-1 aspect-square p-1 sm:p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-1 aspect-square p-1 sm:p-2' data-slide-direction='left'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/music.png'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 '>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start relative'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 ' data-slide-direction='right'>
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start relative'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         MUSIC
                                     </h3>
@@ -154,8 +225,8 @@ export default async function AboutMe() {
                             </div>
 
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2' data-slide-direction='left'>
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         VIDEOGAMES
                                     </h3>
@@ -170,29 +241,29 @@ export default async function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-1 aspect-square p-1 sm:p-2 row-start-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-1 aspect-square p-1 sm:p-2 row-start-2' data-slide-direction='right'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/games.png'
                                         alt='Super Seducer game cover'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
 
                             {/* Row 3: Abstract Image + Skateboarding Card */}
-                            <div className='col-span-1 aspect-square p-2 row-start-3'>
-                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-1 aspect-square p-2 row-start-3' data-slide-direction='left'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='skateboarding.png'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3'>
-                                <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3' data-slide-direction='right'>
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
                                         SKATEBOARDING
                                     </h3>
@@ -211,17 +282,17 @@ export default async function AboutMe() {
                             WORK EXPERIENCE
                         </span>
                         <div className='w-full grid grid-cols-3 grid-rows-4'>
-                            <div className='row-span-2 aspect-1/2 p-2 '>
-                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                            <div className='row-span-2 aspect-1/2 p-1 sm:p-2 ' data-slide-direction='left'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/erra.JPG'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2'>
+                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2' data-slide-direction='right'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-xl sm:text-2xl  md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
                                         MOTION DESIGNER
@@ -234,12 +305,12 @@ export default async function AboutMe() {
                                     </h3>
                                 </div>
                             </div>
-                            <div className='col-span-2 row-span-2 col-start-2 row-start-2 aspect-square p-2 '>
-                                <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden'>
+                            <div className='col-span-2 row-span-2 col-start-2 row-start-2 aspect-square p-1 sm:p-2 ' data-slide-direction='right'>
+                                <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/carpenter.png'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                     <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-transparent flex flex-col items-start justify-start text-left gap-1 p-4'>
                                         <h3 className='text-white text-xl sm:text-2xl  md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
@@ -251,12 +322,12 @@ export default async function AboutMe() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='row-start-3 aspect-square p-2'>
-                                <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden'>
+                            <div className='row-start-3 aspect-square p-1 sm:p-2' data-slide-direction='left'>
+                                <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/insomnia.png'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                     <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-transparent flex flex-col items-start justify-start text-left gap-1 p-4'>
                                         <span className='text-white text-sm xs:text-lg sm:text-xl md:text-2xl xl:text-3xl font-bold'>
@@ -269,7 +340,7 @@ export default async function AboutMe() {
                                 </div>
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2'>
+                            <div className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2' data-slide-direction='left'>
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
                                     <h3 className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
                                         3D DESIGNER
@@ -282,12 +353,12 @@ export default async function AboutMe() {
                                     </h3>
                                 </div>
                             </div>
-                            <div className='col-start-3 row-start-4 aspect-square p-2'>
-                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden'>
+                            <div className='col-start-3 row-start-4 aspect-square p-1 sm:p-2' data-slide-direction='right'>
+                                <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/3ddesigner.jpg'
                                         alt='Abstract pattern'
-                                        className='w-full h-full object-cover'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
