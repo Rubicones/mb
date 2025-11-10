@@ -30,7 +30,6 @@ export default function TitleScene() {
             });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio); // High-DPI display support
-            
             // Professional rendering settings
             renderer.outputColorSpace = THREE.SRGBColorSpace;
             renderer.toneMapping = THREE.ACESFilmicToneMapping;

@@ -135,7 +135,10 @@ export default async function AboutMe() {
                                         Alt-J, Radiohead, Michael Kiwanuka,
                                         Herbie Hancock
                                     </p>
-                                    <div className='mt-auto flex items-center gap-2 sm:bg-neutral-700 hover:bg-neutral-600 transition-all duration-300 rounded-full px-4 py-2 w-fit absolute right-2 top-2 sm:static'>
+                                    <a
+                                        href='https://open.spotify.com/user/31b4thyjutygjlpmvdiphc4g65oq?si=23aa5fac46304dce'
+                                        className='mt-auto flex items-center gap-2 sm:bg-neutral-700 hover:bg-neutral-600 transition-all duration-300 rounded-full px-4 py-2 w-fit absolute right-2 top-2 sm:static'
+                                    >
                                         <Image
                                             width={20}
                                             height={20}
@@ -146,7 +149,7 @@ export default async function AboutMe() {
                                         <span className='sm:inline hidden text-white text-xs md:text-sm lg:text-base'>
                                             matat&apos;yaho
                                         </span>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
 
@@ -274,6 +277,9 @@ export default async function AboutMe() {
                                     <p className='text-gray-400 text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
                                         Freelance | Georgia
                                     </p>
+                                    <h3 className='text-white text-lg md:text-2xl lg:text-4xl xl:text-5xl font-semibold mb-1 mt-auto'>
+                                        &gt;
+                                    </h3>
                                 </div>
                             </div>
                             <div className='col-start-3 row-start-4 aspect-square p-2'>

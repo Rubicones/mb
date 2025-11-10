@@ -35,92 +35,92 @@ export default function Footer() {
                     </span>
                     <a
                         href='https://t.me/mativich'
-                        className='mt-6 w-min  text-nowrap hover text-4xl px-10 py-1 rounded-full  text-white bg-black hover:bg-neutral-700 transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
+                        className='mt-6 md:w-min w-full text-nowrap hover text-4xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
-                        <span className='-translate-y-[2px]'>
+                        <span className='-translate-y-[2px] w-full text-center'>
                             Get&nbsp;in&nbsp;touch
                         </span>
-                        <SendIcon className='w-7 h-7 ml-2' />{" "}
+                        {/* <SendIcon className='w-7 h-7 ml-2' />{" "} */}
                     </a>
-                    <div className='w-full flex justify-start  gap-4 md:gap-8 lg:gap-20 md:flex-row flex-col'>
+                    <div className='w-full flex justify-between md:justify-start  gap-4 md:gap-8 lg:gap-20 md:flex-nowrap flex-wrap'>
                         <div className='flex flex-col mt-8'>
-                            <span className='text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
                                 CONTACTS
                             </span>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                href='https://t.me/mativich'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
                                 Telegram
                             </a>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                href='mailto:mgbtumbedg@gmail.com'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Email
                             </a>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                href='https://wa.me/+9720552691841'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 WhatsApp
                             </a>
                         </div>
                         <div className='flex flex-col mt-8'>
-                            <span className='text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
                                 SOCIALS
                             </span>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                href='https://il.linkedin.com/in/matvei-brumberg-593b8b290'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
                                 LindedIn
                             </a>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                href='https://www.artstation.com/batvey'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 ArtStation
                             </a>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                href='https://www.instagram.com/mgbtumbedg'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Instagram
                             </a>
                             <a
-                                href=''
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                href='https://www.facebook.com/share/1AQ3a6JhPy/?mibextid=wwXIfr'
+                                className='text-2xl md:text-3xl     hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Facebook
                             </a>
                         </div>
                         <div className='flex flex-col mt-8 md:ml-auto'>
-                            <span className='text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
                                 NAVIGATION
                             </span>
                             <Link
                                 href='/'
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
                                 Home
                             </Link>
                             <Link
                                 href='/about'
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 About Me
                             </Link>
                             <Link
                                 href='/portfolio'
-                                className='text-4xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Portfolio
                             </Link>
                         </div>
                     </div>
                     <div className='mt-12 flex md:flex-row flex-col gap-4 md:gap-0 md:items-center justify-start md:justify-between'>
-                        <span className='text-5xl text-black font-extrabold'>
+                        <span className='text-5xl text-black font-extrabold -tracking-[12px]'>
                             MB
                         </span>
                         <span className='text-xl text-neutral-400 font-light'>
@@ -128,7 +128,7 @@ export default function Footer() {
                         </span>
                         <a
                             href='https://t.me/Rubicon1543'
-                            className='text-2xl text-nowrap px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-center cursor-pointer'
+                            className='text-2xl text-nowrap px-10 py-1 rounded-full   text-white bg-black hover:bg-neutral-700 transition-all duration-300 font-light flex items-center justify-center cursor-pointer'
                         >
                             <span className='-translate-y-0.5'>
                                 Developed by:{" "}

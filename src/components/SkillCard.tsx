@@ -43,7 +43,7 @@ export default function SkillCard({
             ],
         },
         handcraft: {
-            title: "HANDIMAN",
+            title: "CRAFT",
             description:
                 "Despite my current focus on digital media, I've always been drawn to tangible, three-dimensional forms of self-expression. I believe that my experience with different materials and techniques has made me a more multifaceted artist and broadened my creative perspective.",
             tags: "blacksmith / woodwork / construction",
@@ -119,7 +119,7 @@ export default function SkillCard({
             }}
         >
             <h3
-                className={`text-4xl text-nowrap md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-white capitalize break-normal`}
+                className={`text-4xl text-nowrap md:text-4xl lg:text-4xl xl:text-6xl font-extralight text-white capitalize break-normal`}
             >
                 {skillsData[title as keyof typeof skillsData].title}
             </h3>
@@ -135,7 +135,7 @@ export default function SkillCard({
                     {skillsData[title as keyof typeof skillsData].tags}
                 </div>
                 <div className='w-full h-full flex grow text-black text-2xl flex-col justify-end lg:justify-between gap-2 uppercase font-bold items-start lg:items-end mt-auto lg:flex-row flex-wrap'>
-                    <div className='flex gap-4 items-center mt-4 flex-wrap'>
+                    <div className='flex gap-4 items-center mt-4'>
                         {skillsData[
                             title as keyof typeof skillsData
                         ].images.map(
