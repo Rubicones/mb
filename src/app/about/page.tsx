@@ -356,7 +356,7 @@ export default function AboutMe() {
                             <div className='col-start-3 row-start-4 aspect-square p-1 sm:p-2' data-slide-direction='right'>
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
-                                        src='/3ddesigner.jpg'
+                                        src='/3ddesigner.JPG'
                                         alt='Abstract pattern'
                                         className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />

@@ -47,10 +47,10 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
-                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2 hover:outline-[#BBAD31]/60 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
+                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "ru"
                                 ? "outline-[#C8B936]"
-                                : "outline-neutral-800"
+                                : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>
@@ -72,10 +72,10 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
-                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2 hover:outline-[#BBAD31]/60 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
+                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "en"
                                 ? "outline-[#C8B936]"
-                                : "outline-neutral-800"
+                                : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>
@@ -97,10 +97,10 @@ export default function LanguagesSection() {
                     className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
-                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2 hover:outline-[#BBAD31]/60 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
+                        className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "he"
                                 ? "outline-[#C8B936]"
-                                : "outline-neutral-800"
+                                : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >
                         <p className='text-white text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-left'>

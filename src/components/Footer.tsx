@@ -34,7 +34,7 @@ export default function Footer() {
                         DO YOU HAVE A PROJECT OR VACANCY FOR ME?
                     </span>
                     <a
-                        href='https://t.me/mativich'
+                        href='https://wa.me/+9720552691841'
                         className='mt-6 md:w-min w-full text-nowrap hover text-4xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
                         <span className='-translate-y-[2px] w-full text-center'>
