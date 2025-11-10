@@ -59,12 +59,12 @@ export default function SkillCard({
         const updateSize = () => {
             const width = window.innerWidth;
             if (width > 1600) {
-                setCanvasSize(1600 / 5);
+                setCanvasSize(1600 / 4);
             } else if (width > 1024) {
                 // Tablet
-                setCanvasSize(width / 5);
+                setCanvasSize(width / 4);
             } else {
-                setCanvasSize(width / 2);
+                setCanvasSize(width / 1.5);
             }
         };
 
@@ -117,24 +117,24 @@ export default function SkillCard({
         [title]
     );
 
-    const circleDiameter = Math.max(
-        Math.round(canvasSize * 1.35),
-        canvasSize + 80
-    );
-    const ringRadius = 80;
+    const circleDiameter = Math.round(canvasSize);
+    const ringCoverage = canvasSize / circleDiameter;
+    const ringRadius = Math.max(60, Math.min(95, ringCoverage * 100 + 12));
     const ringDiameter = ringRadius * 2;
 
     const circleTypographyMap: Record<
         keyof typeof skillsData,
         { fontSize: number; letterSpacing: number }
     > = {
-        "3D": { fontSize: 8, letterSpacing: 1.82 },
-        "2D": { fontSize: 6.9, letterSpacing: 1.73 },
-        handcraft: { fontSize: 8, letterSpacing: 1.9 },
+        "3D": { fontSize: 8.3, letterSpacing: 1.82 },
+        "2D": { fontSize: 8.3, letterSpacing: 1.73 },
+        handcraft: { fontSize: 9, letterSpacing: 2.3 },
     };
 
-    const circleTypography =
-        circleTypographyMap[skillKey] ?? { fontSize: 10, letterSpacing: 1.5 };
+    const circleTypography = circleTypographyMap[skillKey] ?? {
+        fontSize: 10,
+        letterSpacing: 1.5,
+    };
 
     const ringStyle = useMemo(
         () =>
@@ -143,7 +143,7 @@ export default function SkillCard({
                 height: circleDiameter,
                 "--skill-ring-font-size": `${circleTypography.fontSize}px`,
                 "--skill-ring-letter-spacing": `${circleTypography.letterSpacing}px`,
-            }) as CSSProperties,
+            } as CSSProperties),
         [
             circleDiameter,
             circleTypography.fontSize,
@@ -161,7 +161,9 @@ export default function SkillCard({
                 "--card-scroll-progress": scrollProgress,
             }}
         >
-            <h3 className={`text-4xl text-nowrap md:text-4xl lg:text-4xl xl:text-6xl font-extralight text-white capitalize break-normal`}>
+            <h3
+                className={`text-4xl text-nowrap md:text-4xl lg:text-4xl xl:text-6xl font-extralight text-white capitalize break-normal`}
+            >
                 {skill.title}
             </h3>
             <div
@@ -194,7 +196,7 @@ export default function SkillCard({
                     </svg>
                 </div>
                 <div
-                    className='relative flex items-center justify-center rounded-full border border-neutral-800/60 backdrop-blur-sm'
+                    className='relative flex items-center justify-center rounded-full'
                     style={{
                         width: canvasSize,
                         height: canvasSize,
@@ -208,7 +210,6 @@ export default function SkillCard({
                 </div>
             </div>
             <div className={`w-full flex flex-col justify-between gap-4`}>
-             
                 <div className='w-full h-full flex grow text-black text-2xl flex-col justify-end lg:justify-between gap-2 uppercase font-bold items-start lg:items-end mt-auto lg:flex-row flex-wrap'>
                     <div className='flex gap-4 items-center mt-4 w-full justify-center'>
                         {skillsData[
@@ -248,15 +249,18 @@ export default function SkillCard({
                 }
                 .skill-card:hover,
                 .skill-card:focus-visible {
-                    --skill-ring-color: #C8B936;
+                    --skill-ring-color: #c8b936;
                 }
                 @media (pointer: coarse) {
                     .skill-card {
                         --skill-ring-color: color-mix(
                             in srgb,
                             rgba(255, 255, 255, 0.45)
-                                calc(100% - (var(--card-scroll-progress, 0) * 100%)),
-                            #C8B936 calc(var(--card-scroll-progress, 0) * 100%)
+                                calc(
+                                    100% -
+                                        (var(--card-scroll-progress, 0) * 100%)
+                                ),
+                            #c8b936 calc(var(--card-scroll-progress, 0) * 100%)
                         );
                     }
                     .skill-card:hover,
@@ -264,8 +268,11 @@ export default function SkillCard({
                         --skill-ring-color: color-mix(
                             in srgb,
                             rgba(255, 255, 255, 0.45)
-                                calc(100% - (var(--card-scroll-progress, 0) * 100%)),
-                            #C8B936 calc(var(--card-scroll-progress, 0) * 100%)
+                                calc(
+                                    100% -
+                                        (var(--card-scroll-progress, 0) * 100%)
+                                ),
+                            #c8b936 calc(var(--card-scroll-progress, 0) * 100%)
                         );
                     }
                 }
@@ -291,6 +298,7 @@ export default function SkillCard({
                     text-transform: uppercase;
                     fill-opacity: 0.6;
                     transition: fill 0.3s ease;
+                    font-weight: 500;
                 }
             `}</style>
         </a>
