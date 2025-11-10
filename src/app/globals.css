@@ -320,6 +320,35 @@ main > * {
     }
 }
 
+@keyframes skill-ring-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.skill-text-ring {
+    animation: skill-ring-spin 40s linear infinite;
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+.skill-text-ring text {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: clamp(7px, 0.75vw, 11px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    fill: #9ca3af;
+    font-weight: 200;
+    white-space: pre;
+}
+
+.skill-text-ring textPath {
+    dominant-baseline: middle;
+}
+
 @keyframes blink {
     0%, 100% {
         opacity: 1;
