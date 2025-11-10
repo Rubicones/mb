@@ -78,7 +78,7 @@ export default function AboutMe() {
 
     return (
         <div className='w-full h-full flex flex-col items-center bg-neutral-900 overflow-x-hidden'>
-            <div className='w-screen h-full flex flex-col items-center bg-neutral-900 overflow-y-scroll no-scrollbar'>
+            <div className='w-screen h-full flex flex-col items-center bg-neutral-900 overflow-y-scroll no-scrollbar overflow-x-hidden'>
                 <Header />
                 <div className='w-full h-full flex flex-col justify-center items-center bg-neutral-900 z-50 mt-16'>
                     <main className='max-w-[1200px] w-full h-full flex flex-col items-start sm:px-4 lg:px-32 pt-8 md:pt-12 pb-16 p-4 z-50 bg-neutral-900'>
