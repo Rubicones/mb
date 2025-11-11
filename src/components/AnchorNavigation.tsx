@@ -2,6 +2,67 @@
 
 import { useEffect, useState, useRef } from "react";
 
+type ScrollContext =
+    | { type: "element"; node: HTMLElement }
+    | { type: "window"; node: Window };
+
+type ScrollMetrics = {
+    scrollTop: number;
+    clientHeight: number;
+    scrollTo: (options: ScrollToOptions) => void;
+    getRelativeTop: (element: HTMLElement) => number;
+};
+
+const getScrollContext = (): ScrollContext | null => {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+        return null;
+    }
+
+    const container = document.querySelector<HTMLElement>(".scrollContainer");
+
+    if (container) {
+        const styles = window.getComputedStyle(container);
+        const hasScrollableContent = container.scrollHeight > container.clientHeight + 1;
+        const overflowAllowsScroll = ["auto", "scroll"].includes(styles.overflowY);
+
+        if (hasScrollableContent && overflowAllowsScroll) {
+            return { type: "element", node: container };
+        }
+    }
+
+    return { type: "window", node: window };
+};
+
+const getScrollMetrics = (context: ScrollContext): ScrollMetrics => {
+    if (context.type === "element") {
+        const container = context.node;
+        const containerRect = container.getBoundingClientRect();
+
+        return {
+            scrollTop: container.scrollTop,
+            clientHeight: container.clientHeight,
+            scrollTo: (options: ScrollToOptions) => container.scrollTo(options),
+            getRelativeTop: (element: HTMLElement) => {
+                const elementRect = element.getBoundingClientRect();
+                return container.scrollTop + (elementRect.top - containerRect.top);
+            },
+        };
+    }
+
+    const scrollElement = document.scrollingElement ?? document.documentElement;
+    const currentScrollTop = window.scrollY ?? scrollElement.scrollTop;
+
+    return {
+        scrollTop: currentScrollTop,
+        clientHeight: window.innerHeight,
+        scrollTo: (options: ScrollToOptions) => window.scrollTo(options),
+        getRelativeTop: (element: HTMLElement) => {
+            const elementRect = element.getBoundingClientRect();
+            return (window.scrollY ?? scrollElement.scrollTop) + elementRect.top;
+        },
+    };
+};
+
 interface AnchorNavigationProps {
     sections: {
         id: string;
@@ -17,61 +78,67 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     const [touchHoverIndex, setTouchHoverIndex] = useState<number>(-1);
     const lastVibratedIndex = useRef<number>(-1);
     const navRef = useRef<HTMLDivElement>(null);
+    const [scrollContext, setScrollContext] = useState<ScrollContext | null>(null);
+    const dragTimeoutRef = useRef<number | null>(null);
 
     useEffect(() => {
-        // Find the scrollable container
-        const scrollContainer = document.querySelector('main');
-        
-        const handleScroll = () => {
-            if (!scrollContainer) return;
-            
-            // Calculate scroll position relative to center of screen
-            const centerOffset = scrollContainer.clientHeight / 2;
-            const scrollPosition = scrollContainer.scrollTop + centerOffset;
+        if (typeof window === "undefined") return;
 
-            // Check if we're at the top
-            if (scrollContainer.scrollTop < 50) {
+        const updateContext = () => {
+            setScrollContext(getScrollContext());
+        };
+
+        updateContext();
+        window.addEventListener("resize", updateContext);
+
+        return () => {
+            window.removeEventListener("resize", updateContext);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!scrollContext) return;
+
+        const target =
+            scrollContext.type === "element" ? scrollContext.node : window;
+
+        const handleScroll = () => {
+            const metrics = getScrollMetrics(scrollContext);
+
+            const centerOffset = metrics.clientHeight / 2;
+            const scrollPosition = metrics.scrollTop + centerOffset;
+
+            if (metrics.scrollTop < 50) {
                 setActiveSection(sections[0]?.id || "");
                 setActiveDividerIndex(-1);
                 return;
             }
 
-            // Find which section is currently in view based on headers
             let activeDivider = -1;
             let foundMatch = false;
-            
+
             for (let i = sections.length - 1; i >= 0; i--) {
                 const sectionElement = document.getElementById(sections[i].id);
-                if (sectionElement && scrollContainer && !foundMatch) {
-                    // Get the header (h2) and the projects container (grid)
-                    const header = sectionElement.querySelector('h2') as HTMLElement;
-                    const projectsContainer = sectionElement.querySelector('.grid') as HTMLElement;
-                    
+                if (sectionElement && !foundMatch) {
+                    const header = sectionElement.querySelector("h2") as HTMLElement | null;
+                    const projectsContainer = sectionElement.querySelector(".grid") as HTMLElement | null;
+
                     if (header && projectsContainer) {
-                        // Get absolute position relative to the scrollable container
-                        const scrollContainerRect = scrollContainer.getBoundingClientRect();
-                        const headerRect = header.getBoundingClientRect();
-                        const projectsRect = projectsContainer.getBoundingClientRect();
-                        
-                        // Calculate position of elements relative to scroll container top
-                        const headerPosition = scrollContainer.scrollTop + (headerRect.top - scrollContainerRect.top);
-                        const projectsPosition = scrollContainer.scrollTop + (projectsRect.top - scrollContainerRect.top);
-                        
-                        // If header has passed the center, this is the active section
+                        const headerPosition = metrics.getRelativeTop(header);
+                        const projectsPosition = metrics.getRelativeTop(projectsContainer);
+
                         if (scrollPosition >= headerPosition) {
                             foundMatch = true;
-                            
-                            // If projects container has also passed center, highlight divider instead
+
                             if (scrollPosition >= projectsPosition && i < sections.length - 1) {
                                 activeDivider = i;
-                                setActiveSection("");  // Don't highlight header text
+                                setActiveSection("");
                             } else {
-                                setActiveSection(sections[i].id);  // Highlight header text
+                                setActiveSection(sections[i].id);
                             }
                         }
                     } else {
-                        // Fallback if elements not found
-                        const sectionTop = sectionElement.offsetTop - scrollContainer.offsetTop;
+                        const sectionTop = metrics.getRelativeTop(sectionElement);
                         if (scrollPosition >= sectionTop) {
                             foundMatch = true;
                             setActiveSection(sections[i].id);
@@ -83,39 +150,36 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
             setActiveDividerIndex(activeDivider);
         };
 
-        if (scrollContainer) {
-            scrollContainer.addEventListener("scroll", handleScroll);
-            handleScroll(); // Initial check
-        }
+        handleScroll();
+        target.addEventListener("scroll", handleScroll, { passive: true });
 
         return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener("scroll", handleScroll);
-            }
+            target.removeEventListener("scroll", handleScroll);
         };
-    }, [sections, activeSection]);
+    }, [sections, scrollContext]);
 
     const scrollToSection = (sectionId: string, scrollTo: "header" | "section", smooth: boolean = true) => {
-        const scrollContainer = document.querySelector('main');
-        if (!scrollContainer) return;
+        const context = scrollContext ?? getScrollContext();
+        if (!context) return;
+
+        const metrics = getScrollMetrics(context);
 
         if (scrollTo === "header") {
-            // Scroll to top of the container
-            scrollContainer.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+            metrics.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
         } else {
-            // Scroll to the section
             const element = document.getElementById(sectionId);
             if (element) {
-                const headerOffset = 80; // Adjust based on your header height
-                const elementPosition = element.offsetTop - scrollContainer.offsetTop;
+                const headerOffset = context.type === "window" ? 120 : 80;
+                const elementPosition = metrics.getRelativeTop(element);
                 const offsetPosition = elementPosition - headerOffset;
 
-                scrollContainer.scrollTo({
-                    top: offsetPosition,
+                metrics.scrollTo({
+                    top: Math.max(offsetPosition, 0),
                     behavior: smooth ? "smooth" : "auto",
                 });
             }
         }
+
         setActiveSection(sectionId);
     };
 
@@ -123,80 +187,71 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         scrollToSection(sectionId, scrollTo, true);
     };
 
-    const handleTouchStart = (e: React.TouchEvent) => {
-        // Only prevent default for touch drags, not taps
-        // Set a timeout to determine if this is a drag gesture
-        const dragTimeout = setTimeout(() => {
+    const handleTouchStart = () => {
+        if (dragTimeoutRef.current) {
+            clearTimeout(dragTimeoutRef.current);
+        }
+
+        dragTimeoutRef.current = window.setTimeout(() => {
             setIsTouching(true);
             lastVibratedIndex.current = -1;
-            
-            // Vibrate on touch start - this is a user gesture so it should work
+
             try {
                 if (typeof window !== "undefined" && navigator.vibrate) {
-                    // Use shorter vibration for better UX
                     navigator.vibrate(30);
                 }
             } catch {
-                // Silently fail if vibration not supported
+                // ignore unsupported vibration
             }
-        }, 100); // Short delay to differentiate tap from drag
-        
-        // Store cleanup function on the target element
-        const target = e.target as HTMLElement & { _dragTimeout?: NodeJS.Timeout };
-        target._dragTimeout = dragTimeout;
+        }, 120);
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
         if (!navRef.current) return;
-        
-        // If we detect movement, activate touch mode and prevent scrolling
+
         if (!isTouching) {
+            if (dragTimeoutRef.current) {
+                clearTimeout(dragTimeoutRef.current);
+                dragTimeoutRef.current = null;
+            }
+
             setIsTouching(true);
         }
-        
-        // Prevent pull-to-refresh and scrolling during drag
+
         e.preventDefault();
 
         const touch = e.touches[0];
         const navRect = navRef.current.getBoundingClientRect();
         const relativeY = touch.clientY - navRect.top;
-        
-        // Calculate which section index the finger is hovering over
         const sectionHeight = navRect.height / sections.length;
         const hoveredIndex = Math.floor(relativeY / sectionHeight);
-        
+
         if (hoveredIndex >= 0 && hoveredIndex < sections.length) {
             setTouchHoverIndex(hoveredIndex);
-            
-            // Vibrate when crossing into a new section
-            // This is still within the user gesture context from touchstart
+
             if (hoveredIndex !== lastVibratedIndex.current) {
                 try {
                     if (typeof window !== "undefined" && navigator.vibrate) {
-                        // Chrome for Android requires user gesture (touchstart counts)
-                        // Subsequent vibrations during the same touch interaction should work
                         navigator.vibrate(30);
                     }
                 } catch {
-                    // Silently fail
+                    // ignore unsupported vibration
                 }
-                
+
                 lastVibratedIndex.current = hoveredIndex;
-                
-                // Scroll to the hovered section
+
                 const section = sections[hoveredIndex];
                 scrollToSection(section.id, section.scrollTo, false);
             }
         }
     };
 
-    const handleTouchEnd = (e: React.TouchEvent) => {
-        // Clear any pending drag timeout
-        const target = e.target as HTMLElement & { _dragTimeout?: NodeJS.Timeout };
-        if (target._dragTimeout) {
-            clearTimeout(target._dragTimeout);
+    const handleTouchEnd = () => {
+        if (dragTimeoutRef.current) {
+            clearTimeout(dragTimeoutRef.current);
+            dragTimeoutRef.current = null;
         }
-        
+
         setIsTouching(false);
         setTouchHoverIndex(-1);
         lastVibratedIndex.current = -1;
@@ -204,13 +259,13 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
 
     return (
         <div className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 md:top-1/3 md:-translate-y-1/3 z-100 pointer-events-auto">
-            <nav 
+            <nav
                 ref={navRef}
                 className={`
-                    bg-neutral-800/40 backdrop-blur-md rounded-full 
-                    py-3 pl-3 pr-2 md:py-4 md:pl-4 md:pr-2.5 
+                    bg-neutral-800/40 backdrop-blur-md rounded-full
+                    py-3 pl-3 pr-2 md:py-4 md:pl-4 md:pr-2.5
                     flex flex-col items-end gap-0
-                    ${isTouching ? 'scale-110 bg-neutral-800/60' : ''}
+                    ${isTouching ? "scale-110 bg-neutral-800/60" : ""}
                     transition-all duration-150
                     select-none
                 `}
@@ -222,30 +277,30 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                 {sections.map((section, index) => {
                     const isActive = activeSection === section.id || (isTouching && touchHoverIndex === index);
                     return (
-                        <div 
-                            key={`${section.id}-${index}`} 
+                        <div
+                            key={`${section.id}-${index}`}
                             className={`
                                 flex flex-col w-full transition-all duration-300
-                                ${isActive ? 'items-center' : 'items-end'}
+                                ${isActive ? "items-center" : "items-end"}
                             `}
                         >
-                        <button
-                            onClick={() => handleClick(section.id, section.scrollTo)}
-                            className={`
-                                py-1.5 md:py-2 
-                                text-xs md:text-sm font-medium 
-                                transition-all duration-300 w-full
-                                ${isActive ? 'text-center text-yellow-400 px-1.5 md:px-2.5' : 'text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5'}
-                                ${isTouching && touchHoverIndex === index ? 'scale-110' : ''}
-                            `}
-                        >
-                            {section.label}
-                        </button>
+                            <button
+                                onClick={() => handleClick(section.id, section.scrollTo)}
+                                className={`
+                                    py-1.5 md:py-2
+                                    text-xs md:text-sm font-medium
+                                    transition-all duration-300 w-full
+                                    ${isActive ? "text-center text-yellow-400 px-1.5 md:px-2.5" : "text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5"}
+                                    ${isTouching && touchHoverIndex === index ? "scale-110" : ""}
+                                `}
+                            >
+                                {section.label}
+                            </button>
                             {index < sections.length - 1 && (
-                                <div 
+                                <div
                                     className={`
                                         w-6 md:w-7 h-px my-1.5 md:my-2 transition-all duration-300
-                                        ${isActive ? 'mr-0' : 'mr-1 md:mr-1.5'}
+                                        ${isActive ? "mr-0" : "mr-1 md:mr-1.5"}
                                         ${
                                             activeDividerIndex === index || (isTouching && touchHoverIndex === index)
                                                 ? "bg-yellow-400"

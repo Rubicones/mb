@@ -131,7 +131,8 @@ export default function HighlightsSection() {
     }, [isVisible]);
 
     // Scroll to a specific card
-    const scrollToCard = useCallback((index: number) => {
+    const scrollToCard = useCallback(
+        (index: number, options?: { syncState?: boolean }) => {
         const projectId = projects[index]?.id;
         if (!projectId) return;
         
@@ -149,13 +150,19 @@ export default function HighlightsSection() {
                 isScrollingRef.current = false;
             }, 1000);
         }
-    }, [projects]);
+
+        if (options?.syncState) {
+            setCurrentIndex(index);
+            setProgressKey(prev => prev + 1);
+        }
+    },
+    [projects, setCurrentIndex, setProgressKey]);
 
     // Initialize: scroll to second card
     useEffect(() => {
         if (projects.length > 1 && isVisible) {
             setTimeout(() => {
-                scrollToCard(1);
+                scrollToCard(1, { syncState: true });
             }, 100);
         }
     }, [projects, scrollToCard, isVisible]);
