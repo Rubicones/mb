@@ -76,25 +76,25 @@ export default function Gallery({ media }: GalleryProps) {
             const isFullyVisible = (child: HTMLElement) => {
                 // 1) Get the width of the container
                 const containerWidth = container.offsetWidth;
-                
+
                 // 2) Get the width of the image
                 const imageWidth = child.offsetWidth;
-                
+
                 // 3) Find the left and right indents of the image
                 const leftIndent = child.offsetLeft - scrollLeft;
                 const rightIndent = containerWidth - (leftIndent + imageWidth);
-                
+
                 // 4) If indent + image's width is greater than the container width – it is not visible fully
                 // 5) If any of the indents are negative – it is not visible fully
                 const isVisible = leftIndent >= -10 && rightIndent >= -10;
-                
+
                 console.log(`Element ${Array.from(children).indexOf(child)}:`);
                 console.log(`  Container width: ${containerWidth}`);
                 console.log(`  Image width: ${imageWidth}`);
                 console.log(`  Left indent: ${leftIndent}`);
                 console.log(`  Right indent: ${rightIndent}`);
                 console.log(`  Fully visible: ${isVisible}`);
-                
+
                 return isVisible;
             };
 
@@ -136,7 +136,7 @@ export default function Gallery({ media }: GalleryProps) {
                 }
 
                 console.log("lastFullyVisibleIndex – ", lastFullyVisibleIndex);
-                
+
                 // Search forwards from the last fully visible element
                 if (lastFullyVisibleIndex === -1) {
                     // No elements are fully visible, go to first element
@@ -144,7 +144,11 @@ export default function Gallery({ media }: GalleryProps) {
                     targetChild = children[newIndex];
                 } else {
                     // Look for the first not-fully-visible element after the last fully visible one
-                    for (let i = lastFullyVisibleIndex + 1; i < children.length; i++) {
+                    for (
+                        let i = lastFullyVisibleIndex + 1;
+                        i < children.length;
+                        i++
+                    ) {
                         const child = children[i];
                         if (!isFullyVisible(child)) {
                             targetChild = child;
@@ -153,7 +157,7 @@ export default function Gallery({ media }: GalleryProps) {
                         }
                     }
                 }
-                
+
                 // If all elements are fully visible, go to first element
                 if (!targetChild) {
                     console.log("all elements are fully visible");
@@ -252,7 +256,10 @@ export default function Gallery({ media }: GalleryProps) {
                             >
                                 <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'>
                                     <Image
-                                        src={item.Image!.url}
+                                        src={
+                                            "https://mb-portfolio.fly.dev" +
+                                                item.Image?.url || ""
+                                        }
                                         alt={
                                             item.Image!.alternativeText ||
                                             item.Comment ||
@@ -345,7 +352,10 @@ export default function Gallery({ media }: GalleryProps) {
                             >
                                 <div className='relative max-w-[90vw] max-h-[80vh] w-full h-full '>
                                     <Image
-                                        src={item.Image!.url}
+                                        src={
+                                            "https://mb-portfolio.fly.dev" +
+                                                item.Image?.url || ""
+                                        }
                                         alt={
                                             item.Image!.alternativeText ||
                                             item.Comment ||
