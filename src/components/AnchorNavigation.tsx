@@ -80,6 +80,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     const navRef = useRef<HTMLDivElement>(null);
     const [scrollContext, setScrollContext] = useState<ScrollContext | null>(null);
     const dragTimeoutRef = useRef<number | null>(null);
+    const initialScrollHandledRef = useRef<boolean>(false);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -186,6 +187,64 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     const handleClick = (sectionId: string, scrollTo: "header" | "section") => {
         scrollToSection(sectionId, scrollTo, true);
     };
+
+    useEffect(() => {
+        if (initialScrollHandledRef.current) return;
+        if (!scrollContext) return;
+        if (typeof window === "undefined") return;
+
+        const params = new URLSearchParams(window.location.search);
+        const targetMap = new Map<string, string>([
+            ["3d", "section-3d"],
+            ["2d", "section-2d"],
+            ["craft", "section-hc"],
+        ]);
+
+        let matchedKey: string | null = null;
+
+        params.forEach((value, key) => {
+            const normalizedKey = key.toLowerCase();
+            const normalizedValue = value.toLowerCase();
+
+            if (matchedKey) {
+                return;
+            }
+
+            if (targetMap.has(normalizedKey)) {
+                matchedKey = normalizedKey;
+                return;
+            }
+
+            if (targetMap.has(normalizedValue)) {
+                matchedKey = normalizedValue;
+            }
+        });
+
+        if (!matchedKey) {
+            initialScrollHandledRef.current = true;
+            return;
+        }
+
+        const targetId = targetMap.get(matchedKey);
+
+        if (!targetId) {
+            initialScrollHandledRef.current = true;
+            return;
+        }
+
+        const targetSection = sections.find((section) => section.id === targetId);
+        const scrollMode = targetSection?.scrollTo ?? "section";
+
+        const performScroll = () => {
+            scrollToSection(targetId, scrollMode, true);
+        };
+
+        window.requestAnimationFrame(() => {
+            window.setTimeout(performScroll, 120);
+        });
+
+        initialScrollHandledRef.current = true;
+    }, [scrollContext, sections]);
 
     const handleTouchStart = () => {
         if (dragTimeoutRef.current) {

@@ -131,10 +131,21 @@ export default function SkillCard({
         handcraft: { fontSize: 9, letterSpacing: 2.3 },
     };
 
+    const portfolioParamMap: Record<keyof typeof skillsData, string> = {
+        "3D": "3d",
+        "2D": "2d",
+        handcraft: "craft",
+    };
+
     const circleTypography = circleTypographyMap[skillKey] ?? {
         fontSize: 10,
         letterSpacing: 1.5,
     };
+
+    const portfolioQuery = portfolioParamMap[skillKey];
+    const portfolioHref = portfolioQuery
+        ? `/portfolio?category=${portfolioQuery}`
+        : "/portfolio";
 
     const ringStyle = useMemo(
         () =>
@@ -153,7 +164,7 @@ export default function SkillCard({
 
     return (
         <a
-            href={"/portfolio#" + title}
+            href={portfolioHref}
             ref={skillsRef}
             className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
             style={{
