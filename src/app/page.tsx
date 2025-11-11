@@ -129,9 +129,9 @@ export default function Home() {
                         </div>
                         <div className='flex gap-1 text-nowrap'>
                             <span className='text-neutral-500 font-light'>
-                                Gay:
+                                Status:
                             </span>
-                            <span className='text-white'>Yes</span>
+                            <span className='text-white'>Open for work</span>
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {/* {project.Category.slice(2)} */}
+                            {project.Category.slice(2)}
                         </span>
                     </div>
                     <div className='flex flex-col'>
@@ -64,7 +64,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {/* {project.Category.slice(2)} */}
+                            {project.Category.slice(2)}
                         </span>
                     </div>
                     <div className='flex flex-col'>

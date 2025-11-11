@@ -3,7 +3,7 @@ import Gallery from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Rotate3d } from "lucide-react";
 import Footer from "@/components/Footer";
 interface StrapiImage {
     id: number;
@@ -38,6 +38,7 @@ interface Project {
     Category: "c_3D" | "c_2D" | "c_Craft";
     Media: MediaItem[];
     Programs: Program[];
+    type: "personal" | "comercial";
     nextProject?: {
         documentId: string;
         Name: string;
@@ -188,8 +189,8 @@ export default async function ProjectDetail({
                                     <span className='text-xl text-[#C8B936] '>
                                         Type
                                     </span>
-                                    <span className='text-white text-xl font-bold'>
-                                        Here
+                                    <span className='text-white text-xl font-bold capitalize'>
+                                        {project.type}
                                     </span>
                                 </div>
                             </div>
@@ -215,13 +216,36 @@ export default async function ProjectDetail({
                                             ></iframe>
                                         )}
                                         {project.Content === "spline" && (
-                                            <Spline
-                                                scene={project.SplineLink || ""}
-                                                style={{
-                                                    width: "100%",
-                                                    height: "100%",
-                                                }}
-                                            />
+                                            <div className='relative w-full flex flex-col items-center gap-3'>
+                                                <div className='absolute left-0 top-3 flex flex-col items-start gap-2 text-xs text-neutral-200'>
+                                                    <button
+                                                        type='button'
+                                                        className='group/mouse relative hidden items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8B936]/70 mouse:inline-flex'
+                                                        aria-label='Interactive model preview. Hover or focus to see how to rotate.'
+                                                    >
+                                                        <Rotate3d className='h-4 w-4 text-[#C8B936]' aria-hidden />
+                                                        <span className='font-medium text-white/90'>
+                                                            Interactive model
+                                                        </span>
+                                                        <span className='pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-max -translate-x-1/2 rounded-lg bg-neutral-800/95 px-3 py-2 text-[11px] leading-snug text-white opacity-0 shadow-lg shadow-black/30 transition-opacity duration-200 group-hover/mouse:opacity-100 group-focus-visible/mouse:opacity-100'>
+                                                            Click and drag to rotate the model.
+                                                        </span>
+                                                    </button>
+                                                    <div className='flex items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur mouse:hidden'>
+                                                        <Rotate3d className='h-4 w-4 text-[#C8B936]' aria-hidden />
+                                                        <span className='font-medium text-white/90'>
+                                                            Two fingers to rotate
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <Spline
+                                                    scene={project.SplineLink || ""}
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                    }}
+                                                />
+                                            </div>
                                         )}
                                     </div>
                                 </div>

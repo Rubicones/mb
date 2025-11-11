@@ -137,6 +137,32 @@ body {
     }
 }
 
+[data-slide-direction] {
+    opacity: 0;
+}
+
+.slide-in-base {
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.slide-in-left {
+    animation-name: slideFromLeft;
+}
+
+.slide-in-right {
+    animation-name: slideFromRight;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-slide-direction] {
+        opacity: 1;
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
 @layer utilities {
     /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {

@@ -57,6 +57,7 @@ export default function HighlightsSection() {
     const cardsRef = useRef<Map<number, HTMLDivElement>>(new Map());
     const isScrollingRef = useRef(false);
     const sectionRef = useRef<HTMLDivElement>(null);
+    const hasInitializedRef = useRef(false);
 
     useEffect(() => {
         async function fetchHighlightedProjects() {
@@ -160,11 +161,20 @@ export default function HighlightsSection() {
 
     // Initialize: scroll to second card
     useEffect(() => {
-        if (projects.length > 1 && isVisible) {
-            setTimeout(() => {
-                scrollToCard(1, { syncState: true });
-            }, 100);
+        hasInitializedRef.current = false;
+    }, [projects]);
+
+    useEffect(() => {
+        if (projects.length <= 1 || !isVisible || hasInitializedRef.current) {
+            return;
         }
+
+        hasInitializedRef.current = true;
+        const timeoutId = setTimeout(() => {
+            scrollToCard(1, { syncState: true });
+        }, 100);
+
+        return () => clearTimeout(timeoutId);
     }, [projects, scrollToCard, isVisible]);
 
     // Update card styles based on scroll position (optimized for mobile)
@@ -308,7 +318,7 @@ export default function HighlightsSection() {
     return (
         <div  className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10' id='highlights'>
             <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
-                <div className='max-w-[1600px] w-full text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
+                <div className='max-w-[1600px] w-full text-5xl md:text-8xl text-left font-light text-white mb-8 mt-20 self-center px-6'>
                     MY TOPS
                 </div>
 

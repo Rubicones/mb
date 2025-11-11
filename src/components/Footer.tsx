@@ -35,6 +35,7 @@ export default function Footer() {
                     </span>
                     <a
                         href='https://wa.me/+9720552691841'
+                        target='_blank'
                         className='mt-6 md:w-min w-full text-nowrap hover text-4xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
                         <span className='-translate-y-[2px] w-full text-center'>
@@ -74,7 +75,7 @@ export default function Footer() {
                                 href='https://il.linkedin.com/in/matvei-brumberg-593b8b290'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
-                                LindedIn
+                                LinkedIn
                             </a>
                             <a
                                 href='https://www.artstation.com/batvey'

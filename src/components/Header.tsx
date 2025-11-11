@@ -17,6 +17,12 @@ export default function Header() {
                     {/* Desktop Navigation */}
                     <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>
                         <Link
+                            className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'
+                            href='/'
+                        >
+                            HOME
+                        </Link>
+                        <Link
                             href='/about'
                             className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'
                         >
@@ -28,17 +34,6 @@ export default function Header() {
                         >
                             PORTFOLIO
                         </Link>
-                        <button onClick={() => {
-                            if (window.location.pathname === '/') {
-                                document.querySelector("#highlights")?.scrollIntoView({
-                                    behavior: "smooth",
-                                });
-                            } else {
-                                window.location.href = '/#highlights';
-                            }
-                        }} className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'>
-                            HIGHLIGHTS
-                        </button>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -74,7 +69,7 @@ export default function Header() {
                                 behavior: "smooth",
                             });
                         }}
-                        className='hidden md:block bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'
+                        className='hidden cursor-pointer md:block bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'
                     >
                         Contact&nbsp;me
                     </a>
@@ -85,6 +80,12 @@ export default function Header() {
             {isMobileMenuOpen && (
                 <div className='md:hidden bg-neutral-900 w-full border-t border-gray-800 fixed top-16 left-0 z-60'>
                     <div className='flex flex-col py-4 px-4 space-y-4 z-50'>
+                        <Link
+                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
+                            href='/'
+                        >
+                            HOME
+                        </Link>
                         <a
                             href='/about'
                             className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
@@ -99,12 +100,6 @@ export default function Header() {
                         >
                             PORTFOLIO
                         </a>
-                        <Link
-                            className='text-white text-lg uppercase hover:text-neutral-400 transition-all py-2 z-50'
-                            href='/'
-                        >
-                            HIGHLIGHTS
-                        </Link>
                         <a
                             className='z-50 bg-white text-center text-lg font-bold uppercase text-black rounded-3xl px-6 py-3 transition-all duration-500 hover:bg-neutral-800 hover:text-white mt-2'
                             onClick={() => {

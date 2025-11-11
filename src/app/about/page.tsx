@@ -16,64 +16,52 @@ export default function AboutMe() {
             document.querySelectorAll<HTMLElement>("[data-slide-direction]")
         );
 
-        const updateElements = () => {
-            const viewportHeight = window.innerHeight;
-            const thresholdStart = viewportHeight;
-            const thresholdEnd = viewportHeight * 0.7; // 25% from bottom
-            const span = Math.max(thresholdStart - thresholdEnd, 1);
-            const baseOffset = window.innerWidth * 0.15; // ~20vw
+        if (!elements.length) {
+            return;
+        }
 
-            elements.forEach((element) => {
-                const rect = element.getBoundingClientRect();
-                const direction =
-                    element.getAttribute("data-slide-direction")?.toLowerCase() ??
-                    "left";
-                const offset = direction === "right" ? baseOffset : -baseOffset;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
 
-                const distance = thresholdStart - rect.top;
-                const rawProgress = distance / span;
-                const progress = Math.min(Math.max(rawProgress, 0), 1);
-                const translate = offset * (1 - progress);
+                    const element = entry.target as HTMLElement;
+                    const direction =
+                        element
+                            .getAttribute("data-slide-direction")
+                            ?.toLowerCase() === "right"
+                            ? "right"
+                            : "left";
 
-                element.style.transform = `translateX(${translate}px)`;
-                element.style.opacity = progress.toString();
-                element.style.willChange = "transform, opacity";
-                element.style.transformOrigin = "center";
-            });
-        };
+                    element.classList.remove(
+                        "slide-in-base",
+                        "slide-in-left",
+                        "slide-in-right"
+                    );
 
-        let frame = 0;
-        const requestUpdate = () => {
-            if (frame) {
-                return;
-            }
+                    element.classList.add("slide-in-base");
+                    element.classList.add(
+                        direction === "right" ? "slide-in-right" : "slide-in-left"
+                    );
 
-            frame = window.requestAnimationFrame(() => {
-                frame = 0;
-                updateElements();
-            });
-        };
+                    observer.unobserve(element);
+                });
+            },
+            { threshold: 0.2 }
+        );
 
-        updateElements();
+        elements.forEach((element) => {
+            element.classList.remove(
+                "slide-in-base",
+                "slide-in-left",
+                "slide-in-right"
+            );
+            observer.observe(element);
+        });
 
-        window.addEventListener("scroll", requestUpdate, { passive: true });
-        window.addEventListener("resize", requestUpdate);
-
-        return () => {
-            window.removeEventListener("scroll", requestUpdate);
-            window.removeEventListener("resize", requestUpdate);
-
-            if (frame) {
-                window.cancelAnimationFrame(frame);
-            }
-
-            elements.forEach((element) => {
-                element.style.removeProperty("opacity");
-                element.style.removeProperty("transform");
-                element.style.removeProperty("will-change");
-                element.style.removeProperty("transform-origin");
-            });
-        };
+        return () => observer.disconnect();
     }, []);
 
     return (
