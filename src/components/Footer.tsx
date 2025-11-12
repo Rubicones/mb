@@ -30,22 +30,22 @@ export default function Footer() {
                 id='footer'
             >
                 <div className='relative w-full max-w-[1920px] rounded-t-3xl bg-white p-8 flex-col'>
-                    <span className='text-4xl lg:text-5xl xl:text-6xl font-light text-black w-[70%]'>
-                        DO YOU HAVE A PROJECT OR VACANCY FOR ME?
+                    <span className='text-3xl lg:text-4xl xl:text-5xl font-light text-black w-[70%]'>
+                        DO YOU HAVE A PROJECT FOR ME?
                     </span>
                     <a
                         href='https://wa.me/+9720552691841'
                         target='_blank'
-                        className='mt-6 md:w-min w-full text-nowrap hover text-4xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
+                        className='mt-6 md:w-min w-full text-nowrap hover text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
-                        <span className='-translate-y-[2px] w-full text-center'>
+                        <span className='-translate-y-[2px] w-full text-center '>
                             Get&nbsp;in&nbsp;touch
                         </span>
                         {/* <SendIcon className='w-7 h-7 ml-2' />{" "} */}
                     </a>
                     <div className='w-full flex justify-between md:justify-start  gap-4 md:gap-8 lg:gap-20 md:flex-nowrap flex-wrap'>
                         <div className='flex flex-col mt-8'>
-                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl lg:text-4xl xl:text-5xl font-light text-neutral-400'>
                                 CONTACTS
                             </span>
                             <a
@@ -68,7 +68,7 @@ export default function Footer() {
                             </a>
                         </div>
                         <div className='flex flex-col mt-8'>
-                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl lg:text-4xl xl:text-5xl font-light text-neutral-400'>
                                 SOCIALS
                             </span>
                             <a
@@ -97,7 +97,7 @@ export default function Footer() {
                             </a>
                         </div>
                         <div className='flex flex-col mt-8 md:ml-auto'>
-                            <span className='text-3xl md:text-4xl lg:text-5xl font-light text-neutral-400'>
+                            <span className='text-3xl lg:text-4xl xl:text-5xl font-light text-neutral-400'>
                                 NAVIGATION
                             </span>
                             <Link
@@ -124,7 +124,7 @@ export default function Footer() {
                         <span className='text-5xl text-black font-extrabold -tracking-[12px]'>
                             MB
                         </span>
-                        <span className='text-xl text-neutral-400 font-light'>
+                        <span className='text-base lg:text-lg text-neutral-400 font-light'>
                             Local time (GMT+2) {time}
                         </span>
                         <a

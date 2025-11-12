@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import LanguagesSection from "@/components/LanguagesSection";
+import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
 
 export default function AboutMe() {
     useEffect(() => {
@@ -43,7 +44,9 @@ export default function AboutMe() {
 
                     element.classList.add("slide-in-base");
                     element.classList.add(
-                        direction === "right" ? "slide-in-right" : "slide-in-left"
+                        direction === "right"
+                            ? "slide-in-right"
+                            : "slide-in-left"
                     );
 
                     observer.unobserve(element);
@@ -73,27 +76,36 @@ export default function AboutMe() {
                         {/* Hello There Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2 '>
                             {/* Greeting - Takes 4 columns */}
-                            <div className='col-span-2  flex flex-col justify-between p-3 sm:p-6 aspect-2/1' data-slide-direction='left'>
-                                <h1 className='text-5xl md:text-7xl lg:text-9xl font-extralight text-white leading-none'>
+                            <div
+                                className='col-span-2  flex flex-col justify-between p-3 sm:p-6 aspect-2/1'
+                                data-slide-direction='left'
+                            >
+                                <h1 className='text-4xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight text-white leading-none'>
                                     HELLO
                                     <br />
                                     THERE!
                                 </h1>
                             </div>
                             {/* Profile Image - Takes 2 columns */}
-                            <div className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2' data-slide-direction='right'>
+                            <div
+                                className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2'
+                                data-slide-direction='right'
+                            >
                                 <div className='relative h-full w-full overflow-hidden rounded-2xl group'>
                                     <img
                                         src='/whoami4.jpg'
                                         alt='Profile'
-                                        className='absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
                             </div>
 
-                            <div className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-2' data-slide-direction='left'>
+                            <div
+                                className='aspect-2/1 col-span-2 row-start-2  flex flex-col justify-between p-1'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full p-4 sm:p-6'>
-                                    <p className='text-white text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-4xl'>
+                                    <p className='text-white text-xs sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extralight'>
                                         <span className='hidden sm:inline'>
                                             I&apos;m 23 years old Artist,
                                             Designer, Craftsman and many more.
@@ -114,51 +126,60 @@ export default function AboutMe() {
                             </div>
                         </div>
 
-                        <span className='mb-8 text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20'>
+                        <span className='mb-8 text-6xl md:text-8xl font-extralight text-white leading-none mt-20'>
                             EDUCATION
                         </span>
                         {/* Education Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2'>
                             {/* Stieglitz Academy */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2' data-slide-direction='left'>
-                                <div className='bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300  rounded-3xl h-full p-3 sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
-                                    <h3 className='text-neutral-900 text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                            <div
+                                className='col-span-2 aspect-2/1 p-1 sm:p-2'
+                                data-slide-direction='left'
+                            >
+                                <div className='bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300  rounded-3xl h-full p-[10px] sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
+                                    <h3 className='text-neutral-900 text-lg lg:text-3xl xl:text-4xl font-semibold mb-0 sm:mb-2'>
                                         Stieglitz Academy
                                     </h3>
-                                    <p className='text-gray-800 text-sm lg:text-lg mb-1'>
+                                    <p className='text-gray-800 text-sm lg:text-lg sm:mb-0 mb-1'>
                                         Bachelor / 2019-2022
                                     </p>
-                                    <p className='text-gray-800 text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-800 text-sm  sm:text-base lg:text-xl font-extralight mt-auto'>
                                         Fine arts / Metal Work / Design
                                     </p>
                                 </div>
                             </div>
 
                             {/* International House */}
-                            <div className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full' data-slide-direction='right'>
-                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                            <div
+                                className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'
+                                data-slide-direction='right'
+                            >
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-[10px] sm:p-6 flex flex-col justify-start'>
+                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-0 sm:mb-2'>
                                         International House
                                     </h3>
                                     <p className='text-gray-400 text-sm lg:text-lg mb-1'>
                                         Courses / 2023-2024
                                     </p>
-                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-400 text-sm  sm:text-base lg:text-xl font-extralight mt-auto'>
                                         English B2
                                     </p>
                                 </div>
                             </div>
 
                             {/* Masa Program */}
-                            <div data-slide-direction='left' className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'>
-                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-2'>
+                            <div
+                                data-slide-direction='left'
+                                className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'
+                            >
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-[10px] sm:p-6 flex flex-col justify-start'>
+                                    <h3 className='text-white text-lg lg:text-3xl xl:text-4xl font-semibold mb-0 sm:mb-2'>
                                         Masa Program
                                     </h3>
                                     <p className='text-gray-400 text-sm lg:text-lg mb-1'>
                                         Courses / 2024-2025
                                     </p>
-                                    <p className='text-gray-400 text-sm lg:text-lg mt-auto'>
+                                    <p className='text-gray-400 text-sm  sm:text-base lg:text-xl font-extralight mt-auto'>
                                         Motion Design / Design
                                     </p>
                                 </div>
@@ -172,7 +193,10 @@ export default function AboutMe() {
                         {/* Hobby Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-3'>
                             {/* Row 1: Abstract Image + Music Card */}
-                            <div className='col-span-1 aspect-square p-1 sm:p-2' data-slide-direction='left'>
+                            <div
+                                className='col-span-1 aspect-square p-1 sm:p-2'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/music.png'
@@ -182,15 +206,18 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 ' data-slide-direction='right'>
-                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start relative'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
+                            <div
+                                className='col-span-2 aspect-2/1 p-1 sm:p-2 '
+                                data-slide-direction='right'
+                            >
+                                <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
+                                    <h3 className='text-white  text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-[2px]'>
                                         MUSIC
                                     </h3>
-                                    <p className='text-gray-400 text-xs md:text-sm lg:text-lg mb-1 sm:mb-3'>
+                                    <p className='text-gray-400 text-[0.6rem] md:text-sm lg:text-lg mb-1 sm:mb-3'>
                                         Don&apos;t play but listen a lot.
                                     </p>
-                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-1 sm:mb-4'>
+                                    <p className='text-white text-xs sm:text-sm md:text-base lg:text-xl mb-1 sm:mb-4 mt-auto'>
                                         Alt-J, Radiohead, Michael Kiwanuka,
                                         Herbie Hancock
                                     </p>
@@ -203,7 +230,7 @@ export default function AboutMe() {
                                             height={20}
                                             src='/spotifyIcon.png'
                                             alt='Music icon'
-                                            className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold'
+                                            className='w-5 h-5 bg-[#1DB954] rounded-full flex items-center justify-center text-black text-xs font-bold'
                                         />
                                         <span className='sm:inline hidden text-white text-xs md:text-sm lg:text-base'>
                                             matat&apos;yaho
@@ -213,12 +240,15 @@ export default function AboutMe() {
                             </div>
 
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2' data-slide-direction='left'>
+                            <div
+                                className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-base md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
+                                    <h3 className='text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-[2px]'>
                                         VIDEOGAMES
                                     </h3>
-                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
+                                    <p className='text-gray-400 text-[0.6rem] sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
                                         One day i hope not only play but create
                                         them.
                                     </p>
@@ -229,7 +259,10 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-1 aspect-square p-1 sm:p-2 row-start-2' data-slide-direction='right'>
+                            <div
+                                className='col-span-1 aspect-square p-1 sm:p-2 row-start-2'
+                                data-slide-direction='right'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/games.png'
@@ -240,7 +273,10 @@ export default function AboutMe() {
                             </div>
 
                             {/* Row 3: Abstract Image + Skateboarding Card */}
-                            <div className='col-span-1 aspect-square p-2 row-start-3' data-slide-direction='left'>
+                            <div
+                                className='col-span-1 aspect-square p-2 row-start-3'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='skateboarding.png'
@@ -250,12 +286,15 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3' data-slide-direction='right'>
+                            <div
+                                className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-3'
+                                data-slide-direction='right'
+                            >
                                 <div className='bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-sm sm:text-lg md:text-xl lg:text-3xl xl:text-4xl font-semibold mb-1'>
+                                    <h3 className='text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-[2px]'>
                                         SKATEBOARDING
                                     </h3>
-                                    <p className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
+                                    <p className='text-gray-400 text-[0.6rem] sm:text-sm md:text-lg lg:text-lg mb-1 sm:mb-3'>
                                         Unfortunately don&apos;t have a
                                         possibility to do it now
                                     </p>
@@ -270,7 +309,10 @@ export default function AboutMe() {
                             WORK EXPERIENCE
                         </span>
                         <div className='w-full grid grid-cols-3 grid-rows-4'>
-                            <div className='row-span-2 aspect-1/2 p-1 sm:p-2 ' data-slide-direction='left'>
+                            <div
+                                className='row-span-2 aspect-1/2 p-1 sm:p-2 '
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/erra.JPG'
@@ -280,20 +322,26 @@ export default function AboutMe() {
                                 </div>
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 p-1 sm:p-2' data-slide-direction='right'>
+                            <div
+                                className='col-span-2 aspect-2/1 p-1 sm:p-2'
+                                data-slide-direction='right'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-xl sm:text-2xl  md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
+                                    <h3 className='text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light '>
                                         MOTION DESIGNER
                                     </h3>
-                                    <p className='text-gray-400 text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
+                                    <p className='text-gray-400 text-base md:text-lg lg:text-xl xl:text-2xl font-light mb-3'>
                                         ERRA Investments | Israel
                                     </p>
-                                    <h3 className='text-white text-lg md:text-2xl lg:text-4xl xl:text-5xl font-semibold mb-1 mt-auto'>
-                                        &lt;
+                                    <h3 className='text-white text-xl md:text-3xl lg:text-5xl xl:text-6xl font-semibold mb-1 mt-auto'>
+                                        <MoveLeftIcon className='size-4 md:size-8 lg:size-12' />
                                     </h3>
                                 </div>
                             </div>
-                            <div className='col-span-2 row-span-2 col-start-2 row-start-2 aspect-square p-1 sm:p-2 ' data-slide-direction='right'>
+                            <div
+                                className='col-span-2 row-span-2 col-start-2 row-start-2 aspect-square p-1 sm:p-2 '
+                                data-slide-direction='right'
+                            >
                                 <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/carpenter.png'
@@ -301,16 +349,19 @@ export default function AboutMe() {
                                         className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                     <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-transparent flex flex-col items-start justify-start text-left gap-1 p-4'>
-                                        <h3 className='text-white text-xl sm:text-2xl  md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
+                                        <h3 className='text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light  uppercase'>
                                             Carpenter
                                         </h3>
-                                        <p className='text-gray-400 text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
+                                        <p className='text-gray-400 text-base md:text-lg lg:text-xl xl:text-2xl font-light mb-3'>
                                             Svod space | Georgia
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div className='row-start-3 aspect-square p-1 sm:p-2' data-slide-direction='left'>
+                            <div
+                                className='row-start-3 aspect-square p-1 sm:p-2'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 relative rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/insomnia.png'
@@ -318,30 +369,36 @@ export default function AboutMe() {
                                         className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                     <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-transparent flex flex-col items-start justify-start text-left gap-1 p-4'>
-                                        <span className='text-white text-sm xs:text-lg sm:text-xl md:text-2xl xl:text-3xl font-bold'>
+                                        <span className='text-white text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-1'>
                                             VOLONTEER
                                         </span>
-                                        <span className='text-neutral-400 text-sm xs:text-md sm:text-lg md:text-xl'>
+                                        <span className='text-gray-400 text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-light mb-3'>
                                             Insomnia festival
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             {/* Row 2: Videogames Card + Game Cover Image */}
-                            <div className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2' data-slide-direction='left'>
+                            <div
+                                className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2'
+                                data-slide-direction='left'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-start'>
-                                    <h3 className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-1'>
+                                    <h3 className='text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light '>
                                         3D DESIGNER
                                     </h3>
-                                    <p className='text-gray-400 text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-3'>
+                                    <p className='text-gray-400 text-base md:text-lg lg:text-xl xl:text-2xl font-light mb-3'>
                                         Freelance | Georgia
                                     </p>
-                                    <h3 className='text-white text-lg md:text-2xl lg:text-4xl xl:text-5xl font-semibold mb-1 mt-auto'>
-                                        &gt;
+                                    <h3 className='text-white text-xl md:text-3xl lg:text-5xl xl:text-6xl font-semibold mb-1 mt-auto'>
+                                        <MoveRightIcon className='size-4 md:size-8 lg:size-12' />
                                     </h3>
                                 </div>
                             </div>
-                            <div className='col-start-3 row-start-4 aspect-square p-1 sm:p-2' data-slide-direction='right'>
+                            <div
+                                className='col-start-3 row-start-4 aspect-square p-1 sm:p-2'
+                                data-slide-direction='right'
+                            >
                                 <div className='bg-neutral-800 rounded-3xl h-full overflow-hidden group'>
                                     <img
                                         src='/3ddesigner.JPG'

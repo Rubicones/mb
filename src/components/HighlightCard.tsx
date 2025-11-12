@@ -23,12 +23,12 @@ export default function HighlightCard({ project }: { project: Project }) {
                         unoptimized
                     />
                     <div className='absolute inset-0 flex flex-col justify-start p-6 rounded-l-2xl bg-linear-to-b from-black/80 via-transparent to-transparent z-40'>
-                        <span className='text-white text-6xl font-bold uppercase'>
+                        <span className='text-white text-3xl lg:text-4xl xl:text-5xl font-semibold uppercase'>
                             {project.Name}
                         </span>
                     </div>
                 </div>
-                <div className='w-1/3 flex flex-col gap-4 font-light p-6 text-xl bg-black'>
+                <div className='w-1/3 flex flex-col gap-4 font-light p-6 text-lg lg:text-xl bg-black'>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
@@ -55,12 +55,12 @@ export default function HighlightCard({ project }: { project: Project }) {
                         unoptimized
                     />
                     <div className='absolute inset-0 flex flex-col justify-start p-6 rounded-l-2xl bg-linear-to-b from-black/80 via-transparent to-transparent z-40'>
-                        <span className='text-white text-5xl font-bold uppercase'>
+                        <span className='text-white text-3xl lg:text-4xl xl:text-5xl font-bold uppercase'>
                             {project.Name}
                         </span>
                     </div>
                 </div>
-                <div className='absolute -bottom-[2px] rounded-xl w-[calc(100%+2px)] h-1/3 flex flex-col gap-4 font-light p-6 text-md bg-[#141414] z-20 flex-wrap'>
+                <div className='absolute -bottom-[2px] rounded-xl w-[calc(100%+2px)] h-1/3 flex flex-col gap-4 font-light p-6 text-base lg:text-xl bg-[#141414] z-20 flex-wrap'>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>

@@ -54,10 +54,10 @@ export default function CategorySection({
             {projects3D.length > 0 && (
                 <div id="section-3d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
-                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                        <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
                             3D DESIGN
                         </h2>
-                        <p className='text-neutral-400 text-sm md:text-base'>
+                        <p className='text-neutral-400 text-lg lg:text-xl'>
                             Modeling / Texturing / Animation / Render
                         </p>
                     </div>
@@ -73,10 +73,10 @@ export default function CategorySection({
             {projects2D.length > 0 && (
                 <div id="section-2d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
-                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                        <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
                             2D DESIGN
                         </h2>
-                        <p className='text-neutral-400 text-sm md:text-base'>
+                        <p className='text-neutral-400 text-lg lg:text-xl'>
                             Design creation / Animation / Special effects
                         </p>
                     </div>
@@ -92,10 +92,10 @@ export default function CategorySection({
             {projectsMulti.length > 0 && (
                 <div id="section-hc" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
-                        <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 uppercase'>
+                        <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
                             HANDCRAFT
                         </h2>
-                        <p className='text-neutral-400 text-sm md:text-base'>
+                        <p className='text-neutral-400 text-lg lg:text-xl'>
                             Design creation / Animation / Special effects
                         </p>
                     </div>

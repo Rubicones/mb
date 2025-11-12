@@ -18,7 +18,7 @@ export default function Home() {
         <div className='w-full h-full flex flex-col items-center bg-neutral-900 z-20 overflow-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-white'>
                 <Header />
-                <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden mt-16'>
+                <div className='w-screen bg-[#C8B936] h-12 text-lg lg:text-xl flex items-center overflow-hidden mt-16'>
                     <div className='flex animate-scroll-right'>
                         <span className='whitespace-nowrap text-black font-semibold'>
                             {scrollText.repeat(10)}
@@ -29,7 +29,7 @@ export default function Home() {
                     </div>
                 </div>
                 <TitleScene />
-                <div className='w-screen bg-[#C8B936] h-12 text-xl flex items-center overflow-hidden'>
+                <div className='w-screen bg-[#C8B936] h-12 text-lg lg:text-xl flex items-center overflow-hidden'>
                     <div className='flex animate-scroll-left'>
                         <span className='whitespace-nowrap text-black font-semibold'>
                             {scrollText.repeat(10)}
@@ -47,7 +47,7 @@ export default function Home() {
                         WHO I AM
                     </span>
                     <div className='w-full flex justify-between md:flex-row flex-col flex-wrap gap-12'>
-                        <div className='uppercase text-4xl lg:text-5xl xl:text-6xl font-extralight text-justify w-full md:w-1/2 '>
+                        <div className='uppercase text-3xl lg:text-4xl xl:text-5xl font-extralight text-justify w-full md:w-1/2 '>
                             <span className='text-neutral-300'>
                                 I&apos;m a{" "}
                                 <span className='text-[#C8B936]'>3D</span> and
@@ -114,7 +114,7 @@ export default function Home() {
                             />
                         </div>
                     </div>
-                    <div className='w-full flex justify-start gap-4 mt-10 text-lg md:text-2xl flex-wrap'>
+                    <div className='w-full flex justify-start gap-4 mt-10 text-lg lg:text-xl flex-wrap'>
                         <div className='grow flex gap-1 text-nowrap'>
                             <span className='text-neutral-500 font-light'>
                                 Age:
@@ -138,7 +138,7 @@ export default function Home() {
             </div>
             <div className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-20'>
                 <div className='relative w-full max-w-[1600px] flex flex-col items-center justify-between px-6 bg-neutral-900'>
-                    <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
+                    <span className='text-6xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
                         WHAT I DO
                     </span>
                     <div className='w-full h-full flex flex-row  gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>

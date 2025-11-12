@@ -173,7 +173,7 @@ export default function SkillCard({
             }}
         >
             <h3
-                className={`text-4xl text-nowrap md:text-4xl lg:text-4xl xl:text-6xl font-extralight text-white capitalize break-normal`}
+                className={` text-nowrap text-3xl lg:text-4xl xl:text-5xl font-extralight text-white capitalize break-normal`}
             >
                 {skill.title}
             </h3>

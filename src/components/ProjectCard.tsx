@@ -47,7 +47,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent touch:block mouse:hidden'></div>
                     <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent opacity-0 mouse:group-hover:opacity-100 transition-opacity duration-300'></div>
                     
-                    <span className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold uppercase drop-shadow-lg relative z-10'>{project.Name}</span>
+                    <span className='text-white text-3xl lg:text-4xl xl:text-5xl font-semibold uppercase drop-shadow-lg relative z-10'>{project.Name}</span>
                 </div>
             </div>
         </Link>

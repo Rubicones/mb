@@ -39,7 +39,7 @@ export default function TypingText({
     }, [currentIndex, text, speed]);
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block h-20 md:h-32 lg:h-64">
             <span className={className}>{visibleText}</span>
             {showCaret && (
                 <span 

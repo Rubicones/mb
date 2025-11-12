@@ -13,19 +13,19 @@ const languageNames: Record<
         native: "РУССКИЙ",
         english: "RU",
         level: "Native",
-        nameTranslation: "МАТВЕЙ",
+        nameTranslation: "Привет! У вас есть работа для меня?",
     },
     en: {
         native: "ENGLISH",
         english: "EN",
         level: "Fluent",
-        nameTranslation: "MATVEI",
+        nameTranslation: "Hello! Do you have work for me?",
     },
     he: {
         native: "עברית",
         english: "HEB",
         level: "Basic",
-        nameTranslation: "מטביי",
+        nameTranslation: "?שלום! יש לך עבודה בשבילי",
     },
 };
 
@@ -34,7 +34,7 @@ export default function LanguagesSection() {
 
     return (
         <>
-            <span className='text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20 mb-8'>
+            <span className='text-6xl md:text-8xl font-extralight text-white leading-none mt-20 mb-8'>
                 LANGUAGES
             </span>
 
@@ -44,7 +44,7 @@ export default function LanguagesSection() {
                 <button
                     data-slide-direction='left'
                     onClick={() => setSelectedLanguage("ru")}
-                    className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
+                    className='cursor-pointer col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
@@ -69,7 +69,7 @@ export default function LanguagesSection() {
                 <button
                     data-slide-direction='right'
                     onClick={() => setSelectedLanguage("en")}
-                    className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
+                    className='cursor-pointer col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
@@ -94,7 +94,7 @@ export default function LanguagesSection() {
                 <button
                     data-slide-direction='right'
                     onClick={() => setSelectedLanguage("he")}
-                    className='col-span-1 aspect-square p-1 sm:p-2 transition-all'
+                    className='cursor-pointer col-span-1 aspect-square p-1 sm:p-2 transition-all'
                 >
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
@@ -117,11 +117,11 @@ export default function LanguagesSection() {
             </div>
 
             {/* Name at Bottom with Typing Effect */}
-            <div className='w-full mb-16'>
+            <div className='w-full mb-4'>
                 <TypingText
                     key={selectedLanguage}
                     text={languageNames[selectedLanguage].nameTranslation}
-                    className='text-6xl md:text-8xl lg:text-9xl font-extralight text-white tracking-wider'
+                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight text-white tracking-wider ${selectedLanguage ===  'he' ? 'font-normal' : 'font-extralight'}`}
                     speed={100}
                 />
             </div>

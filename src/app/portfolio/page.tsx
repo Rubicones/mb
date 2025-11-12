@@ -162,11 +162,11 @@ export default async function Portfolio() {
                 <AnchorNavigation sections={anchorSections} />
                 <div className='w-full flex flex-col justify-center items-center bg-neutral-900 z-50 mt-20'>
                     <main className='max-w-[1920px] w-full flex flex-col items-start px-4 md:px-6 pt-8 md:pt-12 pb-16 z-50 bg-neutral-900'>
-                        <div className='mb-12 md:mb-16'>
-                            <h1 className='text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white uppercase'>
+                        <div className='mb-12 md:mb-36'>
+                            <h1 className='text-[3.5rem] sm:text-8xl md:text-9xl xl:text-[14rem] font-bold text-white uppercase'>
                                 PORTFOLIO
                             </h1>
-                            <div className='w-full h-[2px] bg-white mt-2'></div>
+                            {/* <div className='w-full h-[2px] bg-white mt-2'></div> */}
                         </div>
 
                         {projects.length === 0 ? (
