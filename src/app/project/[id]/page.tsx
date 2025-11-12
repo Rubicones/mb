@@ -120,7 +120,7 @@ export default async function ProjectDetail({
                 <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
                     <Header />
 
-                    <div className='z-50 w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6  bg-neutral-900 px-4'>
+                    <div className=' w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6  bg-neutral-900 px-4'>
                         <a
                             href='/portfolio'
                             className='w-full flex justify-start items-center text-neutral-700 gap-2'
@@ -199,9 +199,9 @@ export default async function ProjectDetail({
                             <div className='w-full flex flex-col md:flex-row justify-between gap-10 mt-12'>
                                 <div className=' w-full md:w-1/2 h-full flex justify-start items-start gap-2 flex-col'>
                                     <span className='text-neutral-500 text-3xl font-extralight'>
-                                        Preview
+                                        {project.Content === "youtube" ? "Final Result" : "3D Preview"}
                                     </span>
-                                    <div className=' w-full h-full flex justify-start items-center z-50'>
+                                    <div className=' w-full h-full flex justify-start items-center'>
                                         {project.Content === "youtube" && (
                                             <iframe
                                                 className='w-full aspect-video'
@@ -223,27 +223,34 @@ export default async function ProjectDetail({
                                                         className='group/mouse relative hidden items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8B936]/70 mouse:inline-flex'
                                                         aria-label='Interactive model preview. Hover or focus to see how to rotate.'
                                                     >
-                                                        <Rotate3d className='h-4 w-4 text-[#C8B936]' aria-hidden />
+                                                        <Rotate3d
+                                                            className='h-4 w-4 text-[#C8B936]'
+                                                            aria-hidden
+                                                        />
                                                         <span className='font-medium text-white/90'>
                                                             Interactive model
                                                         </span>
                                                         <span className='pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-max -translate-x-1/2 rounded-lg bg-neutral-800/95 px-3 py-2 text-[11px] leading-snug text-white opacity-0 shadow-lg shadow-black/30 transition-opacity duration-200 group-hover/mouse:opacity-100 group-focus-visible/mouse:opacity-100'>
-                                                            Click and drag to rotate the model.
+                                                            Click and drag to
+                                                            rotate the model.
                                                         </span>
                                                     </button>
                                                     <div className='flex items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur mouse:hidden'>
-                                                        <Rotate3d className='h-4 w-4 text-[#C8B936]' aria-hidden />
+                                                        <Rotate3d
+                                                            className='h-4 w-4 text-[#C8B936]'
+                                                            aria-hidden
+                                                        />
                                                         <span className='font-medium text-white/90'>
-                                                            Two fingers to rotate
+                                                            Two fingers to
+                                                            rotate
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <Spline
-                                                    scene={project.SplineLink || ""}
-                                                    style={{
-                                                        width: "100%",
-                                                        height: "100%",
-                                                    }}
+                                                    scene={
+                                                        project.SplineLink || ""
+                                                    }
+                                                    className='w-full h-full sm:aspect-video aspect-square'
                                                 />
                                             </div>
                                         )}

@@ -134,12 +134,6 @@ export default function TitleScene() {
                     fillLight.target.position.copy(lightCenter);
                     scene.add(fillLight, fillLight.target);
 
-                    // C) Rim light - DirectionalLight (backlight for edge)
-                    const rimLight = new THREE.DirectionalLight(rimColor, 0.2);
-                    rimLight.position.set(lightCenter.x, lightCenter.y + height * 1.2, lightCenter.z - dist);
-                    rimLight.target.position.copy(lightCenter);
-                    scene.add(rimLight, rimLight.target);
-
                     // D) Hemisphere light for ambient "air"
                     const hemiLight = new THREE.HemisphereLight(0xeaf2ff, 0x1b1b1b, 1);
                     scene.add(hemiLight);

@@ -50,18 +50,21 @@ export default function Footer() {
                             </span>
                             <a
                                 href='https://t.me/mativich'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
                                 Telegram
                             </a>
                             <a
                                 href='mailto:mgbtumbedg@gmail.com'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Email
                             </a>
                             <a
                                 href='https://wa.me/+9720552691841'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 WhatsApp
@@ -73,18 +76,21 @@ export default function Footer() {
                             </span>
                             <a
                                 href='https://il.linkedin.com/in/matvei-brumberg-593b8b290'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
                             >
                                 LinkedIn
                             </a>
                             <a
                                 href='https://www.artstation.com/batvey'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 ArtStation
                             </a>
                             <a
                                 href='https://www.instagram.com/mgbtumbedg'
+                                target='_blank'
                                 className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
                             >
                                 Instagram

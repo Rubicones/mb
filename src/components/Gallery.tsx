@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -33,10 +33,11 @@ export default function Gallery({ media }: GalleryProps) {
     // Filter out items without images
     const validMedia = media.filter((item) => item.Image?.url);
 
-    const scroll = async (
-        direction: "left" | "right",
-        isFullscreen: boolean = false
-    ) => {
+    const scroll = useCallback(
+        async (
+            direction: "left" | "right",
+            isFullscreen: boolean = false
+        ) => {
         const container = isFullscreen
             ? fullscreenScrollRef.current
             : scrollContainerRef.current;
@@ -64,12 +65,12 @@ export default function Gallery({ media }: GalleryProps) {
                 left: targetIndex * containerWidth,
                 behavior: "smooth",
             });
+            setFullscreenIndex(targetIndex);
         } else {
             setDisableScrollButtons(true);
 
             // For gallery, find next/prev element that isn't fully visible, starting from current
             const scrollLeft = container.scrollLeft;
-            const containerWidth = container.offsetWidth;
             const children = Array.from(container.children) as HTMLElement[];
 
             // Helper function to check if element is fully visible
@@ -87,13 +88,6 @@ export default function Gallery({ media }: GalleryProps) {
                 // 4) If indent + image's width is greater than the container width – it is not visible fully
                 // 5) If any of the indents are negative – it is not visible fully
                 const isVisible = leftIndent >= -10 && rightIndent >= -10;
-
-                console.log(`Element ${Array.from(children).indexOf(child)}:`);
-                console.log(`  Container width: ${containerWidth}`);
-                console.log(`  Image width: ${imageWidth}`);
-                console.log(`  Left indent: ${leftIndent}`);
-                console.log(`  Right indent: ${rightIndent}`);
-                console.log(`  Fully visible: ${isVisible}`);
 
                 return isVisible;
             };
@@ -135,8 +129,6 @@ export default function Gallery({ media }: GalleryProps) {
                     }
                 }
 
-                console.log("lastFullyVisibleIndex – ", lastFullyVisibleIndex);
-
                 // Search forwards from the last fully visible element
                 if (lastFullyVisibleIndex === -1) {
                     // No elements are fully visible, go to first element
@@ -160,7 +152,6 @@ export default function Gallery({ media }: GalleryProps) {
 
                 // If all elements are fully visible, go to first element
                 if (!targetChild) {
-                    console.log("all elements are fully visible");
                     newIndex = 0;
                     targetChild = children[newIndex];
                 }
@@ -180,7 +171,9 @@ export default function Gallery({ media }: GalleryProps) {
                 setDisableScrollButtons(false);
             }, 500);
         }
-    };
+    },
+    [currentElementIndex, validMedia.length]
+);
 
     const openFullscreen = (index: number) => {
         setFullscreenIndex(index);
@@ -216,10 +209,35 @@ export default function Gallery({ media }: GalleryProps) {
         }
     }, [validMedia.length]);
 
-    const closeFullscreen = () => {
+    const closeFullscreen = useCallback(() => {
         setFullscreenIndex(null);
         document.body.style.overflow = "auto";
-    };
+    }, []);
+
+    useEffect(() => {
+        if (fullscreenIndex === null) {
+            return;
+        }
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                scroll("left", true);
+            } else if (event.key === "ArrowRight") {
+                event.preventDefault();
+                scroll("right", true);
+            } else if (event.key === "Escape") {
+                event.preventDefault();
+                closeFullscreen();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [closeFullscreen, fullscreenIndex, scroll]);
 
     if (validMedia.length === 0) {
         return null;
@@ -247,7 +265,7 @@ export default function Gallery({ media }: GalleryProps) {
                         {validMedia.map((item, index) => (
                             <div
                                 key={item.id}
-                                className='flex-shrink-0 cursor-pointer'
+                                className='shrink-0 cursor-pointer'
                                 style={{
                                     height: "400px",
                                     scrollSnapAlign: "start",
@@ -302,7 +320,7 @@ export default function Gallery({ media }: GalleryProps) {
             {/* Fullscreen Modal */}
             {fullscreenIndex !== null && (
                 <div
-                    className='fixed inset-0 z-50 flex items-center justify-center'
+                    className='fixed inset-0 z-110 flex items-center justify-center top-0 left-0'
                     onClick={closeFullscreen}
                 >
                     {/* Backdrop - Blurred */}
@@ -348,7 +366,7 @@ export default function Gallery({ media }: GalleryProps) {
                         {validMedia.map((item) => (
                             <div
                                 key={item.id}
-                                className='flex-shrink-0 snap-start snap-always w-full h-full flex flex-col items-center justify-center gap-4 p-16'
+                                className='shrink-0 snap-start snap-always w-full h-full flex flex-col items-center justify-center gap-4 p-16'
                             >
                                 <div className='relative max-w-[90vw] max-h-[80vh] w-full h-full '>
                                     <Image
@@ -406,5 +424,25 @@ export default function Gallery({ media }: GalleryProps) {
                 }
             `}</style>
         </>
+    );
+}
+
+export function GallerySkeleton() {
+    return (
+        <div className='w-full mt-10 mb-4 animate-pulse'>
+            <div className='h-8 w-40 rounded bg-neutral-800 mb-6' />
+            <div className='flex gap-4 overflow-hidden'>
+                {Array.from({ length: 4 }).map((_, index) => (
+                    <div
+                        key={index}
+                        className='h-[400px] w-full max-w-[calc(100vw-5rem)] rounded-lg bg-neutral-800/80'
+                    />
+                ))}
+            </div>
+            <div className='flex items-center gap-4 mt-4'>
+                <div className='h-12 w-12 rounded-full bg-neutral-800/80' />
+                <div className='h-12 w-12 rounded-full bg-neutral-800/80' />
+            </div>
+        </div>
     );
 }

@@ -303,7 +303,7 @@ export default function HighlightsSection() {
             <div className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10'>
                 <div className='relative w-full max-w-[1600px] flex flex-col items-center justify-between px-6 bg-neutral-900'>
                     <span className='text-5xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20'>
-                        MY TOPS
+                        MY FAVORITES
                     </span>
                     <div className='w-full max-w-[700px] h-[550px] bg-neutral-800 rounded-2xl animate-pulse' />
                 </div>
@@ -319,7 +319,7 @@ export default function HighlightsSection() {
         <div  className='relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900 pt-10 pb-10' id='highlights'>
             <div className='relative w-full max-w-[1920px] flex flex-col items-center justify-between px-6 bg-neutral-900 gap-8'>
                 <div className='max-w-[1600px] w-full text-5xl md:text-8xl text-left font-light text-white mb-8 mt-20 self-center px-6'>
-                    MY TOPS
+                    MY FAVORITES
                 </div>
 
                 {/* Scroll Container with Edge Gradients */}
