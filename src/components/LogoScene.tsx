@@ -205,7 +205,7 @@ export default function SplineLogo() {
         <Link href='/'>
             <div 
                 ref={canvasContainerRef} 
-                className='z-100 canvas-container'
+                className='canvas-container'
                 style={{ width: "90px", height: "90px" }}
             />
         </Link>

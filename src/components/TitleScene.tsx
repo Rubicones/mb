@@ -388,13 +388,13 @@ export default function TitleScene() {
     }, []);
     
     return (
-        <div className='relative w-screen flex justify-start z-40'>
+        <div className='relative w-screen flex justify-start'>
             <div 
                 ref={canvasContainerRef} 
-                className='h-[calc(100dvh-10rem)] w-screen z-40'
+                className='h-[calc(100dvh-10rem)] w-screen'
                 style={{ height: "calc(100dvh - 10rem)", width: "100vw" }}
             />
-            <div className="absolute bottom-0 right-0 w-full h-20 bg-white z-50"></div>
+            <div className="absolute bottom-0 right-0 w-full h-20 bg-white"></div>
         </div>
     );
 }
