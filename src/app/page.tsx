@@ -93,7 +93,7 @@ export default function Home() {
                                 }}
                                 className='w-min flex items-center gap-4 cursor-pointer hover:scale-105 bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'
                             >
-                                Learn&nbsp;more&nbsp;about&nbsp;me
+                                More&nbsp;about&nbsp;me
                                 <ChevronRightIcon className='w-6 h-6' />
                             </a>
                         </div>
