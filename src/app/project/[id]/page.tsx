@@ -5,6 +5,7 @@ import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { ArrowLeft, ChevronLeft, ChevronRight, Rotate3d } from "lucide-react";
 import Footer from "@/components/Footer";
+import ScrollToTopOnMount from "@/components/ScrollToTopOnMount";
 interface StrapiImage {
     id: number;
     url: string;
@@ -118,6 +119,7 @@ export default async function ProjectDetail({
         <div className='min-h-screen bg-neutral-900 overflow-x-hidden'>
             <main className='w-screen h-full flex justify-center bg-neutral-900'>
                 <div className='w-full max-w-[1600px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
+                    <ScrollToTopOnMount />
                     <Header />
 
                     <div className=' w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-20  bg-neutral-900 px-4'>
