@@ -33,7 +33,6 @@ export default async function Portfolio() {
                             <h1 className='text-[3.5rem] sm:text-8xl md:text-9xl xl:text-[14rem] font-semibold text-white uppercase'>
                                 PORTFOLIO
                             </h1>
-                            {/* <div className='w-full h-[2px] bg-white mt-2'></div> */}
                         </div>
 
                         {projects.length === 0 ? (

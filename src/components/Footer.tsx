@@ -41,7 +41,6 @@ export default function Footer() {
                         <span className='-translate-y-[2px] w-full text-center '>
                             Get&nbsp;in&nbsp;touch
                         </span>
-                        {/* <SendIcon className='w-7 h-7 ml-2' />{" "} */}
                     </a>
                     <div className='w-full flex justify-between md:justify-start  gap-4 md:gap-8 lg:gap-20 md:flex-nowrap flex-wrap'>
                         <div className='flex flex-col mt-8'>

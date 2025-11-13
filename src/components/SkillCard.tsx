@@ -5,6 +5,8 @@ import type { CSSProperties } from "react";
 import SkillsSceneMobile from "./SkillsSceneMobile";
 import Image from "next/image";
 
+type CSSVariableStyles = CSSProperties & Record<`--${string}`, string | number>;
+
 export default function SkillCard({
     title,
     path,
@@ -157,14 +159,26 @@ export default function SkillCard({
         ]
     );
 
+    const skillCardStyle = useMemo<CSSVariableStyles>(
+        () => ({
+            "--card-scroll-progress": `${scrollProgress}`,
+        }),
+        [scrollProgress]
+    );
+
+    const skillIconStyle = useMemo<CSSVariableStyles>(
+        () => ({
+            "--scroll-progress": `${scrollProgress}`,
+        }),
+        [scrollProgress]
+    );
+
     return (
         <a
             href={portfolioHref}
             ref={skillsRef}
             className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
-            style={{
-                "--card-scroll-progress": `${scrollProgress}`,
-            }}
+            style={skillCardStyle}
         >
             <h3
                 className={` text-nowrap text-3xl lg:text-4xl xl:text-5xl font-extralight text-white capitalize break-normal`}
@@ -228,9 +242,7 @@ export default function SkillCard({
                                     className='skill-icon-wrapper relative'
                                     key={i}
                                     data-program-name={image.title}
-                                    style={{
-                                        "--scroll-progress": `${scrollProgress}`,
-                                    }}
+                                    style={skillIconStyle}
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <div className='skill-icon-inner rounded-xl p-1 border-2 border-transparent'>

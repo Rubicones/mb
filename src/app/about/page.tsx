@@ -73,9 +73,7 @@ export default function AboutMe() {
                 <Header />
                 <div className='w-full h-full flex flex-col justify-center items-center bg-neutral-900 mt-16'>
                     <main className='max-w-[1200px] w-full h-full flex flex-col items-start sm:px-4 lg:px-32 pt-8 md:pt-12 pb-16 p-4 bg-neutral-900'>
-                        {/* Hello There Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2 '>
-                            {/* Greeting - Takes 4 columns */}
                             <div
                                 className='col-span-2  flex flex-col justify-between p-3 sm:p-6 aspect-2/1'
                                 data-slide-direction='left'
@@ -86,7 +84,6 @@ export default function AboutMe() {
                                     THERE!
                                 </h1>
                             </div>
-                            {/* Profile Image - Takes 2 columns */}
                             <div
                                 className='aspect-1/2 row-span-2 col-start-3 rounded-3xl overflow-hidden p-1 sm:p-2'
                                 data-slide-direction='right'
@@ -129,9 +126,7 @@ export default function AboutMe() {
                         <span className='mb-8 text-6xl md:text-8xl font-extralight text-white leading-none mt-20'>
                             EDUCATION
                         </span>
-                        {/* Education Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-2'>
-                            {/* Stieglitz Academy */}
                             <div
                                 className='col-span-2 aspect-2/1 p-1 sm:p-2'
                                 data-slide-direction='left'
@@ -149,7 +144,6 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            {/* International House */}
                             <div
                                 className='row-span-2 col-start-3 aspect-1/2 p-1 sm:p-2 h-full'
                                 data-slide-direction='right'
@@ -167,7 +161,6 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            {/* Masa Program */}
                             <div
                                 data-slide-direction='left'
                                 className='col-span-2 row-start-2 aspect-2/1 p-1 sm:p-2'
@@ -190,9 +183,7 @@ export default function AboutMe() {
                         <span className='mb-8 text-4xl md:text-7xl lg:text-9xl font-extralight text-white leading-none mt-20'>
                             HOBBY
                         </span>
-                        {/* Hobby Section */}
                         <div className='w-full grid grid-cols-3 grid-rows-3'>
-                            {/* Row 1: Abstract Image + Music Card */}
                             <div
                                 className='col-span-1 aspect-square p-1 sm:p-2'
                                 data-slide-direction='left'
@@ -239,7 +230,6 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            {/* Row 2: Videogames Card + Game Cover Image */}
                             <div
                                 className='col-span-2 aspect-2/1 p-1 sm:p-2 row-start-2'
                                 data-slide-direction='left'
@@ -272,7 +262,6 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            {/* Row 3: Abstract Image + Skateboarding Card */}
                             <div
                                 className='col-span-1 aspect-square p-2 row-start-3'
                                 data-slide-direction='left'
@@ -321,7 +310,6 @@ export default function AboutMe() {
                                     />
                                 </div>
                             </div>
-                            {/* Row 2: Videogames Card + Game Cover Image */}
                             <div
                                 className='col-span-2 aspect-2/1 p-1 sm:p-2'
                                 data-slide-direction='right'
@@ -378,7 +366,6 @@ export default function AboutMe() {
                                     </div>
                                 </div>
                             </div>
-                            {/* Row 2: Videogames Card + Game Cover Image */}
                             <div
                                 className='col-span-2 aspect-2/1 row-start-4 p-1 sm:p-2'
                                 data-slide-direction='left'
