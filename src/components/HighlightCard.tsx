@@ -1,22 +1,28 @@
 import Image from "next/image";
+import { getProjectCategoryLabel, resolveAssetUrl, type Project } from "@/lib/strapi";
 
-interface Project {
-    Name: string;
-    Category: string;
-    Date: string;
-    Cover: {
-        url: string;
-    };
-    documentId: string;
+interface HighlightCardProps {
+    project: Pick<
+        Project,
+        "Name" | "Category" | "Date" | "Cover" | "documentId" | "type"
+    >;
 }
 
-export default function HighlightCard({ project }: { project: Project }) {
+export default function HighlightCard({ project }: HighlightCardProps) {
+    const coverUrl = resolveAssetUrl(project.Cover);
+
+    if (!coverUrl) {
+        return null;
+    }
+
+    const projectTypeLabel = project.type ?? "personal";
+
     return (
         <>
             <div className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200 cursor-pointer'>
                 <div className='relative w-2/3 h-full'>
                     <Image
-                        src={"https://mb-portfolio.fly.dev" + project.Cover.url}
+                        src={coverUrl}
                         alt={project.Name}
                         fill
                         className='object-cover rounded-2xl'
@@ -32,7 +38,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {project.Category.slice(2)}
+                            {getProjectCategoryLabel(project.Category)}
                         </span>
                     </div>
                     <div className='flex flex-col'>
@@ -41,14 +47,14 @@ export default function HighlightCard({ project }: { project: Project }) {
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Type: </span>
-                        <span className='text-white'>Personal</span>
+                        <span className='text-white capitalize'>{projectTypeLabel}</span>
                     </div>
                 </div>
             </div>
             <div className='flex relative md:hidden w-[300px] aspect-[calc(9.5/16)] flex-col bg-black rounded-2xl justify-start overflow-hidden cursor-pointer'>
                 <div className='absolute top-0 left-0 h-full w-full z-10'>
                     <Image
-                        src={"https://mb-portfolio.fly.dev" + project.Cover.url}
+                        src={coverUrl}
                         alt={project.Name}
                         fill
                         className='object-cover rounded-2xl'
@@ -64,7 +70,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Category: </span>
                         <span className='text-white'>
-                            {project.Category.slice(2)}
+                            {getProjectCategoryLabel(project.Category)}
                         </span>
                     </div>
                     <div className='flex flex-col'>
@@ -73,7 +79,7 @@ export default function HighlightCard({ project }: { project: Project }) {
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Type: </span>
-                        <span className='text-white'>Personal</span>
+                        <span className='text-white capitalize'>{projectTypeLabel}</span>
                     </div>
                 </div>
             </div>

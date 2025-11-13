@@ -3,21 +3,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-
-interface StrapiImage {
-    id: number;
-    url: string;
-    alternativeText: string | null;
-    name: string;
-    width?: number;
-    height?: number;
-}
-
-interface MediaItem {
-    id: number;
-    Comment: string;
-    Image?: StrapiImage;
-}
+import {
+    resolveAssetUrl,
+    resolveMediaImage,
+    type MediaItem,
+} from "@/lib/strapi";
 
 interface GalleryProps {
     media: MediaItem[];
@@ -43,8 +33,7 @@ export default function Gallery({ media }: GalleryProps) {
     }, []);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
-    // Filter out items without images
-    const validMedia = media.filter((item) => item.Image?.url);
+    const validMedia = media.filter((item) => resolveMediaImage(item)?.url);
 
     const scroll = useCallback(
         async (
@@ -57,11 +46,9 @@ export default function Gallery({ media }: GalleryProps) {
         if (!container) return;
 
         if (isFullscreen) {
-            // For fullscreen, use simple wraparound logic
             const containerWidth = container.offsetWidth;
             const scrollLeft = container.scrollLeft;
 
-            // Calculate current image index
             const currentIndex = Math.round(scrollLeft / containerWidth);
             const totalImages = validMedia.length;
 
@@ -82,24 +69,17 @@ export default function Gallery({ media }: GalleryProps) {
         } else {
             setDisableScrollButtons(true);
 
-            // For gallery, find next/prev element that isn't fully visible, starting from current
             const scrollLeft = container.scrollLeft;
             const children = Array.from(container.children) as HTMLElement[];
 
-            // Helper function to check if element is fully visible
             const isFullyVisible = (child: HTMLElement) => {
-                // 1) Get the width of the container
                 const containerWidth = container.offsetWidth;
 
-                // 2) Get the width of the image
                 const imageWidth = child.offsetWidth;
 
-                // 3) Find the left and right indents of the image
                 const leftIndent = child.offsetLeft - scrollLeft;
                 const rightIndent = containerWidth - (leftIndent + imageWidth);
 
-                // 4) If indent + image's width is greater than the container width – it is not visible fully
-                // 5) If any of the indents are negative – it is not visible fully
                 const isVisible = leftIndent >= -10 && rightIndent >= -10;
 
                 return isVisible;
@@ -107,7 +87,6 @@ export default function Gallery({ media }: GalleryProps) {
 
             let targetChild;
             let newIndex = currentElementIndex;
-            // await new Promise(resolve => setTimeout(resolve, 400));
             if (direction === "left") {
                 const firstFullyVisibleIndex = children.findIndex((child) =>
                     isFullyVisible(child)
@@ -116,7 +95,6 @@ export default function Gallery({ media }: GalleryProps) {
                     newIndex = children.length - 1;
                     targetChild = children[newIndex];
                 } else {
-                    // Search backwards from current element
                     for (let i = firstFullyVisibleIndex; i >= 0; i--) {
                         const child = children[i];
                         if (!isFullyVisible(child)) {
@@ -127,13 +105,11 @@ export default function Gallery({ media }: GalleryProps) {
                     }
                 }
 
-                // If all elements are fully visible, go to previous element
                 if (!targetChild) {
                     newIndex = children.length - 1;
                     targetChild = children[newIndex];
                 }
             } else {
-                // Find the last fully visible element
                 let lastFullyVisibleIndex = -1;
                 for (let i = children.length - 1; i >= 0; i--) {
                     if (isFullyVisible(children[i])) {
@@ -142,13 +118,10 @@ export default function Gallery({ media }: GalleryProps) {
                     }
                 }
 
-                // Search forwards from the last fully visible element
                 if (lastFullyVisibleIndex === -1) {
-                    // No elements are fully visible, go to first element
                     newIndex = 0;
                     targetChild = children[newIndex];
                 } else {
-                    // Look for the first not-fully-visible element after the last fully visible one
                     for (
                         let i = lastFullyVisibleIndex + 1;
                         i < children.length;
@@ -163,7 +136,6 @@ export default function Gallery({ media }: GalleryProps) {
                     }
                 }
 
-                // If all elements are fully visible, go to first element
                 if (!targetChild) {
                     newIndex = 0;
                     targetChild = children[newIndex];
@@ -177,7 +149,6 @@ export default function Gallery({ media }: GalleryProps) {
                     behavior: "smooth",
                 });
 
-                // Update the current element index
                 setCurrentElementIndex(newIndex);
             }
             setTimeout(() => {
@@ -190,10 +161,8 @@ export default function Gallery({ media }: GalleryProps) {
 
     const openFullscreen = (index: number) => {
         setFullscreenIndex(index);
-        // Prevent body scroll when fullscreen is open
         document.body.style.overflow = "hidden";
 
-        // After opening, scroll to the correct image
         setTimeout(() => {
             if (fullscreenScrollRef.current) {
                 const scrollAmount =
@@ -206,18 +175,15 @@ export default function Gallery({ media }: GalleryProps) {
         }, 50);
     };
 
-    // Initialize gallery position - start with first image focused
     useEffect(() => {
         if (validMedia.length > 0 && scrollContainerRef.current) {
             const container = scrollContainerRef.current;
 
-            // Start with first image focused (scroll to 0)
             container.scrollTo({
                 left: 0,
                 behavior: "auto",
             });
 
-            // Set current element index to 0
             setCurrentElementIndex(0);
         }
     }, [validMedia.length]);
@@ -258,14 +224,12 @@ export default function Gallery({ media }: GalleryProps) {
 
     return (
         <>
-            {/* Gallery Container */}
             <div className='w-full mt-10 mb-4'>
                 <h2 className='text-neutral-500 text-3xl font-extralight mb-4'>
                     Gallery
                 </h2>
 
                 <div className='relative group'>
-                    {/* Scroll Container */}
                     <div
                         ref={scrollContainerRef}
                         className='flex overflow-x-auto scrollbar-hide gap-4 -pr-12 rounded-md'
@@ -277,6 +241,12 @@ export default function Gallery({ media }: GalleryProps) {
                     >
                         {validMedia.map((item, index) => {
                             const isLoaded = !!loadedImages[item.id];
+                            const image = resolveMediaImage(item);
+                            const imageUrl = resolveAssetUrl(image);
+
+                            if (!image || !imageUrl) {
+                                return null;
+                            }
                             return (
                                 <div
                                     key={item.id}
@@ -296,12 +266,9 @@ export default function Gallery({ media }: GalleryProps) {
                                             </div>
                                         )}
                                         <Image
-                                            src={
-                                                "https://mb-portfolio.fly.dev" +
-                                                    item.Image?.url || ""
-                                            }
+                                            src={imageUrl}
                                             alt={
-                                                item.Image!.alternativeText ||
+                                                image.alternativeText ||
                                                 item.Comment ||
                                                 "Gallery image"
                                             }
@@ -313,9 +280,7 @@ export default function Gallery({ media }: GalleryProps) {
                                                     : "opacity-0"
                                             }`}
                                             loading='lazy'
-                                            onLoad={() =>
-                                                markImageLoaded(item.id)
-                                            }
+                                            onLoad={() => markImageLoaded(item.id)}
                                             onLoadingComplete={() =>
                                                 markImageLoaded(item.id)
                                             }
@@ -326,9 +291,7 @@ export default function Gallery({ media }: GalleryProps) {
                         })}
                     </div>
 
-                    {/* Navigation Arrows - Bottom */}
                     <div className='flex justify-start items-center gap-4 mt-4'>
-                        {/* Left Arrow */}
                         <button
                             disabled={disableScrollButtons}
                             onClick={() => scroll("left")}
@@ -338,7 +301,6 @@ export default function Gallery({ media }: GalleryProps) {
                             <ChevronLeft className='w-6 h-6' />
                         </button>
 
-                        {/* Right Arrow */}
                         <button
                             disabled={disableScrollButtons}
                             onClick={() => scroll("right")}
@@ -351,19 +313,16 @@ export default function Gallery({ media }: GalleryProps) {
                 </div>
             </div>
 
-            {/* Fullscreen Modal */}
             {fullscreenIndex !== null && (
                 <div
                     className='fixed inset-0 z-110 flex items-center justify-center top-0 left-0'
                     onClick={closeFullscreen}
                 >
-                    {/* Backdrop - Blurred */}
                     <div
                         className='absolute inset-0 bg-black/80 backdrop-blur-md'
                         onClick={closeFullscreen}
                     />
 
-                    {/* Close Button */}
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
@@ -375,7 +334,6 @@ export default function Gallery({ media }: GalleryProps) {
                         <X className='w-6 h-6' />
                     </button>
                     <div className='fullscreen-arrow-wrapper h-full w-12 flex flex-col items-center justify-center py-16'>
-                        {/* Left Arrow - Fullscreen */}
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -388,7 +346,6 @@ export default function Gallery({ media }: GalleryProps) {
                         </button>
                     </div>
 
-                    {/* Fullscreen Scroll Container */}
                     <div
                         ref={fullscreenScrollRef}
                         className='relative w-full h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-hide'
@@ -399,6 +356,12 @@ export default function Gallery({ media }: GalleryProps) {
                     >
                         {validMedia.map((item) => {
                             const isLoaded = !!loadedImages[item.id];
+                            const image = resolveMediaImage(item);
+                            const imageUrl = resolveAssetUrl(image);
+
+                            if (!image || !imageUrl) {
+                                return null;
+                            }
                             return (
                                 <div
                                     key={item.id}
@@ -413,12 +376,9 @@ export default function Gallery({ media }: GalleryProps) {
                                             </div>
                                         )}
                                         <Image
-                                            src={
-                                                "https://mb-portfolio.fly.dev" +
-                                                    item.Image?.url || ""
-                                            }
+                                            src={imageUrl}
                                             alt={
-                                                item.Image!.alternativeText ||
+                                                image.alternativeText ||
                                                 item.Comment ||
                                                 "Gallery image"
                                             }
@@ -430,9 +390,7 @@ export default function Gallery({ media }: GalleryProps) {
                                             }`}
                                             sizes='90vw'
                                             priority
-                                            onLoad={() =>
-                                                markImageLoaded(item.id)
-                                            }
+                                            onLoad={() => markImageLoaded(item.id)}
                                             onLoadingComplete={() =>
                                                 markImageLoaded(item.id)
                                             }
@@ -450,7 +408,6 @@ export default function Gallery({ media }: GalleryProps) {
                         })}
                     </div>
                     <div className='fullscreen-arrow-wrapper h-full w-12 flex flex-col items-center justify-center py-16'>
-                        {/* Right Arrow - Fullscreen */}
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -463,7 +420,6 @@ export default function Gallery({ media }: GalleryProps) {
                         </button>
                     </div>
 
-                    {/* Image Counter */}
                     {fullscreenScrollRef.current && (
                         <div className='absolute bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/50 text-white px-4 py-2 rounded-full'>
                             {fullscreenIndex + 1} / {validMedia.length}

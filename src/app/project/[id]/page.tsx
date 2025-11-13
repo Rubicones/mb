@@ -5,94 +5,19 @@ import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { ArrowLeft, ChevronLeft, ChevronRight, Rotate3d } from "lucide-react";
 import Footer from "@/components/Footer";
+import {
+    fetchProjectByDocumentId,
+    getProjectCategoryLabel,
+    resolveAssetUrl,
+} from "@/lib/strapi";
 import ScrollToTopOnMount from "@/components/ScrollToTopOnMount";
-interface StrapiImage {
-    id: number;
-    url: string;
-    alternativeText: string | null;
-    name: string;
-}
-
-interface MediaItem {
-    id: number;
-    Comment: string;
-    image?: StrapiImage;
-}
-
-interface Program {
-    id: number;
-    Name: string;
-    Icon?: StrapiImage;
-}
-
-interface Project {
-    id: number;
-    documentId: string;
-    Name: string;
-    Description: string;
-    Date: string;
-    isPosted: boolean;
-    Cover: StrapiImage;
-    Content: "youtube" | "spline" | "none";
-    SplineLink: string | null;
-    ytLink: string | null;
-    Category: "c_3D" | "c_2D" | "c_Craft";
-    Media: MediaItem[];
-    Programs: Program[];
-    type: "personal" | "comercial";
-    nextProject?: {
-        documentId: string;
-        Name: string;
-        Cover: StrapiImage;
-    };
-    prevProject?: {
-        documentId: string;
-        Name: string;
-        Cover: StrapiImage;
-    };
-}
-
-interface StrapiResponse {
-    data: Project;
-}
-
-async function getProject(id: string): Promise<Project | null> {
-    try {
-        const response = await fetch(
-            `https://mb-portfolio.fly.dev/api/projects/${id}?populate[Media][populate]=*&populate[Programs][populate]=*&populate=Cover&populate[nextProject][populate]=*&populate[prevProject][populate]=*`,
-            {
-                next: { revalidate: 60 },
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        if (!response.ok) {
-            console.error(
-                `Error fetching project ${id}:`,
-                response.status,
-                response.statusText
-            );
-            return null;
-        }
-
-        const data: StrapiResponse = await response.json();
-        console.log(data);
-        return data.data;
-    } catch (error) {
-        console.error(`Error fetching project ${id}:`, error);
-        return null;
-    }
-}
 
 export default async function ProjectDetail({
     params,
 }: {
-    params: Promise<{ id: string }>;
+    params: { id: string };
 }) {
-    const { id } = await params;
-    const project = await getProject(id);
+    const project = await fetchProjectByDocumentId(params.id);
 
     if (!project) {
         return (
@@ -147,23 +72,27 @@ export default async function ProjectDetail({
                                         Made with:
                                     </span>
                                     <div className='flex w-full gap-2 items-center justify-start'>
-                                        {project.Programs.map((program) => (
-                                            <div
-                                                key={program.id}
-                                                className='flex items-center justify-between'
-                                            >
-                                                <Image
-                                                    src={
-                                                        "https://mb-portfolio.fly.dev" +
-                                                            program.Icon?.url ||
-                                                        ""
-                                                    }
-                                                    alt={program.Name}
-                                                    width={52}
-                                                    height={52}
-                                                />
-                                            </div>
-                                        ))}
+                                        {project.Programs.map((program) => {
+                                            const iconUrl = resolveAssetUrl(program.Icon);
+
+                                            if (!iconUrl) {
+                                                return null;
+                                            }
+
+                                            return (
+                                                <div
+                                                    key={program.id}
+                                                    className='flex items-center justify-between'
+                                                >
+                                                    <Image
+                                                        src={iconUrl}
+                                                        alt={program.Name}
+                                                        width={52}
+                                                        height={52}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </>
                             )}
@@ -175,7 +104,7 @@ export default async function ProjectDetail({
                                     Category
                                 </span>
                                 <span className='text-white text-xl font-bold'>
-                                    {project.Category.slice(2)}
+                                    {getProjectCategoryLabel(project.Category)}
                                 </span>
                             </div>
                             <div className='flex justify-between gap-10'>
@@ -270,13 +199,10 @@ export default async function ProjectDetail({
                             </div>
                         )}
 
-                        {/* Gallery Section */}
                         <Gallery media={project.Media} />
 
-                        {/* Project Navigation Section */}
                         <div className='w-full mt-16 mb-8'>
                             <div className='grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6'>
-                                {/* Back to Portfolio Card - Hidden on mobile */}
                                 <Link
                                     href='/portfolio'
                                     className='hidden md:flex group relative h-96 bg-neutral-800 hover:bg-neutral-700 rounded-xl overflow-hidden flex-col items-center justify-center gap-2 transition-all duration-300'
@@ -291,7 +217,6 @@ export default async function ProjectDetail({
                                     </div>
                                 </Link>
 
-                                {/* Previous Project Card */}
                                 {project.prevProject && (
                                     <Link
                                         href={`/project/${project.prevProject.documentId}`}
@@ -299,14 +224,9 @@ export default async function ProjectDetail({
                                     >
                                         <div className='absolute inset-0'>
                                             <Image
-                                                src={
-                                                    project.prevProject.Cover.url.startsWith(
-                                                        "http"
-                                                    )
-                                                        ? project.prevProject
-                                                              .Cover.url
-                                                        : `https://mb-portfolio.fly.dev${project.prevProject.Cover.url}`
-                                                }
+                                                src={resolveAssetUrl(
+                                                    project.prevProject.Cover
+                                                )}
                                                 alt={project.prevProject.Name}
                                                 fill
                                                 className='object-cover pointer:blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'
@@ -330,7 +250,6 @@ export default async function ProjectDetail({
                                     </Link>
                                 )}
 
-                                {/* Next Project Card */}
                                 {project.nextProject && (
                                     <Link
                                         href={`/project/${project.nextProject.documentId}`}
@@ -338,14 +257,9 @@ export default async function ProjectDetail({
                                     >
                                         <div className='absolute inset-0'>
                                             <Image
-                                                src={
-                                                    project.nextProject.Cover.url.startsWith(
-                                                        "http"
-                                                    )
-                                                        ? project.nextProject
-                                                              .Cover.url
-                                                        : `https://mb-portfolio.fly.dev${project.nextProject.Cover.url}`
-                                                }
+                                                src={resolveAssetUrl(
+                                                    project.nextProject.Cover
+                                                )}
                                                 alt={project.nextProject.Name}
                                                 fill
                                                 className='object-cover pointer:blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'

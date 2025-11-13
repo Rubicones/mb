@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import SplineLogo from "./SplineLogo";
 import LogoScene from "./LogoScene";
 import Link from "next/link";
 
@@ -14,7 +13,6 @@ export default function Header() {
                 <div className='relative w-full max-w-[1600px] flex items-center justify-between px-4 md:px-6'>
                     <LogoScene />
 
-                    {/* Desktop Navigation */}
                     <div className='hidden md:flex w-full justify-center gap-6 lg:gap-10 uppercase'>
                         <Link
                             className='text-lg lg:text-xl hover:text-neutral-400 transition-all z-50'
@@ -36,7 +34,6 @@ export default function Header() {
                         </Link>
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <button
                         className='md:hidden flex flex-col gap-1 p-2 z-50'
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -62,7 +59,6 @@ export default function Header() {
                         ></div>
                     </button>
 
-                    {/* Desktop Contact Button */}
                     <a
                         onClick={() => {
                             document.querySelector("#footer")?.scrollIntoView({
@@ -76,7 +72,6 @@ export default function Header() {
                 </div>
             </header>
 
-            {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className='md:hidden bg-neutral-900 w-full border-t border-gray-800 fixed top-16 left-0 z-60'>
                     <div className='flex flex-col py-4 px-4 space-y-4 z-50'>

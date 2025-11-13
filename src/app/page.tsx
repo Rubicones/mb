@@ -8,6 +8,8 @@ import { useState } from "react";
 import HighlightsSection from "@/components/HighlightsSection";
 import Footer from "@/components/Footer";
 import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
+import ScrollingTicker from "@/components/ScrollingTicker";
 
 const BIRTHDATE = new Date(2002, 10, 24);
 
@@ -33,27 +35,13 @@ export default function Home() {
         <div className='w-full h-full flex flex-col items-center bg-neutral-900 overflow-hidden'>
             <div className='w-screen h-full flex flex-col items-center bg-white relative'>
                 <Header />
-                <div className='w-screen bg-[#C8B936] h-12 text-lg lg:text-xl flex items-center overflow-hidden mt-16'>
-                    <div className='flex animate-scroll-right'>
-                        <span className='whitespace-nowrap text-black font-semibold'>
-                            {scrollText.repeat(10)}
-                        </span>
-                        <span className='whitespace-nowrap text-black font-semibold'>
-                            {scrollText.repeat(10)}
-                        </span>
-                    </div>
-                </div>
+                <ScrollingTicker
+                    direction='right'
+                    text={scrollText}
+                    className='mt-16'
+                />
                 <TitleScene />
-                <div className='w-screen bg-[#C8B936] h-12 text-lg lg:text-xl flex items-center overflow-hidden'>
-                    <div className='flex animate-scroll-left'>
-                        <span className='whitespace-nowrap text-black font-semibold'>
-                            {scrollText.repeat(10)}
-                        </span>
-                        <span className='whitespace-nowrap text-black font-semibold'>
-                            {scrollText.repeat(10)}
-                        </span>
-                    </div>
-                </div>
+                <ScrollingTicker direction='left' text={scrollText} />
             </div>
 
             <div className=' relative w-full flex flex-col items-center justify-between md:px-6 bg-neutral-900'>
@@ -83,19 +71,13 @@ export default function Home() {
                                 </span>
                                 .
                             </span>
-                            <a
-                                onClick={() => {
-                                    document
-                                        .querySelector("#footer")
-                                        ?.scrollIntoView({
-                                            behavior: "smooth",
-                                        });
-                                }}
+                            <Link
+                                href='/about'
                                 className='w-min flex items-center gap-4 cursor-pointer hover:scale-105 bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'
                             >
                                 More&nbsp;about&nbsp;me
                                 <ChevronRightIcon className='w-6 h-6' />
-                            </a>
+                            </Link>
                         </div>
                         <div className='w-full md:w-1/3 min-h-[250px] md:min-h-[400px] flex flex-col items-center justify-center relative mr-10 '>
                             <Image
@@ -178,8 +160,8 @@ export default function Home() {
                         />
                     </div>
                     <div className="w-full flex justify-end px-[6px]">
-                    <a
-                        href='https://wa.me/+9720552691841'
+                    <Link
+                        href='/portfolio'
                         target='_blank'
                         className='mt-6 mb-32 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center lg:justify-between justify-center gap-2 cursor-pointer'
                     >
@@ -187,7 +169,7 @@ export default function Home() {
                             Jump&nbsp;to&nbsp;portfolio
                         </span>
                         <ChevronRightIcon className='w-7 h-7 ml-2' />
-                    </a>
+                    </Link>
                     </div>
                 </div>
             </div>

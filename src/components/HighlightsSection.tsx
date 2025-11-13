@@ -3,56 +3,17 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import HighlightCard from "./HighlightCard";
+import { fetchHighlightedProjects, type Project } from "@/lib/strapi";
 
-const TIMER_DURATION = 5000; // 5 seconds per slide
-
-interface StrapiImage {
-    id: number;
-    url: string;
-    width: number;
-    height: number;
-    alternativeText?: string;
-}
-
-interface MediaItem {
-    id: number;
-    Image: StrapiImage;
-}
-
-interface Program {
-    id: number;
-    Name: string;
-    Icon?: StrapiImage;
-}
-
-interface Project {
-    id: number;
-    documentId: string;
-    Name: string;
-    Description: string;
-    Date: string;
-    isPosted: boolean;
-    isHighlighted?: boolean;
-    Cover: StrapiImage;
-    Content: "youtube" | "spline" | "none";
-    SplineLink: string | null;
-    ytLink: string | null;
-    Category: "c_3D" | "c_2D" | "c_Craft";
-    Media: MediaItem[];
-    Programs: Program[];
-}
-
-interface StrapiResponse {
-    data: Project[];
-}
+const TIMER_DURATION = 5000;
 
 export default function HighlightsSection() {
     const router = useRouter();
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [currentIndex, setCurrentIndex] = useState(1); // Start with second card
+    const [currentIndex, setCurrentIndex] = useState(1);
     const [progressKey, setProgressKey] = useState(0);
-    const [isVisible, setIsVisible] = useState(false); // Don't start timer until scrolled to
+    const [isVisible, setIsVisible] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<Map<number, HTMLDivElement>>(new Map());
     const isScrollingRef = useRef(false);
@@ -60,42 +21,18 @@ export default function HighlightsSection() {
     const hasInitializedRef = useRef(false);
 
     useEffect(() => {
-        async function fetchHighlightedProjects() {
-            try {
-                const response = await fetch(
-                    "https://mb-portfolio.fly.dev/api/projects?filters[isHighlighted][$eq]=true&populate=*&pagination[pageSize]=10",
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                if (!response.ok) {
-                    console.error(
-                        "Failed to fetch highlighted projects:",
-                        response.status,
-                        response.statusText
-                    );
-                    setIsLoading(false);
-                    return;
-                }
+        async function loadHighlightedProjects() {
+            setIsLoading(true);
+            const highlightedProjects = await fetchHighlightedProjects();
 
-                const data: StrapiResponse = await response.json();
-                console.log(data);
-                if (data.data && data.data.length > 0) {
-                    setProjects(data.data);
-                }
-                setIsLoading(false);
-            } catch (error) {
-                console.error("Error fetching highlighted projects:", error);
-                setIsLoading(false);
-            }
+            setProjects(highlightedProjects);
+
+            setIsLoading(false);
         }
 
-        fetchHighlightedProjects();
+        loadHighlightedProjects();
     }, []);
 
-    // Simple scroll-based visibility detection
     useEffect(() => {
         const checkVisibility = () => {
             const carousel = scrollContainerRef.current;
@@ -105,12 +42,10 @@ export default function HighlightsSection() {
             const rect = target.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
-            // Check if section's center is near the viewport center (±200px)
             const sectionCenter = rect.top + rect.height / 2;
             const windowCenter = windowHeight / 2;
             const visible = Math.abs(sectionCenter - windowCenter) <= 200;
 
-            // Reset timer when becoming visible
             if (visible && !isVisible) {
                 setProgressKey(prev => prev + 1);
             }
@@ -118,10 +53,8 @@ export default function HighlightsSection() {
             setIsVisible(visible);
         };
 
-        // Check on mount
         checkVisibility();
 
-        // Check on scroll
         window.addEventListener('scroll', checkVisibility);
         window.addEventListener('resize', checkVisibility);
 
@@ -131,7 +64,6 @@ export default function HighlightsSection() {
         };
     }, [isVisible]);
 
-    // Scroll to a specific card
     const scrollToCard = useCallback(
         (index: number, options?: { syncState?: boolean }) => {
         const projectId = projects[index]?.id;
@@ -146,7 +78,6 @@ export default function HighlightsSection() {
                 inline: 'center',
             });
             
-            // Reset scroll flag after animation
             setTimeout(() => {
                 isScrollingRef.current = false;
             }, 1000);
@@ -159,7 +90,6 @@ export default function HighlightsSection() {
     },
     [projects, setCurrentIndex, setProgressKey]);
 
-    // Initialize: scroll to second card
     useEffect(() => {
         hasInitializedRef.current = false;
     }, [projects]);
@@ -177,14 +107,13 @@ export default function HighlightsSection() {
         return () => clearTimeout(timeoutId);
     }, [projects, scrollToCard, isVisible]);
 
-    // Update card styles based on scroll position (optimized for mobile)
     useEffect(() => {
         const container = scrollContainerRef.current;
         if (!container) return;
 
         let rafId: number | null = null;
         let lastScrollTime = 0;
-        const THROTTLE_MS = 16; // ~60fps
+        const THROTTLE_MS = 16;
 
         const updateCardStyles = () => {
             const now = Date.now();
@@ -200,21 +129,17 @@ export default function HighlightsSection() {
                 const cardRect = card.getBoundingClientRect();
                 const cardCenterX = cardRect.left + cardRect.width / 2;
                 
-                // Calculate distance from center
                 const distanceFromCenter = Math.abs(cardCenterX - centerX);
                 
-                // Track which card is closest to center
                 if (distanceFromCenter < closestDistance) {
                     closestDistance = distanceFromCenter;
                     const index = projects.findIndex(p => p.id === projectId);
                     if (index !== -1) closestIndex = index;
                 }
                 
-                // Only apply transforms to cards within viewport + 1 card buffer
                 const isInRange = cardRect.right > -200 && cardRect.left < window.innerWidth + 200;
                 
                 if (!isInRange) {
-                    // Reset off-screen cards to default state
                     card.style.transform = 'scale(0.75) translate3d(0, 80px, 0)';
                     card.style.filter = 'grayscale(100%)';
                     card.style.opacity = '0.5';
@@ -224,28 +149,21 @@ export default function HighlightsSection() {
                 const maxDistance = containerRect.width / 2;
                 const normalizedDistance = Math.min(distanceFromCenter / maxDistance, 1);
                 
-                // Scale: 1.0 at center, 0.75 at edges
                 const scale = 1 - (normalizedDistance * 0.25);
                 
-                // Grayscale: 0% at center, 100% at edges
                 const grayscale = normalizedDistance * 100;
                 
-                // Opacity: 1 at center, 0.5 at edges (clamped to prevent white cards)
                 const opacity = Math.max(0.5, 1 - (normalizedDistance * 0.5));
                 
-                // Rotation: 0deg at center, ±8deg at edges (based on side)
                 const rotation = (cardCenterX < centerX ? -1 : 1) * normalizedDistance * 8;
                 
-                // Vertical displacement: 0px at center, 80px lower at edges
                 const translateY = normalizedDistance * 80;
 
-                // Use translate3d for better hardware acceleration
                 card.style.transform = `scale(${scale}) rotate(${rotation}deg) translate3d(0, ${translateY}px, 0)`;
                 card.style.filter = `grayscale(${grayscale}%)`;
                 card.style.opacity = `${opacity}`;
             });
 
-            // Update current index if not actively scrolling
             if (!isScrollingRef.current && closestIndex !== currentIndex) {
                 setCurrentIndex(closestIndex);
                 setProgressKey(prev => prev + 1);
@@ -259,13 +177,10 @@ export default function HighlightsSection() {
             rafId = requestAnimationFrame(updateCardStyles);
         };
 
-        // Update on scroll with RAF
         container.addEventListener('scroll', handleScroll, { passive: true });
         
-        // Initial update
         updateCardStyles();
         
-        // Update on window resize (debounced)
         let resizeTimeout: NodeJS.Timeout;
         const handleResize = () => {
             clearTimeout(resizeTimeout);
@@ -283,9 +198,7 @@ export default function HighlightsSection() {
         };
     }, [projects, currentIndex]);
 
-    // Auto-advance timer (only when visible)
     useEffect(() => {
-        console.log('isVisible', isVisible);
         if (projects.length === 0 || !isVisible) return;
 
         const timer = setTimeout(() => {
@@ -322,15 +235,11 @@ export default function HighlightsSection() {
                     MY FAVORITES
                 </div>
 
-                {/* Scroll Container with Edge Gradients */}
                 <div className='relative w-full'>
-                    {/* Left gradient overlay */}
                     <div className='absolute left-0 top-0 bottom-0 w-10 md:w-32 bg-linear-to-r from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
-                    {/* Right gradient overlay */}
                     <div className='absolute right-0 top-0 bottom-0 w-10 md:w-32 bg-linear-to-l from-neutral-900 to-transparent z-10 pointer-events-none' />
                     
-                    {/* Scrollable container */}
                     <div
                         ref={scrollContainerRef}
                         className='flex gap-0.5 md:gap-1 overflow-x-auto py-8 px-4 md:px-8 no-scrollbar scroll-smooth'
@@ -338,7 +247,6 @@ export default function HighlightsSection() {
                             scrollSnapType: 'x mandatory',
                         }}
                     >
-                        {/* Spacer to center first card - responsive for mobile (300px) and desktop (700px) */}
                         <div className='shrink-0 w-[calc(50vw-150px-0.0625rem)] md:w-[calc(50%-350px-0.125rem)]' />
                         
                         {projects.map((project, index) => (
@@ -353,10 +261,8 @@ export default function HighlightsSection() {
                                 }}
                                 onClick={() => {
                                     if (index === currentIndex) {
-                                        // If card is centered, navigate to project page
                                         router.push(`/project/${project.documentId}`);
                                     } else {
-                                        // If card is greyscaled (not centered), scroll to center
                                         setCurrentIndex(index);
                                         setProgressKey(prev => prev + 1);
                                         scrollToCard(index);
@@ -374,12 +280,10 @@ export default function HighlightsSection() {
                                 </div>
                         ))}
                         
-                        {/* Spacer to center last card - responsive for mobile (300px) and desktop (700px) */}
                         <div className='shrink-0 w-[calc(50vw-150px-0.0625rem)] md:w-[calc(50%-350px-0.125rem)]' />
                     </div>
                 </div>
 
-                {/* Navigation Dots with Progress */}
                 <div className='flex items-center gap-2 justify-center mt-4' ref={sectionRef}>
                     {projects.map((project, index) => (
                         <button

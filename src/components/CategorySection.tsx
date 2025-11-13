@@ -1,42 +1,7 @@
 "use client";
 
 import ProjectCard from "./ProjectCard";
-
-interface StrapiImage {
-    id: number;
-    url: string;
-    alternativeText: string | null;
-    name: string;
-}
-
-interface MediaItem {
-    id: number;
-    Comment: string;
-    image?: StrapiImage;
-}
-
-interface Program {
-    id: number;
-    Name: string;
-    Icon?: StrapiImage;
-}
-
-interface Project {
-    id: number;
-    documentId: string;
-    Name: string;
-    Description: string;
-    Date: string;
-    isPosted: boolean;
-    Cover: StrapiImage;
-    Content: "youtube" | "spline" | "none";
-    SplineLink: string | null;
-    ytLink: string | null;
-    Category: "c_3D" | "c_2D" | "c_Craft";
-    Media: MediaItem[];
-    Programs: Program[];
-    priority?: number;
-}
+import { Project } from "@/lib/strapi";
 
 interface CategorySectionProps {
     projects3D: Project[];
@@ -69,7 +34,6 @@ export default function CategorySection({
 
     return (
         <div className='w-full flex flex-col gap-16 md:gap-20'>
-            {/* 3D DESIGN Category */}
             {sortedProjects3D.length > 0 && (
                 <div id="section-3d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
@@ -88,7 +52,6 @@ export default function CategorySection({
                 </div>
             )}
 
-            {/* 2D DESIGN Category */}
             {sortedProjects2D.length > 0 && (
                 <div id="section-2d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
@@ -107,7 +70,6 @@ export default function CategorySection({
                 </div>
             )}
 
-            {/* HANDCRAFT Category */}
             {sortedProjectsMulti.length > 0 && (
                 <div id="section-hc" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>

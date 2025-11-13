@@ -61,7 +61,6 @@ export default function SkillCard({
             if (width > 1600) {
                 setCanvasSize(1600 / 4);
             } else if (width > 1024) {
-                // Tablet
                 setCanvasSize(width / 4);
             } else {
                 setCanvasSize(width / 1.5);
@@ -73,7 +72,6 @@ export default function SkillCard({
         return () => window.removeEventListener("resize", updateSize);
     }, []);
 
-    // Scroll-based animation for mobile
     useEffect(() => {
         const handleScroll = () => {
             if (!skillsRef.current) return;
@@ -81,17 +79,14 @@ export default function SkillCard({
             const rect = skillsRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
-            // Calculate distance from center of viewport
             const elementCenter = rect.top + rect.height / 2;
             const viewportCenter = windowHeight / 2;
             const distanceFromCenter = viewportCenter - elementCenter;
 
-            // Calculate scroll progress (0 to 1)
             let progress =
                 (distanceFromCenter + windowHeight / 2) / windowHeight;
             progress = Math.max(0, Math.min(1, progress));
 
-            // Create triangular wave: 0 -> 1 (at center) -> 0
             let animationProgress;
             if (progress <= 0.35) {
                 animationProgress = progress / 0.35;
@@ -104,7 +99,7 @@ export default function SkillCard({
             setScrollProgress(animationProgress);
         };
 
-        handleScroll(); // Initial call
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -168,8 +163,7 @@ export default function SkillCard({
             ref={skillsRef}
             className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
             style={{
-                // @ts-expect-error - CSS custom property
-                "--card-scroll-progress": scrollProgress,
+                "--card-scroll-progress": `${scrollProgress}`,
             }}
         >
             <h3
@@ -235,8 +229,7 @@ export default function SkillCard({
                                     key={i}
                                     data-program-name={image.title}
                                     style={{
-                                        // @ts-expect-error - CSS custom property
-                                        "--scroll-progress": scrollProgress,
+                                        "--scroll-progress": `${scrollProgress}`,
                                     }}
                                     onClick={(e) => e.stopPropagation()}
                                 >

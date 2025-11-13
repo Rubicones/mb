@@ -22,8 +22,11 @@ const getScrollContext = (): ScrollContext | null => {
 
     if (container) {
         const styles = window.getComputedStyle(container);
-        const hasScrollableContent = container.scrollHeight > container.clientHeight + 1;
-        const overflowAllowsScroll = ["auto", "scroll"].includes(styles.overflowY);
+        const hasScrollableContent =
+            container.scrollHeight > container.clientHeight + 1;
+        const overflowAllowsScroll = ["auto", "scroll"].includes(
+            styles.overflowY
+        );
 
         if (hasScrollableContent && overflowAllowsScroll) {
             return { type: "element", node: container };
@@ -44,7 +47,9 @@ const getScrollMetrics = (context: ScrollContext): ScrollMetrics => {
             scrollTo: (options: ScrollToOptions) => container.scrollTo(options),
             getRelativeTop: (element: HTMLElement) => {
                 const elementRect = element.getBoundingClientRect();
-                return container.scrollTop + (elementRect.top - containerRect.top);
+                return (
+                    container.scrollTop + (elementRect.top - containerRect.top)
+                );
             },
         };
     }
@@ -58,7 +63,9 @@ const getScrollMetrics = (context: ScrollContext): ScrollMetrics => {
         scrollTo: (options: ScrollToOptions) => window.scrollTo(options),
         getRelativeTop: (element: HTMLElement) => {
             const elementRect = element.getBoundingClientRect();
-            return (window.scrollY ?? scrollElement.scrollTop) + elementRect.top;
+            return (
+                (window.scrollY ?? scrollElement.scrollTop) + elementRect.top
+            );
         },
     };
 };
@@ -72,13 +79,17 @@ interface AnchorNavigationProps {
 }
 
 export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
-    const [activeSection, setActiveSection] = useState<string>(sections[0]?.id || "");
+    const [activeSection, setActiveSection] = useState<string>(
+        sections[0]?.id || ""
+    );
     const [activeDividerIndex, setActiveDividerIndex] = useState<number>(-1);
     const [isTouching, setIsTouching] = useState(false);
     const [touchHoverIndex, setTouchHoverIndex] = useState<number>(-1);
     const lastVibratedIndex = useRef<number>(-1);
     const navRef = useRef<HTMLDivElement>(null);
-    const [scrollContext, setScrollContext] = useState<ScrollContext | null>(null);
+    const [scrollContext, setScrollContext] = useState<ScrollContext | null>(
+        null
+    );
     const dragTimeoutRef = useRef<number | null>(null);
     const initialScrollHandledRef = useRef<boolean>(false);
 
@@ -121,17 +132,25 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
             for (let i = sections.length - 1; i >= 0; i--) {
                 const sectionElement = document.getElementById(sections[i].id);
                 if (sectionElement && !foundMatch) {
-                    const header = sectionElement.querySelector("h2") as HTMLElement | null;
-                    const projectsContainer = sectionElement.querySelector(".grid") as HTMLElement | null;
+                    const header = sectionElement.querySelector(
+                        "h2"
+                    ) as HTMLElement | null;
+                    const projectsContainer = sectionElement.querySelector(
+                        ".grid"
+                    ) as HTMLElement | null;
 
                     if (header && projectsContainer) {
                         const headerPosition = metrics.getRelativeTop(header);
-                        const projectsPosition = metrics.getRelativeTop(projectsContainer);
+                        const projectsPosition =
+                            metrics.getRelativeTop(projectsContainer);
 
                         if (scrollPosition >= headerPosition) {
                             foundMatch = true;
 
-                            if (scrollPosition >= projectsPosition && i < sections.length - 1) {
+                            if (
+                                scrollPosition >= projectsPosition &&
+                                i < sections.length - 1
+                            ) {
                                 activeDivider = i;
                                 setActiveSection("");
                             } else {
@@ -139,7 +158,8 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                             }
                         }
                     } else {
-                        const sectionTop = metrics.getRelativeTop(sectionElement);
+                        const sectionTop =
+                            metrics.getRelativeTop(sectionElement);
                         if (scrollPosition >= sectionTop) {
                             foundMatch = true;
                             setActiveSection(sections[i].id);
@@ -160,14 +180,21 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     }, [sections, scrollContext]);
 
     const scrollToSection = useCallback(
-        (sectionId: string, scrollTo: "header" | "section", smooth: boolean = true) => {
+        (
+            sectionId: string,
+            scrollTo: "header" | "section",
+            smooth: boolean = true
+        ) => {
             const context = scrollContext ?? getScrollContext();
             if (!context) return;
 
             const metrics = getScrollMetrics(context);
 
             if (scrollTo === "header") {
-                metrics.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+                metrics.scrollTo({
+                    top: 0,
+                    behavior: smooth ? "smooth" : "auto",
+                });
             } else {
                 const element = document.getElementById(sectionId);
                 if (element) {
@@ -238,7 +265,9 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
             return;
         }
 
-        const targetSection = sections.find((section) => section.id === targetId);
+        const targetSection = sections.find(
+            (section) => section.id === targetId
+        );
         const scrollMode = targetSection?.scrollTo ?? "section";
 
         const performScroll = () => {
@@ -261,12 +290,8 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
             setIsTouching(true);
             lastVibratedIndex.current = -1;
 
-            try {
-                if (typeof window !== "undefined" && navigator.vibrate) {
-                    navigator.vibrate(30);
-                }
-            } catch {
-                // ignore unsupported vibration
+            if (typeof window !== "undefined" && navigator.vibrate) {
+                navigator.vibrate(30);
             }
         }, 120);
     };
@@ -299,9 +324,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                     if (typeof window !== "undefined" && navigator.vibrate) {
                         navigator.vibrate(30);
                     }
-                } catch {
-                    // ignore unsupported vibration
-                }
+                } catch {}
 
                 lastVibratedIndex.current = hoveredIndex;
 
@@ -323,7 +346,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
     };
 
     return (
-        <div className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 md:top-1/3 md:-translate-y-1/3 z-100 pointer-events-auto">
+        <div className='fixed right-2 md:right-4 top-1/2 -translate-y-1/2 md:top-1/3 md:-translate-y-1/3 z-100 pointer-events-auto'>
             <nav
                 ref={navRef}
                 className={`
@@ -340,7 +363,9 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                 onTouchCancel={handleTouchEnd}
             >
                 {sections.map((section, index) => {
-                    const isActive = activeSection === section.id || (isTouching && touchHoverIndex === index);
+                    const isActive =
+                        activeSection === section.id ||
+                        (isTouching && touchHoverIndex === index);
                     return (
                         <div
                             key={`${section.id}-${index}`}
@@ -350,15 +375,27 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                             `}
                         >
                             <button
-                                onClick={() => handleClick(section.id, section.scrollTo)}
+                                onClick={() =>
+                                    handleClick(section.id, section.scrollTo)
+                                }
                                 className={`
                                     py-1.5 md:py-2
                                     text-xs md:text-sm font-medium
                                     transition-all duration-300 w-full
-                                    ${isActive ? "text-center text-yellow-400 px-1.5 md:px-2.5" : "text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5"}
-                                    ${isTouching && touchHoverIndex === index ? "scale-110" : ""}
+                                    ${
+                                        isActive
+                                            ? "text-center text-yellow-400 px-1.5 md:px-2.5"
+                                            : "text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5"
+                                    }
+                                    ${
+                                        isTouching && touchHoverIndex === index
+                                            ? "scale-110"
+                                            : ""
+                                    }
                                 `}
-                                style={{ textShadow: "0 1px 3px rgba(0, 0, 0, 0.45)" }}
+                                style={{
+                                    textShadow: "0 1px 3px rgba(0, 0, 0, 0.45)",
+                                }}
                             >
                                 {section.label}
                             </button>
@@ -368,7 +405,9 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                                         w-6 md:w-7 h-px my-1.5 md:my-2 transition-all duration-300
                                         ${isActive ? "mr-0" : "mr-1 md:mr-1.5"}
                                         ${
-                                            activeDividerIndex === index || (isTouching && touchHoverIndex === index)
+                                            activeDividerIndex === index ||
+                                            (isTouching &&
+                                                touchHoverIndex === index)
                                                 ? "bg-yellow-400"
                                                 : "bg-neutral-600"
                                         }
@@ -382,4 +421,3 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         </div>
     );
 }
-

@@ -20,7 +20,6 @@ export default function TypingText({
     const [showCursor, setShowCursor] = useState(true);
 
     useEffect(() => {
-        // Reset when text changes
         setVisibleText('');
         setCurrentIndex(0);
         setShowCursor(true);

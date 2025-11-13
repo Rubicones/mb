@@ -10,7 +10,7 @@ export default function Footer() {
     useEffect(() => {
         const updateTime = () => {
             const gmt2Time = new Date().toLocaleTimeString("en-US", {
-                timeZone: "Europe/Helsinki", // GMT+2 timezone
+                timeZone: "Europe/Helsinki",
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit",
