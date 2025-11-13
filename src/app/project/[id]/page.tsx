@@ -117,10 +117,10 @@ export default async function ProjectDetail({
     return (
         <div className='min-h-screen bg-neutral-900 overflow-x-hidden'>
             <main className='w-screen h-full flex justify-center bg-neutral-900'>
-                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
+                <div className='w-full max-w-[1600px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
                     <Header />
 
-                    <div className=' w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-6  bg-neutral-900 px-4'>
+                    <div className=' w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-20  bg-neutral-900 px-4'>
                         <a
                             href='/portfolio'
                             className='w-full flex justify-start items-center text-neutral-700 gap-2'
@@ -206,7 +206,7 @@ export default async function ProjectDetail({
                                             <iframe
                                                 className='w-full aspect-video'
                                                 src={
-                                                    "https://www.youtube.com/embed/-zaMDDio_NU?si=j5zHyc8d257Aze5A}"
+                                                    `https://www.youtube.com/embed/${project.ytLink}`
                                                 }
                                                 title='YouTube video player'
                                                 frameBorder='0'
@@ -307,7 +307,7 @@ export default async function ProjectDetail({
                                                 }
                                                 alt={project.prevProject.Name}
                                                 fill
-                                                className='object-cover blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'
+                                                className='object-cover pointer:blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'
                                             />
                                             <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent'></div>
                                         </div>
@@ -346,7 +346,7 @@ export default async function ProjectDetail({
                                                 }
                                                 alt={project.nextProject.Name}
                                                 fill
-                                                className='object-cover blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'
+                                                className='object-cover pointer:blur-sm group-hover:blur-none group-hover:scale-105 transition-all duration-300'
                                             />
                                             <div className='absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent'></div>
                                         </div>

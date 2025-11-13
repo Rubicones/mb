@@ -36,7 +36,7 @@ export default function Footer() {
                     <a
                         href='https://wa.me/+9720552691841'
                         target='_blank'
-                        className='mt-6 md:w-min w-full text-nowrap hover text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
+                        className='mt-6 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
                         <span className='-translate-y-[2px] w-full text-center '>
                             Get&nbsp;in&nbsp;touch

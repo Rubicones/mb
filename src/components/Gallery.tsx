@@ -28,6 +28,19 @@ export default function Gallery({ media }: GalleryProps) {
     const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
     const [disableScrollButtons, setDisableScrollButtons] =
         useState<boolean>(false);
+    const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>(
+        {}
+    );
+    const markImageLoaded = useCallback((id: number) => {
+        setLoadedImages((prev) =>
+            prev[id]
+                ? prev
+                : {
+                      ...prev,
+                      [id]: true,
+                  }
+        );
+    }, []);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
     // Filter out items without images
@@ -262,34 +275,55 @@ export default function Gallery({ media }: GalleryProps) {
                             scrollSnapType: "x mandatory",
                         }}
                     >
-                        {validMedia.map((item, index) => (
-                            <div
-                                key={item.id}
-                                className='shrink-0 cursor-pointer'
-                                style={{
-                                    height: "400px",
-                                    scrollSnapAlign: "start",
-                                }}
-                                onClick={() => openFullscreen(index)}
-                            >
-                                <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'>
-                                    <Image
-                                        src={
-                                            "https://mb-portfolio.fly.dev" +
-                                                item.Image?.url || ""
-                                        }
-                                        alt={
-                                            item.Image!.alternativeText ||
-                                            item.Comment ||
-                                            "Gallery image"
-                                        }
-                                        width={600}
-                                        height={400}
-                                        className='h-full w-auto max-w-full object-contain rounded-md'
-                                    />
+                        {validMedia.map((item, index) => {
+                            const isLoaded = !!loadedImages[item.id];
+                            return (
+                                <div
+                                    key={item.id}
+                                    className='shrink-0 cursor-pointer'
+                                    style={{
+                                        height: "400px",
+                                        scrollSnapAlign: "start",
+                                    }}
+                                    onClick={() => openFullscreen(index)}
+                                >
+                                    <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'>
+                                        {!isLoaded && (
+                                            <div className='absolute inset-0 rounded-lg bg-neutral-900/60 animate-pulse flex items-center justify-center'>
+                                                <span className='sr-only'>
+                                                    Loading image
+                                                </span>
+                                            </div>
+                                        )}
+                                        <Image
+                                            src={
+                                                "https://mb-portfolio.fly.dev" +
+                                                    item.Image?.url || ""
+                                            }
+                                            alt={
+                                                item.Image!.alternativeText ||
+                                                item.Comment ||
+                                                "Gallery image"
+                                            }
+                                            width={600}
+                                            height={400}
+                                            className={`h-full w-auto max-w-full object-contain rounded-md transition-opacity duration-300 ${
+                                                isLoaded
+                                                    ? "opacity-100"
+                                                    : "opacity-0"
+                                            }`}
+                                            loading='lazy'
+                                            onLoad={() =>
+                                                markImageLoaded(item.id)
+                                            }
+                                            onLoadingComplete={() =>
+                                                markImageLoaded(item.id)
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {/* Navigation Arrows - Bottom */}
@@ -340,14 +374,14 @@ export default function Gallery({ media }: GalleryProps) {
                     >
                         <X className='w-6 h-6' />
                     </button>
-                    <div className='h-full w-12 flex flex-col items-center justify-center py-16'>
+                    <div className='fullscreen-arrow-wrapper h-full w-12 flex flex-col items-center justify-center py-16'>
                         {/* Left Arrow - Fullscreen */}
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 scroll("left", true);
                             }}
-                            className='absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
+                            className='fullscreen-arrow absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
                             aria-label='Previous image'
                         >
                             <ChevronLeft className='w-8 h-8' />
@@ -363,46 +397,66 @@ export default function Gallery({ media }: GalleryProps) {
                             msOverflowStyle: "none",
                         }}
                     >
-                        {validMedia.map((item) => (
-                            <div
-                                key={item.id}
-                                className='shrink-0 snap-start snap-always w-full h-full flex flex-col items-center justify-center gap-4 p-16'
-                            >
-                                <div className='relative max-w-[90vw] max-h-[80vh] w-full h-full '>
-                                    <Image
-                                        src={
-                                            "https://mb-portfolio.fly.dev" +
-                                                item.Image?.url || ""
-                                        }
-                                        alt={
-                                            item.Image!.alternativeText ||
-                                            item.Comment ||
-                                            "Gallery image"
-                                        }
-                                        fill
-                                        className='object-contain'
-                                        sizes='90vw'
-                                        priority
-                                    />
-                                </div>
-                                {item.Comment && (
-                                    <div className='mt-6 text-center'>
-                                        <p className='text-white text-xl font-medium max-w-2xl'>
-                                            {item.Comment}
-                                        </p>
+                        {validMedia.map((item) => {
+                            const isLoaded = !!loadedImages[item.id];
+                            return (
+                                <div
+                                    key={item.id}
+                                    className='shrink-0 snap-start snap-always w-full h-full flex flex-col items-center justify-center gap-4 p-16'
+                                >
+                                    <div className='relative max-w-[90vw] max-h-[80vh] w-full h-full '>
+                                        {!isLoaded && (
+                                            <div className='absolute inset-0 bg-neutral-900/60 animate-pulse rounded-md flex items-center justify-center'>
+                                                <span className='sr-only'>
+                                                    Loading image
+                                                </span>
+                                            </div>
+                                        )}
+                                        <Image
+                                            src={
+                                                "https://mb-portfolio.fly.dev" +
+                                                    item.Image?.url || ""
+                                            }
+                                            alt={
+                                                item.Image!.alternativeText ||
+                                                item.Comment ||
+                                                "Gallery image"
+                                            }
+                                            fill
+                                            className={`object-contain transition-opacity duration-300 ${
+                                                isLoaded
+                                                    ? "opacity-100"
+                                                    : "opacity-0"
+                                            }`}
+                                            sizes='90vw'
+                                            priority
+                                            onLoad={() =>
+                                                markImageLoaded(item.id)
+                                            }
+                                            onLoadingComplete={() =>
+                                                markImageLoaded(item.id)
+                                            }
+                                        />
                                     </div>
-                                )}
-                            </div>
-                        ))}
+                                    {item.Comment && (
+                                        <div className='mt-6 text-center'>
+                                            <p className='text-white text-xl font-medium max-w-2xl'>
+                                                {item.Comment}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div className='h-full w-12 flex flex-col items-center justify-center py-16'>
+                    <div className='fullscreen-arrow-wrapper h-full w-12 flex flex-col items-center justify-center py-16'>
                         {/* Right Arrow - Fullscreen */}
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 scroll("right", true);
                             }}
-                            className='absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
+                            className='fullscreen-arrow absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full'
                             aria-label='Next image'
                         >
                             <ChevronRight className='w-8 h-8' />
@@ -421,6 +475,14 @@ export default function Gallery({ media }: GalleryProps) {
             <style jsx>{`
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;
+                }
+                @media (pointer: coarse) {
+                    .fullscreen-arrow {
+                        display: none;
+                    }
+                    .fullscreen-arrow-wrapper {
+                        display: none;
+                    }
                 }
             `}</style>
         </>

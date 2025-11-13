@@ -7,6 +7,21 @@ import Image from "next/image";
 import { useState } from "react";
 import HighlightsSection from "@/components/HighlightsSection";
 import Footer from "@/components/Footer";
+import { ChevronRightIcon } from "lucide-react";
+
+const BIRTHDATE = new Date(2002, 10, 24);
+
+const calculateAge = (birthDate: Date) => {
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+};
 
 export default function Home() {
     const scrollText =
@@ -47,7 +62,7 @@ export default function Home() {
                         WHO I AM
                     </span>
                     <div className='w-full flex justify-between md:flex-row flex-col flex-wrap gap-12'>
-                        <div className='uppercase text-3xl lg:text-4xl xl:text-5xl font-extralight text-justify w-full md:w-1/2 '>
+                        <div className='uppercase text-3xl lg:text-4xl xl:text-5xl font-extralight text-justify flex flex-col gap-8 justify-between w-full md:w-1/2 '>
                             <span className='text-neutral-300'>
                                 I&apos;m a{" "}
                                 <span className='text-[#C8B936]'>3D</span> and
@@ -68,6 +83,19 @@ export default function Home() {
                                 </span>
                                 .
                             </span>
+                            <a
+                                onClick={() => {
+                                    document
+                                        .querySelector("#footer")
+                                        ?.scrollIntoView({
+                                            behavior: "smooth",
+                                        });
+                                }}
+                                className='w-min flex items-center gap-4 cursor-pointer hover:scale-105 bg-white text-center text-xl lg:text-2xl font-bold uppercase text-black rounded-3xl px-4 lg:px-6 py-2 transition-all duration-500 hover:bg-neutral-800 hover:text-white'
+                            >
+                                Learn&nbsp;more&nbsp;about&nbsp;me
+                                <ChevronRightIcon className='w-6 h-6' />
+                            </a>
                         </div>
                         <div className='w-full md:w-1/3 min-h-[250px] md:min-h-[400px] flex flex-col items-center justify-center relative mr-10 '>
                             <Image
@@ -119,7 +147,7 @@ export default function Home() {
                             <span className='text-neutral-500 font-light'>
                                 Age:
                             </span>
-                            <span className='text-white'>22</span>
+                            <span className='text-white'>{calculateAge(BIRTHDATE)}</span>
                         </div>
                         <div className='flex gap-1 text-nowrap'>
                             <span className='text-neutral-500 font-light'>
@@ -141,13 +169,25 @@ export default function Home() {
                     <span className='text-6xl md:text-8xl text-left font-light self-start text-white mb-8 mt-20 '>
                         WHAT I DO
                     </span>
-                    <div className='w-full h-full flex flex-row  gap-4 justify-around lg:flex-nowrap flex-wrap mb-32'>
+                    <div className='w-full h-full flex flex-row  gap-4 justify-around lg:flex-nowrap flex-wrap '>
                         <SkillCard title='3D' path='/models/3D_skill_1.glb' />
                         <SkillCard title='2D' path='/models/2D_MODEL_2.glb' />
                         <SkillCard
                             title='handcraft'
                             path='/models/Tool_new.glb'
                         />
+                    </div>
+                    <div className="w-full flex justify-end px-[6px]">
+                    <a
+                        href='https://wa.me/+9720552691841'
+                        target='_blank'
+                        className='mt-6 mb-32 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center lg:justify-between justify-center gap-2 cursor-pointer'
+                    >
+                        <span className='-translate-y-[2px] text-center '>
+                            Jump&nbsp;to&nbsp;portfolio
+                        </span>
+                        <ChevronRightIcon className='w-7 h-7 ml-2' />
+                    </a>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ export default function Loading() {
     return (
         <div className='min-h-screen bg-neutral-900 overflow-x-hidden'>
             <main className='w-screen h-full flex justify-center bg-neutral-900'>
-                <div className='w-full max-w-[1920px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
+                <div className='w-full max-w-[1600px] flex flex-col items-center justify-between bg-neutral-900 px-6'>
                     <Header />
 
                     <div className='w-full flex flex-col gap-10 mt-6 px-4'>

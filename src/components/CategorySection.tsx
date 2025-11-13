@@ -35,6 +35,7 @@ interface Project {
     Category: "c_3D" | "c_2D" | "c_Craft";
     Media: MediaItem[];
     Programs: Program[];
+    priority?: number;
 }
 
 interface CategorySectionProps {
@@ -48,10 +49,28 @@ export default function CategorySection({
     projects2D,
     projectsMulti,
 }: CategorySectionProps) {
+    const sortByPriority = (projects: Project[]) =>
+        [...projects].sort((a, b) => {
+            const priorityA =
+                typeof a.priority === "number" ? a.priority : Number.MAX_SAFE_INTEGER;
+            const priorityB =
+                typeof b.priority === "number" ? b.priority : Number.MAX_SAFE_INTEGER;
+
+            if (priorityA === priorityB) {
+                return a.Name.localeCompare(b.Name);
+            }
+
+            return priorityA - priorityB;
+        });
+
+    const sortedProjects3D = sortByPriority(projects3D);
+    const sortedProjects2D = sortByPriority(projects2D);
+    const sortedProjectsMulti = sortByPriority(projectsMulti);
+
     return (
         <div className='w-full flex flex-col gap-16 md:gap-20'>
             {/* 3D DESIGN Category */}
-            {projects3D.length > 0 && (
+            {sortedProjects3D.length > 0 && (
                 <div id="section-3d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
@@ -62,7 +81,7 @@ export default function CategorySection({
                         </p>
                     </div>
                     <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
-                        {projects3D.map((project) => (
+                        {sortedProjects3D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
@@ -70,7 +89,7 @@ export default function CategorySection({
             )}
 
             {/* 2D DESIGN Category */}
-            {projects2D.length > 0 && (
+            {sortedProjects2D.length > 0 && (
                 <div id="section-2d" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
@@ -81,7 +100,7 @@ export default function CategorySection({
                         </p>
                     </div>
                     <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
-                        {projects2D.map((project) => (
+                        {sortedProjects2D.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
@@ -89,7 +108,7 @@ export default function CategorySection({
             )}
 
             {/* HANDCRAFT Category */}
-            {projectsMulti.length > 0 && (
+            {sortedProjectsMulti.length > 0 && (
                 <div id="section-hc" className='w-full scroll-mt-20'>
                     <div className='mb-6 md:mb-8'>
                         <h2 className='text-6xl md:text-8xl font-light text-white mb-2 uppercase'>
@@ -100,7 +119,7 @@ export default function CategorySection({
                         </p>
                     </div>
                     <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4'>
-                        {projectsMulti.map((project) => (
+                        {sortedProjectsMulti.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>

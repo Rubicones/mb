@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 type ScrollContext =
     | { type: "element"; node: HTMLElement }
@@ -159,34 +159,40 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         };
     }, [sections, scrollContext]);
 
-    const scrollToSection = (sectionId: string, scrollTo: "header" | "section", smooth: boolean = true) => {
-        const context = scrollContext ?? getScrollContext();
-        if (!context) return;
+    const scrollToSection = useCallback(
+        (sectionId: string, scrollTo: "header" | "section", smooth: boolean = true) => {
+            const context = scrollContext ?? getScrollContext();
+            if (!context) return;
 
-        const metrics = getScrollMetrics(context);
+            const metrics = getScrollMetrics(context);
 
-        if (scrollTo === "header") {
-            metrics.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
-        } else {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                const headerOffset = context.type === "window" ? 120 : 80;
-                const elementPosition = metrics.getRelativeTop(element);
-                const offsetPosition = elementPosition - headerOffset;
+            if (scrollTo === "header") {
+                metrics.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+            } else {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const headerOffset = context.type === "window" ? 120 : 80;
+                    const elementPosition = metrics.getRelativeTop(element);
+                    const offsetPosition = elementPosition - headerOffset;
 
-                metrics.scrollTo({
-                    top: Math.max(offsetPosition, 0),
-                    behavior: smooth ? "smooth" : "auto",
-                });
+                    metrics.scrollTo({
+                        top: Math.max(offsetPosition, 0),
+                        behavior: smooth ? "smooth" : "auto",
+                    });
+                }
             }
-        }
 
-        setActiveSection(sectionId);
-    };
+            setActiveSection(sectionId);
+        },
+        [scrollContext]
+    );
 
-    const handleClick = (sectionId: string, scrollTo: "header" | "section") => {
-        scrollToSection(sectionId, scrollTo, true);
-    };
+    const handleClick = useCallback(
+        (sectionId: string, scrollTo: "header" | "section") => {
+            scrollToSection(sectionId, scrollTo, true);
+        },
+        [scrollToSection]
+    );
 
     useEffect(() => {
         if (initialScrollHandledRef.current) return;
@@ -244,7 +250,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
         });
 
         initialScrollHandledRef.current = true;
-    }, [scrollContext, sections]);
+    }, [scrollContext, sections, scrollToSection]);
 
     const handleTouchStart = () => {
         if (dragTimeoutRef.current) {
@@ -352,6 +358,7 @@ export default function AnchorNavigation({ sections }: AnchorNavigationProps) {
                                     ${isActive ? "text-center text-yellow-400 px-1.5 md:px-2.5" : "text-right text-neutral-400 md:hover:text-neutral-200 pr-1 pl-2 md:pr-1.5 md:pl-3.5"}
                                     ${isTouching && touchHoverIndex === index ? "scale-110" : ""}
                                 `}
+                                style={{ textShadow: "0 1px 3px rgba(0, 0, 0, 0.45)" }}
                             >
                                 {section.label}
                             </button>

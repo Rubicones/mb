@@ -35,6 +35,7 @@ interface Project {
     Category: "c_3D" | "c_2D" | "c_Craft";
     Media: MediaItem[];
     Programs: Program[];
+    priority: number;
 }
 
 interface StrapiResponse {
@@ -161,7 +162,7 @@ export default async function Portfolio() {
                 <Header />
                 <AnchorNavigation sections={anchorSections} />
                 <div className='w-full flex flex-col justify-center items-center bg-neutral-900 mt-20'>
-                    <main className='max-w-[1920px] w-full flex flex-col items-start px-4 md:px-6 pt-8 md:pt-12 pb-16 bg-neutral-900'>
+                    <main className='max-w-[1600px] w-full flex flex-col items-start px-4 md:px-6 pt-8 md:pt-12 pb-16 bg-neutral-900'>
                         <div className='mb-12 md:mb-36'>
                             <h1 className='text-[3.5rem] sm:text-8xl md:text-9xl xl:text-[14rem] font-semibold text-white uppercase'>
                                 PORTFOLIO
