@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Gallery from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
-import Spline from "@splinetool/react-spline/next";
 import { ArrowLeft, ChevronLeft, ChevronRight, Rotate3d } from "lucide-react";
 import Footer from "@/components/Footer";
 import {
@@ -13,13 +12,15 @@ import {
 import ScrollToTopOnMount from "@/components/ScrollToTopOnMount";
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import SplineProjectScene from "@/components/SplineProjectScene";
 
 export async function generateMetadata({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-    const project = await fetchProjectByDocumentId(params.id);
+    const { id } = await params;
+    const project = await fetchProjectByDocumentId(id);
 
     if (!project) {
         return {
@@ -68,9 +69,10 @@ export async function generateMetadata({
 export default async function ProjectDetail({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
-    const project = await fetchProjectByDocumentId(params.id);
+    const { id } = await params;
+    const project = await fetchProjectByDocumentId(id);
 
     if (!project) {
         return (
@@ -103,7 +105,7 @@ export default async function ProjectDetail({
                     <div className=' w-full flex md:justify-between justify-start gap-4 md:gap-8 flex-wrap mt-20  bg-neutral-900 px-4'>
                         <a
                             href='/portfolio'
-                            className='w-full flex justify-start items-center text-neutral-700 gap-2'
+                            className='w-full flex justify-start items-center text-neutral-700 hover:text-neutral-500 transition-all duration-300 gap-2'
                         >
                             <ArrowLeft /> Back to portfolio
                         </a>
@@ -230,12 +232,9 @@ export default async function ProjectDetail({
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <Spline
-                                                    scene={
-                                                        project.SplineLink || ""
-                                                    }
-                                                    className='w-full h-full sm:aspect-video aspect-square'
-                                                />
+                                                {project.SplineLink && (
+                                                    <SplineProjectScene splineLink={project.SplineLink} />
+                                                )}
                                             </div>
                                         )}
                                     </div>

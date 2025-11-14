@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import {
     resolveAssetUrl,
     resolveMediaImage,
     type MediaItem,
 } from "@/lib/strapi";
+import GalleryImage from "./GalleryImage";
 
 interface GalleryProps {
     media: MediaItem[];
@@ -18,19 +18,6 @@ export default function Gallery({ media }: GalleryProps) {
     const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
     const [disableScrollButtons, setDisableScrollButtons] =
         useState<boolean>(false);
-    const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>(
-        {}
-    );
-    const markImageLoaded = useCallback((id: number) => {
-        setLoadedImages((prev) =>
-            prev[id]
-                ? prev
-                : {
-                      ...prev,
-                      [id]: true,
-                  }
-        );
-    }, []);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const fullscreenScrollRef = useRef<HTMLDivElement>(null);
     const validMedia = media.filter((item) => resolveMediaImage(item)?.url);
@@ -240,7 +227,6 @@ export default function Gallery({ media }: GalleryProps) {
                         }}
                     >
                         {validMedia.map((item, index) => {
-                            const isLoaded = !!loadedImages[item.id];
                             const image = resolveMediaImage(item);
                             const imageUrl = resolveAssetUrl(image);
 
@@ -257,35 +243,20 @@ export default function Gallery({ media }: GalleryProps) {
                                     }}
                                     onClick={() => openFullscreen(index)}
                                 >
-                                    <div className='relative h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'>
-                                        {!isLoaded && (
-                                            <div className='absolute inset-0 rounded-lg bg-neutral-900/60 animate-pulse flex items-center justify-center'>
-                                                <span className='sr-only'>
-                                                    Loading image
-                                                </span>
-                                            </div>
-                                        )}
-                                        <Image
-                                            src={imageUrl}
-                                            alt={
-                                                image.alternativeText ||
-                                                item.Comment ||
-                                                "Gallery image"
-                                            }
-                                            width={600}
-                                            height={400}
-                                            className={`h-full w-auto max-w-full object-contain rounded-md transition-opacity duration-300 ${
-                                                isLoaded
-                                                    ? "opacity-100"
-                                                    : "opacity-0"
-                                            }`}
-                                            loading='lazy'
-                                            onLoad={() => markImageLoaded(item.id)}
-                                            onLoadingComplete={() =>
-                                                markImageLoaded(item.id)
-                                            }
-                                        />
-                                    </div>
+                                    <GalleryImage
+                                        src={imageUrl}
+                                        alt={
+                                            image.alternativeText ||
+                                            item.Comment ||
+                                            "Gallery image"
+                                        }
+                                        width={600}
+                                        height={400}
+                                        loading='lazy'
+                                        containerClassName='h-full w-full max-w-[calc(100vw-5rem)] overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center'
+                                        skeletonClassName='rounded-lg'
+                                        className='h-full w-auto max-w-full object-contain rounded-md'
+                                    />
                                 </div>
                             );
                         })}
@@ -355,7 +326,6 @@ export default function Gallery({ media }: GalleryProps) {
                         }}
                     >
                         {validMedia.map((item) => {
-                            const isLoaded = !!loadedImages[item.id];
                             const image = resolveMediaImage(item);
                             const imageUrl = resolveAssetUrl(image);
 
@@ -367,35 +337,20 @@ export default function Gallery({ media }: GalleryProps) {
                                     key={item.id}
                                     className='shrink-0 snap-start snap-always w-full h-full flex flex-col items-center justify-center gap-4 p-16'
                                 >
-                                    <div className='relative max-w-[90vw] max-h-[80vh] w-full h-full '>
-                                        {!isLoaded && (
-                                            <div className='absolute inset-0 bg-neutral-900/60 animate-pulse rounded-md flex items-center justify-center'>
-                                                <span className='sr-only'>
-                                                    Loading image
-                                                </span>
-                                            </div>
-                                        )}
-                                        <Image
-                                            src={imageUrl}
-                                            alt={
-                                                image.alternativeText ||
-                                                item.Comment ||
-                                                "Gallery image"
-                                            }
-                                            fill
-                                            className={`object-contain transition-opacity duration-300 ${
-                                                isLoaded
-                                                    ? "opacity-100"
-                                                    : "opacity-0"
-                                            }`}
-                                            sizes='90vw'
-                                            priority
-                                            onLoad={() => markImageLoaded(item.id)}
-                                            onLoadingComplete={() =>
-                                                markImageLoaded(item.id)
-                                            }
-                                        />
-                                    </div>
+                                    <GalleryImage
+                                        src={imageUrl}
+                                        alt={
+                                            image.alternativeText ||
+                                            item.Comment ||
+                                            "Gallery image"
+                                        }
+                                        fill
+                                        sizes='90vw'
+                                        priority
+                                        containerClassName='max-w-[90vw] max-h-[80vh] w-full h-full rounded-md'
+                                        skeletonClassName='rounded-md'
+                                        className='object-contain'
+                                    />
                                     {item.Comment && (
                                         <div className='mt-6 text-center'>
                                             <p className='text-white text-xl font-medium max-w-2xl'>
