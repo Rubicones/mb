@@ -43,7 +43,13 @@ export default function HighlightCard({ project }: HighlightCardProps) {
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Date: </span>
-                        <span className='text-white'>{project.Date}</span>
+                        <span className='text-white'>
+                            {new Intl.DateTimeFormat("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                            }).format(new Date(project.Date))}
+                        </span>
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Type: </span>
@@ -75,7 +81,13 @@ export default function HighlightCard({ project }: HighlightCardProps) {
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Date: </span>
-                        <span className='text-white'>{project.Date}</span>
+                        <span className='text-white'>
+                            {new Intl.DateTimeFormat("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                            }).format(new Date(project.Date))}
+                        </span>
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-neutral-500'>Type: </span>
