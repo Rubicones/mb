@@ -11,7 +11,7 @@ import ScrollingTicker from "@/components/ScrollingTicker";
 import WhoamiImages from "@/components/WhoamiImages";
 
 export const metadata: Metadata = {
-    title: "Motion & 3D Designer",
+    title: "Matvei Brumberg - Motion & 3D Designer",
     description:
         "Explore the latest motion design, 3D art, and handcrafted work by Matvei Brumberg, a Tel Aviv-based multidisciplinary designer.",
     alternates: {
