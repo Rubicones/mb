@@ -11,6 +11,59 @@ import {
     resolveAssetUrl,
 } from "@/lib/strapi";
 import ScrollToTopOnMount from "@/components/ScrollToTopOnMount";
+import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: { id: string };
+}): Promise<Metadata> {
+    const project = await fetchProjectByDocumentId(params.id);
+
+    if (!project) {
+        return {
+            title: "Project Not Found",
+            description: "The requested project could not be found.",
+        };
+    }
+
+    const canonical = `${siteConfig.siteUrl}/project/${project.documentId}`;
+    const coverUrl = resolveAssetUrl(project.Cover);
+    const description = project.Description ||
+        `${project.Name} project in the ${getProjectCategoryLabel(project.Category)} category by ${siteConfig.name}.`;
+
+    return {
+        title: project.Name,
+        description,
+        alternates: {
+            canonical,
+        },
+        openGraph: {
+            title: project.Name,
+            description,
+            url: canonical,
+            type: "article",
+            publishedTime: project.Date,
+            section: getProjectCategoryLabel(project.Category),
+            images: coverUrl
+                ? [
+                      {
+                          url: coverUrl,
+                          width: 1200,
+                          height: 675,
+                          alt: `${project.Name} cover image`,
+                      },
+                  ]
+                : undefined,
+        },
+        twitter: {
+            title: project.Name,
+            description,
+            images: coverUrl ? [coverUrl] : undefined,
+        },
+    };
+}
 
 export default async function ProjectDetail({
     params,

@@ -3,6 +3,28 @@ import CategorySection from "@/components/CategorySection";
 import AnchorNavigation from "@/components/AnchorNavigation";
 import Footer from "@/components/Footer";
 import { fetchProjectsWithDetails } from "@/lib/strapi";
+import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = {
+    title: "Portfolio",
+    description:
+        "Browse highlighted 3D, 2D, and craft projects by Matvei Brumberg, featuring motion design, animation, and handcrafted work.",
+    alternates: {
+        canonical: `${siteConfig.siteUrl}/portfolio`,
+    },
+    openGraph: {
+        title: "Portfolio | Matvei Brumberg",
+        description:
+            "Explore Matvei Brumberg's curated portfolio across 3D, 2D, and handcrafted projects.",
+        url: `${siteConfig.siteUrl}/portfolio`,
+    },
+    twitter: {
+        title: "Portfolio | Matvei Brumberg",
+        description:
+            "Explore Matvei Brumberg's curated portfolio across 3D, 2D, and handcrafted projects.",
+    },
+};
 
 export default async function Portfolio() {
     const projects = await fetchProjectsWithDetails();

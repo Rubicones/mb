@@ -1,11 +1,33 @@
 "use client";
 
+// import type { Metadata } from "next";
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import LanguagesSection from "@/components/LanguagesSection";
 import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
+// import { siteConfig } from "@/config/site";
+
+// export const metadata: Metadata = {
+//     title: "About Matvei",
+//     description:
+//         "Learn about Matvei Brumberg's background in motion design, 3D art, and handcrafted experiences blending traditional and digital media.",
+//     alternates: {
+//         canonical: `${siteConfig.siteUrl}/about`,
+//     },
+//     openGraph: {
+//         title: "About Matvei Brumberg",
+//         description:
+//             "Discover Matvei Brumberg's multidisciplinary journey across 3D, motion, and craft design.",
+//         url: `${siteConfig.siteUrl}/about`,
+//     },
+//     twitter: {
+//         title: "About Matvei Brumberg",
+//         description:
+//             "Discover Matvei Brumberg's multidisciplinary journey across 3D, motion, and craft design.",
+//     },
+// };
 
 export default function AboutMe() {
     useEffect(() => {
