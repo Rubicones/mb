@@ -300,7 +300,7 @@ export default function HighlightsSection() {
                                     {isVisible && (
                                         <div
                                             key={progressKey}
-                                            className='absolute top-0 left-0 h-full bg-[#C8B936]'
+                                            className='absolute top-0 left-0 h-full bg-[#F7DB25]'
                                             style={{
                                                 animation: `progressBar ${TIMER_DURATION}ms linear forwards`
                                             }}

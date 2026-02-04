@@ -177,7 +177,7 @@ export default function SkillCard({
         <a
             href={portfolioHref}
             ref={skillsRef}
-            className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#C8B936] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
+            className={`skill-card bg-neutral-800 outline-2 outline-neutral-800 hover:outline-[#F7DB25] grow relative w-full lg:w-auto  gap-6 md:mx-2 p-5 md:p-6 flex flex-col justify-start items-center rounded-4xl transition-all duration-300 group`}
             style={skillCardStyle}
         >
             <h3
@@ -265,7 +265,7 @@ export default function SkillCard({
                 }
                 .skill-card:hover,
                 .skill-card:focus-visible {
-                    --skill-ring-color: #c8b936;
+                    --skill-ring-color: #F7DB25;
                 }
                 @media (pointer: coarse) {
                     .skill-card {
@@ -276,7 +276,7 @@ export default function SkillCard({
                                     100% -
                                         (var(--card-scroll-progress, 0) * 100%)
                                 ),
-                            #c8b936 calc(var(--card-scroll-progress, 0) * 100%)
+                            #F7DB25 calc(var(--card-scroll-progress, 0) * 100%)
                         );
                     }
                     .skill-card:hover,
@@ -288,7 +288,7 @@ export default function SkillCard({
                                     100% -
                                         (var(--card-scroll-progress, 0) * 100%)
                                 ),
-                            #c8b936 calc(var(--card-scroll-progress, 0) * 100%)
+                            #F7DB25 calc(var(--card-scroll-progress, 0) * 100%)
                         );
                     }
                 }

@@ -155,7 +155,7 @@ export default async function ProjectDetail({
 
                         <div className='w-full flex md:justify-around justify-start gap-10 flex-wrap mt-4 text-black'>
                             <div className='grow flex flex-col gap-2'>
-                                <span className='text-xl text-[#C8B936] '>
+                                <span className='text-xl text-[#F7DB25] '>
                                     Category
                                 </span>
                                 <span className='text-white text-xl font-bold'>
@@ -164,7 +164,7 @@ export default async function ProjectDetail({
                             </div>
                             <div className='flex justify-between gap-10'>
                                 <div className='flex flex-col gap-2'>
-                                    <span className='text-xl text-[#C8B936] '>
+                                    <span className='text-xl text-[#F7DB25] '>
                                         Date
                                     </span>
                                     <span className='text-white text-xl font-bold'>
@@ -172,7 +172,7 @@ export default async function ProjectDetail({
                                     </span>
                                 </div>
                                 <div className='flex flex-col gap-2'>
-                                    <span className='text-xl text-[#C8B936] '>
+                                    <span className='text-xl text-[#F7DB25] '>
                                         Type
                                     </span>
                                     <span className='text-white text-xl font-bold capitalize'>
@@ -206,11 +206,11 @@ export default async function ProjectDetail({
                                                 <div className='absolute left-0 top-3 flex flex-col items-start gap-2 text-xs text-neutral-200'>
                                                     <button
                                                         type='button'
-                                                        className='group/mouse relative hidden items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8B936]/70 mouse:inline-flex'
+                                                        className='group/mouse relative hidden items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F7DB25]/70 mouse:inline-flex'
                                                         aria-label='Interactive model preview. Hover or focus to see how to rotate.'
                                                     >
                                                         <Rotate3d
-                                                            className='h-4 w-4 text-[#C8B936]'
+                                                            className='h-4 w-4 text-[#F7DB25]'
                                                             aria-hidden
                                                         />
                                                         <span className='font-medium text-white/90'>
@@ -223,7 +223,7 @@ export default async function ProjectDetail({
                                                     </button>
                                                     <div className='flex items-center gap-2 rounded-full bg-neutral-800/85 px-3 py-1 shadow-sm shadow-black/25 backdrop-blur mouse:hidden'>
                                                         <Rotate3d
-                                                            className='h-4 w-4 text-[#C8B936]'
+                                                            className='h-4 w-4 text-[#F7DB25]'
                                                             aria-hidden
                                                         />
                                                         <span className='font-medium text-white/90'>

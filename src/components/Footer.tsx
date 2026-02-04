@@ -36,7 +36,7 @@ export default function Footer() {
                     <a
                         href='https://wa.me/+9720552691841'
                         target='_blank'
-                        className='mt-6 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
+                        className='mt-6 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#F7DB25] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center justify-between gap-2 cursor-pointer'
                     >
                         <span className='-translate-y-[2px] w-full text-center '>
                             Get&nbsp;in&nbsp;touch
@@ -50,21 +50,21 @@ export default function Footer() {
                             <a
                                 href='https://t.me/mativich'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all mt-4'
                             >
                                 Telegram
                             </a>
                             <a
                                 href='mailto:mgbtumbedg@gmail.com'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 Email
                             </a>
                             <a
                                 href='https://wa.me/+9720552691841'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 WhatsApp
                             </a>
@@ -76,27 +76,27 @@ export default function Footer() {
                             <a
                                 href='https://il.linkedin.com/in/matvei-brumberg-593b8b290'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all mt-4'
                             >
                                 LinkedIn
                             </a>
                             <a
                                 href='https://www.artstation.com/batvey'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 ArtStation
                             </a>
                             <a
                                 href='https://www.instagram.com/mgbtumbedg'
                                 target='_blank'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 Instagram
                             </a>
                             <a
                                 href='https://www.facebook.com/share/1AQ3a6JhPy/?mibextid=wwXIfr'
-                                className='text-2xl md:text-3xl     hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl     hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 Facebook
                             </a>
@@ -107,19 +107,19 @@ export default function Footer() {
                             </span>
                             <Link
                                 href='/'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all mt-4'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all mt-4'
                             >
                                 Home
                             </Link>
                             <Link
                                 href='/about'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 About Me
                             </Link>
                             <Link
                                 href='/portfolio'
-                                className='text-2xl md:text-3xl hover:text-[#C8B936] text-black font-light transition-all'
+                                className='text-2xl md:text-3xl hover:text-[#F7DB25] text-black font-light transition-all'
                             >
                                 Portfolio
                             </Link>

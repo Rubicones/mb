@@ -6,11 +6,12 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 export default function TitleScene() {
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     
     useEffect(() => {
         if (typeof window !== "undefined") {
             const container = canvasContainerRef.current;
-            if (!container) return;
+            if (!container || rendererRef.current) return;
 
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0xffffff);
@@ -23,9 +24,16 @@ export default function TitleScene() {
             );
             camera.setFocalLength(200);
             
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-            });
+            let renderer: THREE.WebGLRenderer | null = null;
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                });
+            } catch (error) {
+                console.warn("TitleScene: Failed to create WebGL context", error);
+                return;
+            }
+            rendererRef.current = renderer;
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -109,6 +117,11 @@ export default function TitleScene() {
                     fillLight.position.set(lightCenter.x - side * 1.2, lightCenter.y + height * 0.3, lightCenter.z + dist * 0.8);
                     fillLight.target.position.copy(lightCenter);
                     scene.add(fillLight, fillLight.target);
+
+                    const rimLight = new THREE.DirectionalLight(rimColor, 0.2);
+                    rimLight.position.set(lightCenter.x, lightCenter.y + height * 1.2, lightCenter.z - dist);
+                    rimLight.target.position.copy(lightCenter);
+                    scene.add(rimLight, rimLight.target);
 
                     const hemiLight = new THREE.HemisphereLight(0xeaf2ff, 0x1b1b1b, 1);
                     scene.add(hemiLight);
@@ -227,7 +240,7 @@ export default function TitleScene() {
                             
                             let foundHover = false;
 
-                            triggers.forEach((trigger, index) => {
+                            triggers.forEach((trigger) => {
                                 const intersects = raycaster.intersectObject(trigger.mesh, false);
                                 
                                 if (intersects.length > 0) {
@@ -275,15 +288,12 @@ export default function TitleScene() {
                 }
             );
 
-            let frameCount = 0;
             const animate = () => {
                 requestAnimationFrame(animate);
 
                 const delta = clock.getDelta();
                 if (mixer) {
                     mixer.update(delta);
-                    
-                    frameCount++;
                 }
                 
                 if (modelScene && originalPosition) {
@@ -321,10 +331,11 @@ export default function TitleScene() {
                     cleanupMouseMove();
                 }
                 
-                renderer.dispose();
-                if (container.contains(renderer.domElement)) {
-                    container.removeChild(renderer.domElement);
+                rendererRef.current?.dispose();
+                if (container.contains(renderer!.domElement)) {
+                    container.removeChild(renderer!.domElement);
                 }
+                rendererRef.current = null;
             };
         }
     }, []);

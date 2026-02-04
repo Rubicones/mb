@@ -47,7 +47,7 @@ export default function LanguagesSection() {
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "ru"
-                                ? "outline-[#C8B936]"
+                                ? "outline-[#F7DB25]"
                                 : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >
@@ -71,7 +71,7 @@ export default function LanguagesSection() {
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "en"
-                                ? "outline-[#C8B936]"
+                                ? "outline-[#F7DB25]"
                                 : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >
@@ -95,7 +95,7 @@ export default function LanguagesSection() {
                     <div
                         className={`bg-neutral-800  hover:bg-neutral-700 transition-all duration-300 outline-2  rounded-3xl h-full p-3 sm:p-6 flex flex-col justify-between ${
                             selectedLanguage === "he"
-                                ? "outline-[#C8B936]"
+                                ? "outline-[#F7DB25]"
                                 : "outline-neutral-800 hover:outline-[#BBAD31]/60"
                         }`}
                     >

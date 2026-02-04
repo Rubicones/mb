@@ -153,7 +153,7 @@ export default function AboutMe() {
                                 className='col-span-2 aspect-2/1 p-1 sm:p-2'
                                 data-slide-direction='left'
                             >
-                                <div className='bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300  rounded-3xl h-full p-[10px] sm:p-6 border-2 border-[#C8B936] flex flex-col justify-start'>
+                                <div className='bg-[#F7DB25] hover:bg-[#BBAD31] transition-all duration-300  rounded-3xl h-full p-[10px] sm:p-6 border-2 border-[#F7DB25] flex flex-col justify-start'>
                                     <h3 className='text-neutral-900 text-lg lg:text-3xl xl:text-4xl font-semibold mb-0 sm:mb-2'>
                                         Stieglitz Academy
                                     </h3>

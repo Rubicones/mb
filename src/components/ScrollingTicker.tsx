@@ -16,7 +16,7 @@ export default function ScrollingTicker({
 
     return (
         <div
-            className={`w-screen bg-[#C8B936] h-12 text-lg lg:text-xl flex items-center overflow-hidden ${className}`}
+            className={`w-screen bg-[#F7DB25] h-12 text-lg lg:text-xl flex items-center overflow-hidden ${className}`}
         >
             <div className={`flex ${directionClass}`}>
                 {Array.from({ length: 2 }).map((_, index) => (

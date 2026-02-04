@@ -7,11 +7,12 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 export default function SplineLogo() {
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     
     useEffect(() => {
         if (typeof window !== "undefined") {
             const container = canvasContainerRef.current;
-            if (!container) return;
+            if (!container || rendererRef.current) return;
 
             const scene = new THREE.Scene();
             
@@ -23,10 +24,17 @@ export default function SplineLogo() {
             );
             camera.setFocalLength(200);
             
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: true,
-            });
+            let renderer: THREE.WebGLRenderer | null = null;
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: true,
+                });
+            } catch (error) {
+                console.warn("LogoScene: Failed to create WebGL context", error);
+                return;
+            }
+            rendererRef.current = renderer;
             renderer.setSize(60, 90);
             renderer.setPixelRatio(window.devicePixelRatio);
             
@@ -164,10 +172,11 @@ export default function SplineLogo() {
                 container.removeEventListener('mouseenter', onMouseEnter);
                 container.removeEventListener('mouseleave', onMouseLeave);
                 
-                renderer.dispose();
-                if (container.contains(renderer.domElement)) {
-                    container.removeChild(renderer.domElement);
+                rendererRef.current?.dispose();
+                if (container.contains(renderer!.domElement)) {
+                    container.removeChild(renderer!.domElement);
                 }
+                rendererRef.current = null;
             };
         }
     }, []);

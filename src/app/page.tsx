@@ -70,19 +70,19 @@ export default function Home() {
                         <div className='uppercase text-3xl lg:text-4xl xl:text-5xl font-extralight text-justify flex flex-col gap-8 justify-between w-full md:w-1/2 '>
                             <span className='text-neutral-300'>
                                 I&apos;m a{" "}
-                                <span className='text-[#C8B936]'>3D</span> and
-                                <span className='text-[#C8B936]'>
+                                <span className='text-[#F7DB25]'>3D</span> and
+                                <span className='text-[#F7DB25]'>
                                     {" "}
                                     motion designer
                                 </span>{" "}
                                 with a background in
-                                <span className='text-[#C8B936]'>
+                                <span className='text-[#F7DB25]'>
                                     {" "}
                                     craft
                                 </span>{" "}
                                 and visual arts, blending form, texture, and
                                 movement into expressive,
-                                <span className='text-[#C8B936]'>
+                                <span className='text-[#F7DB25]'>
                                     {" "}
                                     modern design
                                 </span>
@@ -137,7 +137,7 @@ export default function Home() {
                     <Link
                         href='/portfolio'
                         target='_blank'
-                        className='mt-6 mb-32 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#C8B936] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center lg:justify-between justify-center gap-2 cursor-pointer'
+                        className='mt-6 mb-32 md:w-min w-full text-nowrap hover:scale-105 text-2xl md:text-3xl px-10 py-1 rounded-full text-black bg-[#F7DB25] hover:bg-[#BBAD31] transition-all duration-300 font-light flex items-center lg:justify-between justify-center gap-2 cursor-pointer'
                     >
                         <span className='-translate-y-[3px] text-center '>
                             Jump&nbsp;to&nbsp;portfolio

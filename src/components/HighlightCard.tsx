@@ -19,7 +19,7 @@ export default function HighlightCard({ project }: HighlightCardProps) {
 
     return (
         <>
-            <div className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#C8B936] transition-all duration-200 cursor-pointer'>
+            <div className='hidden md:flex w-[700px] h-[550px] bg-black rounded-2xl justify-start overflow-hidden relative hover:outline-6 hover:outline-[#F7DB25] transition-all duration-200 cursor-pointer'>
                 <div className='relative w-2/3 h-full'>
                     <Image
                         src={coverUrl}

@@ -16,12 +16,13 @@ export default function SkillsScene({
     path,
 }: SkillsSceneProps) {
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
             const container = canvasContainerRef.current;
             const hoverTarget = hoverContainerRef.current;
-            if (!container || !hoverTarget) return;
+            if (!container || !hoverTarget || rendererRef.current) return;
 
             const isTouchDevice =
                 window.matchMedia("(pointer: coarse)").matches;
@@ -35,10 +36,17 @@ export default function SkillsScene({
                 0.1,
                 2000
             );
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: true,
-            });
+            let renderer: THREE.WebGLRenderer | null = null;
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: true,
+                });
+            } catch (error) {
+                console.warn("SkillsScene: Failed to create WebGL context", error);
+                return;
+            }
+            rendererRef.current = renderer;
             renderer.setClearColor(0x000000, 0);
             renderer.setSize(size, size);
             renderer.setPixelRatio(window.devicePixelRatio);
@@ -229,10 +237,11 @@ export default function SkillsScene({
                         handleMouseLeave
                     );
                 }
-                renderer.dispose();
-                if (container.contains(renderer.domElement)) {
-                    container.removeChild(renderer.domElement);
+                rendererRef.current?.dispose();
+                if (container.contains(renderer!.domElement)) {
+                    container.removeChild(renderer!.domElement);
                 }
+                rendererRef.current = null;
             };
         }
     }, [hoverContainerRef, size]);
